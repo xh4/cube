@@ -253,7 +253,10 @@
                  (generate property)))
         (:documentation ,class-documentation))
 
-      (defmethod unmarshal ((object ,class-symbol) source)
+      (defmethod marshal (stream (object ,class-symbol))
+        )
+
+      (defmethod unmarshal ((source hash-table) (object ,class-symbol))
         ,@(loop for property in (slot-value model 'properties)
              collect
                `(multiple-value-bind (value present-p)
@@ -326,8 +329,9 @@
        ,(make-operation-doc operation)
        ,@(loop for param in parameters
             collect (make-check-type-for-parameter param))
-       (let* ((scheme "http")
-              (host "localhost:8080")
+       (let* ((scheme *api-endpoint-scheme*)
+              (host *api-endpoint-host*)
+              (port *api-endpoint-port*)
               (path ,(if path-paramters
                          (make-path-format path)
                          path))
@@ -338,7 +342,7 @@
                                              (list (cons ,(slot-value param 'name)
                                                          ,(symbolize-parameter param))))))
          (let* ((query-string (quri:url-encode-params query))
-                (url (format nil "~A://~A~A~:[~;?~A~]" scheme host path query query-string)))
+                (url (format nil "~A://~A:~D~A~:[~;?~A~]" scheme host port path query query-string)))
            (multiple-value-bind (stream status-code headers)
                (drakma:http-request url
                                     :method ,(intern (slot-value operation 'method) :keyword)

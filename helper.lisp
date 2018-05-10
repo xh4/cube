@@ -21,4 +21,6 @@
          (unmarshal instance object)
          instanceo)))))
 
-(defgeneric unmarshal (object source))
+(defgeneric marshal (stream object))
+
+(defgeneric unmarshal (source object))

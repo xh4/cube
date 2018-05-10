@@ -11296,50 +11296,6 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
             (decode-object "ObjectMeta" value)))))
 
 
-(defclass env-var
-          (resource)
-          ((value-from
-            :initarg
-            :value-from
-            :type
-            (or env-var-source null)
-            :documentation
-            "Source for the environment variable's value. Cannot be used if value is not empty.")
-           (name
-            :initarg
-            :name
-            :type
-            string
-            :documentation
-            "Name of the environment variable. Must be a C_IDENTIFIER.")
-           (value
-            :initarg
-            :value
-            :type
-            (or string null)
-            :documentation
-            "Variable references $(VAR_NAME) are expanded using the previous defined environment variables in the container and any service environment variables. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. Defaults to \"\"."))
-          (:documentation
-           "EnvVar represents an environment variable present in a Container."))
-
-(defmethod unmarshal
-  ((object env-var) source)
-  (multiple-value-bind (value present-p)
-      (gethash "valueFrom" source)
-    (when present-p
-      (setf (slot-value object 'value-from)
-            (decode-object "EnvVarSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value)
-            (decode-object "string" value)))))
-
-
 (defclass controller-revision-list
           (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -11386,6 +11342,50 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
             (decode-object "ListMeta" value)))))
 
 
+(defclass env-var
+          (resource)
+          ((value-from
+            :initarg
+            :value-from
+            :type
+            (or env-var-source null)
+            :documentation
+            "Source for the environment variable's value. Cannot be used if value is not empty.")
+           (name
+            :initarg
+            :name
+            :type
+            string
+            :documentation
+            "Name of the environment variable. Must be a C_IDENTIFIER.")
+           (value
+            :initarg
+            :value
+            :type
+            (or string null)
+            :documentation
+            "Variable references $(VAR_NAME) are expanded using the previous defined environment variables in the container and any service environment variables. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. Defaults to \"\"."))
+          (:documentation
+           "EnvVar represents an environment variable present in a Container."))
+
+(defmethod unmarshal
+  ((object env-var) source)
+  (multiple-value-bind (value present-p)
+      (gethash "valueFrom" source)
+    (when present-p
+      (setf (slot-value object 'value-from)
+            (decode-object "EnvVarSource" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "name" source)
+    (when present-p
+      (setf (slot-value object 'name) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "value" source)
+    (when present-p
+      (setf (slot-value object 'value)
+            (decode-object "string" value)))))
+
+
 (defclass config-map-key-selector
           (resource)
           ((key
@@ -11426,50 +11426,6 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
       (gethash "name" source)
     (when present-p
       (setf (slot-value object 'name) (decode-object "string" value)))))
-
-
-(defclass daemon-set-list
-          (resource)
-          ((api-version :initform "apps/v1" :allocation :class)
-           (kind :initform "DaemonSetList" :allocation :class)
-           (items
-            :initarg
-            :items
-            :type
-            list
-            :documentation
-            "A list of daemon sets.")
-           (metadata
-            :initarg
-            :metadata
-            :type
-            (or list-meta null)
-            :documentation
-            "Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"))
-          (:documentation
-           "DaemonSetList is a collection of daemon sets."))
-
-(defmethod unmarshal
-  ((object daemon-set-list) source)
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-            (decode-object (cons "array" "DaemonSet") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata)
-            (decode-object "ListMeta" value)))))
 
 
 (defclass env-var-source
@@ -11527,6 +11483,50 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
     (when present-p
       (setf (slot-value object 'resource-field-ref)
             (decode-object "ResourceFieldSelector" value)))))
+
+
+(defclass daemon-set-list
+          (resource)
+          ((api-version :initform "apps/v1" :allocation :class)
+           (kind :initform "DaemonSetList" :allocation :class)
+           (items
+            :initarg
+            :items
+            :type
+            list
+            :documentation
+            "A list of daemon sets.")
+           (metadata
+            :initarg
+            :metadata
+            :type
+            (or list-meta null)
+            :documentation
+            "Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"))
+          (:documentation
+           "DaemonSetList is a collection of daemon sets."))
+
+(defmethod unmarshal
+  ((object daemon-set-list) source)
+  (multiple-value-bind (value present-p)
+      (gethash "kind" source)
+    (when present-p
+      (setf (slot-value object 'kind) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "items" source)
+    (when present-p
+      (setf (slot-value object 'items)
+            (decode-object (cons "array" "DaemonSet") value))))
+  (multiple-value-bind (value present-p)
+      (gethash "apiVersion" source)
+    (when present-p
+      (setf (slot-value object 'api-version)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "metadata" source)
+    (when present-p
+      (setf (slot-value object 'metadata)
+            (decode-object "ListMeta" value)))))
 
 
 (defclass aws-elastic-block-store-volume-source
@@ -11609,38 +11609,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
             (decode-object "string" value)))))
 
 
-(defclass http-header
-          (resource)
-          ((name
-            :initarg
-            :name
-            :type
-            string
-            :documentation
-            "The header field name")
-           (value
-            :initarg
-            :value
-            :type
-            string
-            :documentation
-            "The header field value"))
-          (:documentation
-           "HTTPHeader describes a custom header to be used in HTTP probes"))
-
-(defmethod unmarshal
-  ((object http-header) source)
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value)
-            (decode-object "string" value)))))
-
-
 (defclass list-meta
           (resource)
           ((self-link
@@ -11682,6 +11650,38 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (gethash "resourceVersion" source)
     (when present-p
       (setf (slot-value object 'resource-version)
+            (decode-object "string" value)))))
+
+
+(defclass http-header
+          (resource)
+          ((name
+            :initarg
+            :name
+            :type
+            string
+            :documentation
+            "The header field name")
+           (value
+            :initarg
+            :value
+            :type
+            string
+            :documentation
+            "The header field value"))
+          (:documentation
+           "HTTPHeader describes a custom header to be used in HTTP probes"))
+
+(defmethod unmarshal
+  ((object http-header) source)
+  (multiple-value-bind (value present-p)
+      (gethash "name" source)
+    (when present-p
+      (setf (slot-value object 'name) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "value" source)
+    (when present-p
+      (setf (slot-value object 'value)
             (decode-object "string" value)))))
 
 
@@ -11846,44 +11846,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
             (decode-object "boolean" value)))))
 
 
-(defclass pod-anti-affinity
-          (resource)
-          ((preferred-during-scheduling-ignored-during-execution
-            :initarg
-            :preferred-during-scheduling-ignored-during-execution
-            :type
-            list
-            :documentation
-            "The scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding \"weight\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.")
-           (required-during-scheduling-ignored-during-execution
-            :initarg
-            :required-during-scheduling-ignored-during-execution
-            :type
-            list
-            :documentation
-            "If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied."))
-          (:documentation
-           "Pod anti affinity is a group of inter pod anti affinity scheduling rules."))
-
-(defmethod unmarshal
-  ((object pod-anti-affinity) source)
-  (multiple-value-bind (value present-p)
-      (gethash "preferredDuringSchedulingIgnoredDuringExecution"
-               source)
-    (when present-p
-      (setf (slot-value object
-                        'preferred-during-scheduling-ignored-during-execution)
-            (decode-object
-             (cons "array" "WeightedPodAffinityTerm")
-             value))))
-  (multiple-value-bind (value present-p)
-      (gethash "requiredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'required-during-scheduling-ignored-during-execution)
-            (decode-object (cons "array" "PodAffinityTerm") value)))))
-
-
 (defclass security-context
           (resource)
           ((capabilities
@@ -11987,6 +11949,44 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when present-p
       (setf (slot-value object 'run-as-user)
             (decode-object (cons "integer" "int64") value)))))
+
+
+(defclass pod-anti-affinity
+          (resource)
+          ((preferred-during-scheduling-ignored-during-execution
+            :initarg
+            :preferred-during-scheduling-ignored-during-execution
+            :type
+            list
+            :documentation
+            "The scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding \"weight\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.")
+           (required-during-scheduling-ignored-during-execution
+            :initarg
+            :required-during-scheduling-ignored-during-execution
+            :type
+            list
+            :documentation
+            "If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied."))
+          (:documentation
+           "Pod anti affinity is a group of inter pod anti affinity scheduling rules."))
+
+(defmethod unmarshal
+  ((object pod-anti-affinity) source)
+  (multiple-value-bind (value present-p)
+      (gethash "preferredDuringSchedulingIgnoredDuringExecution"
+               source)
+    (when present-p
+      (setf (slot-value object
+                        'preferred-during-scheduling-ignored-during-execution)
+            (decode-object
+             (cons "array" "WeightedPodAffinityTerm")
+             value))))
+  (multiple-value-bind (value present-p)
+      (gethash "requiredDuringSchedulingIgnoredDuringExecution" source)
+    (when present-p
+      (setf (slot-value object
+                        'required-during-scheduling-ignored-during-execution)
+            (decode-object (cons "array" "PodAffinityTerm") value)))))
 
 
 (defclass fc-volume-source
@@ -12230,66 +12230,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
             (decode-object "string" value)))))
 
 
-(defclass capabilities
-          (resource)
-          ((drop
-            :initarg
-            :drop
-            :type
-            list
-            :documentation
-            "Removed capabilities")
-           (add
-            :initarg
-            :add
-            :type
-            list
-            :documentation
-            "Added capabilities"))
-          (:documentation
-           "Adds and removes POSIX capabilities from running containers."))
-
-(defmethod unmarshal
-  ((object capabilities) source)
-  (multiple-value-bind (value present-p)
-      (gethash "drop" source)
-    (when present-p
-      (setf (slot-value object 'drop)
-            (decode-object (cons "array" "Capability") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "add" source)
-    (when present-p
-      (setf (slot-value object 'add)
-            (decode-object (cons "array" "Capability") value)))))
-
-
-(defclass object-field-selector
-          (resource)
-          ((api-version :initform "apps/v1" :allocation :class)
-           (field-path
-            :initarg
-            :field-path
-            :type
-            string
-            :documentation
-            "Path of the field to select in the specified API version."))
-          (:documentation
-           "ObjectFieldSelector selects an APIVersioned field of an object."))
-
-(defmethod unmarshal
-  ((object object-field-selector) source)
-  (multiple-value-bind (value present-p)
-      (gethash "fieldPath" source)
-    (when present-p
-      (setf (slot-value object 'field-path)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version)
-            (decode-object "string" value)))))
-
-
 (defclass label-selector-requirement
           (resource)
           ((key
@@ -12331,6 +12271,66 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when present-p
       (setf (slot-value object 'operator)
             (decode-object "string" value)))))
+
+
+(defclass object-field-selector
+          (resource)
+          ((api-version :initform "apps/v1" :allocation :class)
+           (field-path
+            :initarg
+            :field-path
+            :type
+            string
+            :documentation
+            "Path of the field to select in the specified API version."))
+          (:documentation
+           "ObjectFieldSelector selects an APIVersioned field of an object."))
+
+(defmethod unmarshal
+  ((object object-field-selector) source)
+  (multiple-value-bind (value present-p)
+      (gethash "fieldPath" source)
+    (when present-p
+      (setf (slot-value object 'field-path)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "apiVersion" source)
+    (when present-p
+      (setf (slot-value object 'api-version)
+            (decode-object "string" value)))))
+
+
+(defclass capabilities
+          (resource)
+          ((drop
+            :initarg
+            :drop
+            :type
+            list
+            :documentation
+            "Removed capabilities")
+           (add
+            :initarg
+            :add
+            :type
+            list
+            :documentation
+            "Added capabilities"))
+          (:documentation
+           "Adds and removes POSIX capabilities from running containers."))
+
+(defmethod unmarshal
+  ((object capabilities) source)
+  (multiple-value-bind (value present-p)
+      (gethash "drop" source)
+    (when present-p
+      (setf (slot-value object 'drop)
+            (decode-object (cons "array" "Capability") value))))
+  (multiple-value-bind (value present-p)
+      (gethash "add" source)
+    (when present-p
+      (setf (slot-value object 'add)
+            (decode-object (cons "array" "Capability") value)))))
 
 
 (defclass azure-file-volume-source
@@ -12443,6 +12443,55 @@ The contents of the target Secret's Data field will be presented in a volume as 
             (decode-object "ObjectMeta" value)))))
 
 
+(defclass status-cause
+          (resource)
+          ((message
+            :initarg
+            :message
+            :type
+            (or string null)
+            :documentation
+            "A human-readable description of the cause of the error.  This field may be presented as-is to a reader.")
+           (reason
+            :initarg
+            :reason
+            :type
+            (or string null)
+            :documentation
+            "A machine-readable description of the cause of the error. If this value is empty there is no information available.")
+           (field
+            :initarg
+            :field
+            :type
+            (or string null)
+            :documentation
+            "The field of the resource that has caused this error, as named by its JSON serialization. May include dot and postfix notation for nested attributes. Arrays are zero-indexed.  Fields may appear more than once in an array of causes due to fields having multiple errors. Optional.
+
+Examples:
+  \"name\" - the field \"name\" on the current resource
+  \"items[0].name\" - the field \"name\" on the first array entry in \"items\""))
+          (:documentation
+           "StatusCause provides more information about an api.Status failure, including cases when multiple errors are encountered."))
+
+(defmethod unmarshal
+  ((object status-cause) source)
+  (multiple-value-bind (value present-p)
+      (gethash "message" source)
+    (when present-p
+      (setf (slot-value object 'message)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "reason" source)
+    (when present-p
+      (setf (slot-value object 'reason)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "field" source)
+    (when present-p
+      (setf (slot-value object 'field)
+            (decode-object "string" value)))))
+
+
 (defclass daemon-set-condition
           (resource)
           ((message
@@ -12508,55 +12557,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (gethash "reason" source)
     (when present-p
       (setf (slot-value object 'reason)
-            (decode-object "string" value)))))
-
-
-(defclass status-cause
-          (resource)
-          ((message
-            :initarg
-            :message
-            :type
-            (or string null)
-            :documentation
-            "A human-readable description of the cause of the error.  This field may be presented as-is to a reader.")
-           (reason
-            :initarg
-            :reason
-            :type
-            (or string null)
-            :documentation
-            "A machine-readable description of the cause of the error. If this value is empty there is no information available.")
-           (field
-            :initarg
-            :field
-            :type
-            (or string null)
-            :documentation
-            "The field of the resource that has caused this error, as named by its JSON serialization. May include dot and postfix notation for nested attributes. Arrays are zero-indexed.  Fields may appear more than once in an array of causes due to fields having multiple errors. Optional.
-
-Examples:
-  \"name\" - the field \"name\" on the current resource
-  \"items[0].name\" - the field \"name\" on the first array entry in \"items\""))
-          (:documentation
-           "StatusCause provides more information about an api.Status failure, including cases when multiple errors are encountered."))
-
-(defmethod unmarshal
-  ((object status-cause) source)
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "field" source)
-    (when present-p
-      (setf (slot-value object 'field)
             (decode-object "string" value)))))
 
 
@@ -12769,72 +12769,6 @@ Examples:
             (decode-object "string" value)))))
 
 
-(defclass owner-reference
-          (resource)
-          ((api-version :initform "apps/v1" :allocation :class)
-           (kind :initform "OwnerReference" :allocation :class)
-           (block-owner-deletion
-            :initarg
-            :block-owner-deletion
-            :type
-            (or boolean null)
-            :documentation
-            "If true, AND if the owner has the \"foregroundDeletion\" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. Defaults to false. To set this field, a user needs \"delete\" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned.")
-           (name
-            :initarg
-            :name
-            :type
-            string
-            :documentation
-            "Name of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#names")
-           (controller
-            :initarg
-            :controller
-            :type
-            (or boolean null)
-            :documentation
-            "If true, this reference points to the managing controller.")
-           (uid
-            :initarg
-            :uid
-            :type
-            string
-            :documentation
-            "UID of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#uids"))
-          (:documentation
-           "OwnerReference contains enough information to let you identify an owning object. Currently, an owning object must be in the same namespace, so there is no namespace field."))
-
-(defmethod unmarshal
-  ((object owner-reference) source)
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "blockOwnerDeletion" source)
-    (when present-p
-      (setf (slot-value object 'block-owner-deletion)
-            (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "controller" source)
-    (when present-p
-      (setf (slot-value object 'controller)
-            (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "string" value)))))
-
-
 (defclass azure-disk-volume-source
           (resource)
           ((kind :initform "AzureDiskVolumeSource" :allocation :class)
@@ -12910,103 +12844,70 @@ Examples:
             (decode-object "string" value)))))
 
 
-(defclass http-get-action
+(defclass owner-reference
           (resource)
-          ((host
+          ((api-version :initform "apps/v1" :allocation :class)
+           (kind :initform "OwnerReference" :allocation :class)
+           (block-owner-deletion
             :initarg
-            :host
+            :block-owner-deletion
             :type
-            (or string null)
+            (or boolean null)
             :documentation
-            "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead.")
-           (path
+            "If true, AND if the owner has the \"foregroundDeletion\" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. Defaults to false. To set this field, a user needs \"delete\" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned.")
+           (name
             :initarg
-            :path
-            :type
-            (or string null)
-            :documentation
-            "Path to access on the HTTP server.")
-           (scheme
-            :initarg
-            :scheme
-            :type
-            (or string null)
-            :documentation
-            "Scheme to use for connecting to the host. Defaults to HTTP.")
-           (port
-            :initarg
-            :port
+            :name
             :type
             string
             :documentation
-            "Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME.")
-           (http-headers
+            "Name of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#names")
+           (controller
             :initarg
-            :http-headers
+            :controller
             :type
-            list
+            (or boolean null)
             :documentation
-            "Custom headers to set in the request. HTTP allows repeated headers."))
+            "If true, this reference points to the managing controller.")
+           (uid
+            :initarg
+            :uid
+            :type
+            string
+            :documentation
+            "UID of the referent. More info: http://kubernetes.io/docs/user-guide/identifiers#uids"))
           (:documentation
-           "HTTPGetAction describes an action based on HTTP Get requests."))
+           "OwnerReference contains enough information to let you identify an owning object. Currently, an owning object must be in the same namespace, so there is no namespace field."))
 
 (defmethod unmarshal
-  ((object http-get-action) source)
+  ((object owner-reference) source)
   (multiple-value-bind (value present-p)
-      (gethash "host" source)
+      (gethash "kind" source)
     (when present-p
-      (setf (slot-value object 'host) (decode-object "string" value))))
+      (setf (slot-value object 'kind) (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "path" source)
+      (gethash "blockOwnerDeletion" source)
     (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
+      (setf (slot-value object 'block-owner-deletion)
+            (decode-object "boolean" value))))
   (multiple-value-bind (value present-p)
-      (gethash "scheme" source)
+      (gethash "name" source)
     (when present-p
-      (setf (slot-value object 'scheme)
+      (setf (slot-value object 'name) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "controller" source)
+    (when present-p
+      (setf (slot-value object 'controller)
+            (decode-object "boolean" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "apiVersion" source)
+    (when present-p
+      (setf (slot-value object 'api-version)
             (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "port" source)
+      (gethash "uid" source)
     (when present-p
-      (setf (slot-value object 'port) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "httpHeaders" source)
-    (when present-p
-      (setf (slot-value object 'http-headers)
-            (decode-object (cons "array" "HTTPHeader") value)))))
-
-
-(defclass resource-requirements
-          (resource)
-          ((requests
-            :initarg
-            :requests
-            :type
-            (or hash-table null)
-            :documentation
-            "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/")
-           (limits
-            :initarg
-            :limits
-            :type
-            (or hash-table null)
-            :documentation
-            "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"))
-          (:documentation
-           "ResourceRequirements describes the compute resource requirements."))
-
-(defmethod unmarshal
-  ((object resource-requirements) source)
-  (multiple-value-bind (value present-p)
-      (gethash "requests" source)
-    (when present-p
-      (setf (slot-value object 'requests)
-            (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "limits" source)
-    (when present-p
-      (setf (slot-value object 'limits)
-            (decode-object "object" value)))))
+      (setf (slot-value object 'uid) (decode-object "string" value)))))
 
 
 (defclass ceph-fs-volume-source
@@ -13088,6 +12989,105 @@ Examples:
             (decode-object "string" value)))))
 
 
+(defclass resource-requirements
+          (resource)
+          ((requests
+            :initarg
+            :requests
+            :type
+            (or hash-table null)
+            :documentation
+            "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/")
+           (limits
+            :initarg
+            :limits
+            :type
+            (or hash-table null)
+            :documentation
+            "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"))
+          (:documentation
+           "ResourceRequirements describes the compute resource requirements."))
+
+(defmethod unmarshal
+  ((object resource-requirements) source)
+  (multiple-value-bind (value present-p)
+      (gethash "requests" source)
+    (when present-p
+      (setf (slot-value object 'requests)
+            (decode-object "object" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "limits" source)
+    (when present-p
+      (setf (slot-value object 'limits)
+            (decode-object "object" value)))))
+
+
+(defclass http-get-action
+          (resource)
+          ((host
+            :initarg
+            :host
+            :type
+            (or string null)
+            :documentation
+            "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead.")
+           (path
+            :initarg
+            :path
+            :type
+            (or string null)
+            :documentation
+            "Path to access on the HTTP server.")
+           (scheme
+            :initarg
+            :scheme
+            :type
+            (or string null)
+            :documentation
+            "Scheme to use for connecting to the host. Defaults to HTTP.")
+           (port
+            :initarg
+            :port
+            :type
+            string
+            :documentation
+            "Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME.")
+           (http-headers
+            :initarg
+            :http-headers
+            :type
+            list
+            :documentation
+            "Custom headers to set in the request. HTTP allows repeated headers."))
+          (:documentation
+           "HTTPGetAction describes an action based on HTTP Get requests."))
+
+(defmethod unmarshal
+  ((object http-get-action) source)
+  (multiple-value-bind (value present-p)
+      (gethash "host" source)
+    (when present-p
+      (setf (slot-value object 'host) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "path" source)
+    (when present-p
+      (setf (slot-value object 'path) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "scheme" source)
+    (when present-p
+      (setf (slot-value object 'scheme)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "port" source)
+    (when present-p
+      (setf (slot-value object 'port) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "httpHeaders" source)
+    (when present-p
+      (setf (slot-value object 'http-headers)
+            (decode-object (cons "array" "HTTPHeader") value)))))
+
+
 (defclass delete-options
           (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -13156,80 +13156,59 @@ Examples:
             (decode-object "string" value)))))
 
 
-(defclass api-resource-list
+(defclass controller-revision
           (resource)
           ((api-version :initform "apps/v1" :allocation :class)
-           (kind :initform "APIResourceList" :allocation :class)
-           (resources
+           (kind :initform "ControllerRevision" :allocation :class)
+           (data
             :initarg
-            :resources
+            :data
             :type
-            list
+            (or string null)
             :documentation
-            "resources contains the name of the resources and if they are namespaced.")
-           (group-version
+            "Data is the serialized representation of the state.")
+           (revision
             :initarg
-            :group-version
+            :revision
             :type
-            string
+            integer
             :documentation
-            "groupVersion is the group and version this APIResourceList is for."))
+            "Revision indicates the revision of the state represented by Data.")
+           (metadata
+            :initarg
+            :metadata
+            :type
+            (or object-meta null)
+            :documentation
+            "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"))
           (:documentation
-           "APIResourceList is a list of APIResource, it is used to expose the name of the resources supported in a specific group and version, and if the resource is namespaced."))
+           "ControllerRevision implements an immutable snapshot of state data. Clients are responsible for serializing and deserializing the objects that contain their internal state. Once a ControllerRevision has been successfully created, it can not be updated. The API Server will fail validation of all requests that attempt to mutate the Data field. ControllerRevisions may, however, be deleted. Note that, due to its use by both the DaemonSet and StatefulSet controllers for update and rollback, this object is beta. However, it may be subject to name and representation changes in future releases, and clients should not depend on its stability. It is primarily for internal use by controllers."))
 
 (defmethod unmarshal
-  ((object api-resource-list) source)
-  (multiple-value-bind (value present-p)
-      (gethash "resources" source)
-    (when present-p
-      (setf (slot-value object 'resources)
-            (decode-object (cons "array" "APIResource") value))))
+  ((object controller-revision) source)
   (multiple-value-bind (value present-p)
       (gethash "kind" source)
     (when present-p
       (setf (slot-value object 'kind) (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "groupVersion" source)
+      (gethash "data" source)
     (when present-p
-      (setf (slot-value object 'group-version)
-            (decode-object "string" value))))
+      (setf (slot-value object 'data) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "revision" source)
+    (when present-p
+      (setf (slot-value object 'revision)
+            (decode-object (cons "integer" "int64") value))))
   (multiple-value-bind (value present-p)
       (gethash "apiVersion" source)
     (when present-p
       (setf (slot-value object 'api-version)
-            (decode-object "string" value)))))
-
-
-(defclass pod-dns-config-option
-          (resource)
-          ((name
-            :initarg
-            :name
-            :type
-            (or string null)
-            :documentation
-            "Required.")
-           (value
-            :initarg
-            :value
-            :type
-            (or string null)
-            :documentation
-            nil))
-          (:documentation
-           "PodDNSConfigOption defines DNS resolver options of a pod."))
-
-(defmethod unmarshal
-  ((object pod-dns-config-option) source)
+            (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "name" source)
+      (gethash "metadata" source)
     (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value)
-            (decode-object "string" value)))))
+      (setf (slot-value object 'metadata)
+            (decode-object "ObjectMeta" value)))))
 
 
 (defclass object-meta
@@ -13446,59 +13425,80 @@ Populated by the system. Read-only. More info: http://kubernetes.io/docs/user-gu
       (setf (slot-value object 'uid) (decode-object "string" value)))))
 
 
-(defclass controller-revision
+(defclass pod-dns-config-option
           (resource)
-          ((api-version :initform "apps/v1" :allocation :class)
-           (kind :initform "ControllerRevision" :allocation :class)
-           (data
+          ((name
             :initarg
-            :data
+            :name
             :type
             (or string null)
             :documentation
-            "Data is the serialized representation of the state.")
-           (revision
+            "Required.")
+           (value
             :initarg
-            :revision
+            :value
             :type
-            integer
+            (or string null)
             :documentation
-            "Revision indicates the revision of the state represented by Data.")
-           (metadata
-            :initarg
-            :metadata
-            :type
-            (or object-meta null)
-            :documentation
-            "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"))
+            nil))
           (:documentation
-           "ControllerRevision implements an immutable snapshot of state data. Clients are responsible for serializing and deserializing the objects that contain their internal state. Once a ControllerRevision has been successfully created, it can not be updated. The API Server will fail validation of all requests that attempt to mutate the Data field. ControllerRevisions may, however, be deleted. Note that, due to its use by both the DaemonSet and StatefulSet controllers for update and rollback, this object is beta. However, it may be subject to name and representation changes in future releases, and clients should not depend on its stability. It is primarily for internal use by controllers."))
+           "PodDNSConfigOption defines DNS resolver options of a pod."))
 
 (defmethod unmarshal
-  ((object controller-revision) source)
+  ((object pod-dns-config-option) source)
+  (multiple-value-bind (value present-p)
+      (gethash "name" source)
+    (when present-p
+      (setf (slot-value object 'name) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "value" source)
+    (when present-p
+      (setf (slot-value object 'value)
+            (decode-object "string" value)))))
+
+
+(defclass api-resource-list
+          (resource)
+          ((api-version :initform "apps/v1" :allocation :class)
+           (kind :initform "APIResourceList" :allocation :class)
+           (resources
+            :initarg
+            :resources
+            :type
+            list
+            :documentation
+            "resources contains the name of the resources and if they are namespaced.")
+           (group-version
+            :initarg
+            :group-version
+            :type
+            string
+            :documentation
+            "groupVersion is the group and version this APIResourceList is for."))
+          (:documentation
+           "APIResourceList is a list of APIResource, it is used to expose the name of the resources supported in a specific group and version, and if the resource is namespaced."))
+
+(defmethod unmarshal
+  ((object api-resource-list) source)
+  (multiple-value-bind (value present-p)
+      (gethash "resources" source)
+    (when present-p
+      (setf (slot-value object 'resources)
+            (decode-object (cons "array" "APIResource") value))))
   (multiple-value-bind (value present-p)
       (gethash "kind" source)
     (when present-p
       (setf (slot-value object 'kind) (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "data" source)
+      (gethash "groupVersion" source)
     (when present-p
-      (setf (slot-value object 'data) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "revision" source)
-    (when present-p
-      (setf (slot-value object 'revision)
-            (decode-object (cons "integer" "int64") value))))
+      (setf (slot-value object 'group-version)
+            (decode-object "string" value))))
   (multiple-value-bind (value present-p)
       (gethash "apiVersion" source)
     (when present-p
       (setf (slot-value object 'api-version)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata)
-            (decode-object "ObjectMeta" value)))))
+            (decode-object "string" value)))))
 
 
 (defclass replica-set-spec
@@ -13695,6 +13695,11 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
             (decode-object "ListMeta" value)))))
 
 
+(defclass host-path-type (resource) nil (:documentation nil))
+
+(defmethod unmarshal ((object host-path-type) source))
+
+
 (defclass key-to-path
           (resource)
           ((path
@@ -13736,11 +13741,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
     (when present-p
       (setf (slot-value object 'mode)
             (decode-object (cons "integer" "int32") value)))))
-
-
-(defclass host-path-type (resource) nil (:documentation nil))
-
-(defmethod unmarshal ((object host-path-type) source))
 
 
 (defclass config-map-env-source
@@ -13905,26 +13905,6 @@ The contents of the target ConfigMap's Data field will represent the key-value p
             (decode-object (cons "integer" "int32") value)))))
 
 
-(defclass preconditions
-          (resource)
-          ((uid
-            :initarg
-            :uid
-            :type
-            (or uid null)
-            :documentation
-            "Specifies the target UID."))
-          (:documentation
-           "Preconditions must be fulfilled before an operation (update, delete, etc.) is carried out."))
-
-(defmethod unmarshal
-  ((object preconditions) source)
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "UID" value)))))
-
-
 (defclass flex-volume-source
           (resource)
           ((secret-ref
@@ -13991,6 +13971,85 @@ The contents of the target ConfigMap's Data field will represent the key-value p
       (gethash "driver" source)
     (when present-p
       (setf (slot-value object 'driver)
+            (decode-object "string" value)))))
+
+
+(defclass preconditions
+          (resource)
+          ((uid
+            :initarg
+            :uid
+            :type
+            (or uid null)
+            :documentation
+            "Specifies the target UID."))
+          (:documentation
+           "Preconditions must be fulfilled before an operation (update, delete, etc.) is carried out."))
+
+(defmethod unmarshal
+  ((object preconditions) source)
+  (multiple-value-bind (value present-p)
+      (gethash "uid" source)
+    (when present-p
+      (setf (slot-value object 'uid) (decode-object "UID" value)))))
+
+
+(defclass gce-persistent-disk-volume-source
+          (resource)
+          ((read-only
+            :initarg
+            :read-only
+            :type
+            (or boolean null)
+            :documentation
+            "ReadOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk")
+           (pd-name
+            :initarg
+            :pd-name
+            :type
+            string
+            :documentation
+            "Unique name of the PD resource in GCE. Used to identify the disk in GCE. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk")
+           (partition
+            :initarg
+            :partition
+            :type
+            (or integer null)
+            :documentation
+            "The partition in the volume that you want to mount. If omitted, the default is to mount by volume name. Examples: For volume /dev/sda1, you specify the partition as \"1\". Similarly, the volume partition for /dev/sda is \"0\" (or you can leave the property empty). More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk")
+           (fs-type
+            :initarg
+            :fs-type
+            :type
+            (or string null)
+            :documentation
+            "Filesystem type of the volume that you want to mount. Tip: Ensure that the filesystem type is supported by the host operating system. Examples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk"))
+          (:documentation
+           "Represents a Persistent Disk resource in Google Compute Engine.
+
+A GCE PD must exist before mounting to a container. The disk must also be in the same GCE project and zone as the kubelet. A GCE PD can only be mounted as read/write once or read-only many times. GCE PDs support ownership management and SELinux relabeling."))
+
+(defmethod unmarshal
+  ((object gce-persistent-disk-volume-source) source)
+  (multiple-value-bind (value present-p)
+      (gethash "readOnly" source)
+    (when present-p
+      (setf (slot-value object 'read-only)
+            (decode-object "boolean" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "pdName" source)
+    (when present-p
+      (setf (slot-value object 'pd-name)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "partition" source)
+    (when present-p
+      (setf (slot-value object 'partition)
+            (decode-object (cons "integer" "int32") value))))
+  (multiple-value-bind (value present-p)
+      (gethash "fsType" source)
+    (when present-p
+      (setf (slot-value object 'fs-type)
             (decode-object "string" value)))))
 
 
@@ -14099,65 +14158,6 @@ The contents of the target ConfigMap's Data field will represent the key-value p
             (decode-object (cons "integer" "int32") value)))))
 
 
-(defclass gce-persistent-disk-volume-source
-          (resource)
-          ((read-only
-            :initarg
-            :read-only
-            :type
-            (or boolean null)
-            :documentation
-            "ReadOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk")
-           (pd-name
-            :initarg
-            :pd-name
-            :type
-            string
-            :documentation
-            "Unique name of the PD resource in GCE. Used to identify the disk in GCE. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk")
-           (partition
-            :initarg
-            :partition
-            :type
-            (or integer null)
-            :documentation
-            "The partition in the volume that you want to mount. If omitted, the default is to mount by volume name. Examples: For volume /dev/sda1, you specify the partition as \"1\". Similarly, the volume partition for /dev/sda is \"0\" (or you can leave the property empty). More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk")
-           (fs-type
-            :initarg
-            :fs-type
-            :type
-            (or string null)
-            :documentation
-            "Filesystem type of the volume that you want to mount. Tip: Ensure that the filesystem type is supported by the host operating system. Examples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk"))
-          (:documentation
-           "Represents a Persistent Disk resource in Google Compute Engine.
-
-A GCE PD must exist before mounting to a container. The disk must also be in the same GCE project and zone as the kubelet. A GCE PD can only be mounted as read/write once or read-only many times. GCE PDs support ownership management and SELinux relabeling."))
-
-(defmethod unmarshal
-  ((object gce-persistent-disk-volume-source) source)
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only)
-            (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "pdName" source)
-    (when present-p
-      (setf (slot-value object 'pd-name)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "partition" source)
-    (when present-p
-      (setf (slot-value object 'partition)
-            (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type)
-            (decode-object "string" value)))))
-
-
 (defclass replica-set-list
           (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -14219,6 +14219,62 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
     (when present-p
       (setf (slot-value object 'object)
             (decode-object "string" value)))))
+
+
+(defclass downward-api-volume-file
+          (resource)
+          ((path
+            :initarg
+            :path
+            :type
+            string
+            :documentation
+            "Required: Path is  the relative path name of the file to be created. Must not be absolute or contain the '..' path. Must be utf-8 encoded. The first item of the relative path must not start with '..'")
+           (mode
+            :initarg
+            :mode
+            :type
+            (or integer null)
+            :documentation
+            "Optional: mode bits to use on this file, must be a value between 0 and 0777. If not specified, the volume defaultMode will be used. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.")
+           (field-ref
+            :initarg
+            :field-ref
+            :type
+            (or object-field-selector null)
+            :documentation
+            "Required: Selects a field of the pod: only annotations, labels, name and namespace are supported.")
+           (resource-field-ref
+            :initarg
+            :resource-field-ref
+            :type
+            (or resource-field-selector null)
+            :documentation
+            "Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported."))
+          (:documentation
+           "DownwardAPIVolumeFile represents information to create the file containing the pod field"))
+
+(defmethod unmarshal
+  ((object downward-api-volume-file) source)
+  (multiple-value-bind (value present-p)
+      (gethash "path" source)
+    (when present-p
+      (setf (slot-value object 'path) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "mode" source)
+    (when present-p
+      (setf (slot-value object 'mode)
+            (decode-object (cons "integer" "int32") value))))
+  (multiple-value-bind (value present-p)
+      (gethash "fieldRef" source)
+    (when present-p
+      (setf (slot-value object 'field-ref)
+            (decode-object "ObjectFieldSelector" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "resourceFieldRef" source)
+    (when present-p
+      (setf (slot-value object 'resource-field-ref)
+            (decode-object "ResourceFieldSelector" value)))))
 
 
 (defclass iscsi-volume-source
@@ -14361,60 +14417,72 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
             (decode-object "boolean" value)))))
 
 
-(defclass downward-api-volume-file
+(defclass container-port
           (resource)
-          ((path
+          ((host-ip
             :initarg
-            :path
+            :host-ip
             :type
-            string
+            (or string null)
             :documentation
-            "Required: Path is  the relative path name of the file to be created. Must not be absolute or contain the '..' path. Must be utf-8 encoded. The first item of the relative path must not start with '..'")
-           (mode
+            "What host IP to bind the external port to.")
+           (host-port
             :initarg
-            :mode
+            :host-port
             :type
             (or integer null)
             :documentation
-            "Optional: mode bits to use on this file, must be a value between 0 and 0777. If not specified, the volume defaultMode will be used. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.")
-           (field-ref
+            "Number of port to expose on the host. If specified, this must be a valid port number, 0 < x < 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this.")
+           (container-port
             :initarg
-            :field-ref
+            :container-port
             :type
-            (or object-field-selector null)
+            integer
             :documentation
-            "Required: Selects a field of the pod: only annotations, labels, name and namespace are supported.")
-           (resource-field-ref
+            "Number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536.")
+           (name
             :initarg
-            :resource-field-ref
+            :name
             :type
-            (or resource-field-selector null)
+            (or string null)
             :documentation
-            "Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported."))
+            "If specified, this must be an IANA_SVC_NAME and unique within the pod. Each named port in a pod must have a unique name. Name for the port that can be referred to by services.")
+           (protocol
+            :initarg
+            :protocol
+            :type
+            (or string null)
+            :documentation
+            "Protocol for port. Must be UDP or TCP. Defaults to \"TCP\"."))
           (:documentation
-           "DownwardAPIVolumeFile represents information to create the file containing the pod field"))
+           "ContainerPort represents a network port in a single container."))
 
 (defmethod unmarshal
-  ((object downward-api-volume-file) source)
+  ((object container-port) source)
   (multiple-value-bind (value present-p)
-      (gethash "path" source)
+      (gethash "hostIP" source)
     (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
+      (setf (slot-value object 'host-ip)
+            (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "mode" source)
+      (gethash "hostPort" source)
     (when present-p
-      (setf (slot-value object 'mode)
+      (setf (slot-value object 'host-port)
             (decode-object (cons "integer" "int32") value))))
   (multiple-value-bind (value present-p)
-      (gethash "fieldRef" source)
+      (gethash "containerPort" source)
     (when present-p
-      (setf (slot-value object 'field-ref)
-            (decode-object "ObjectFieldSelector" value))))
+      (setf (slot-value object 'container-port)
+            (decode-object (cons "integer" "int32") value))))
   (multiple-value-bind (value present-p)
-      (gethash "resourceFieldRef" source)
+      (gethash "name" source)
     (when present-p
-      (setf (slot-value object 'resource-field-ref)
-            (decode-object "ResourceFieldSelector" value)))))
+      (setf (slot-value object 'name) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "protocol" source)
+    (when present-p
+      (setf (slot-value object 'protocol)
+            (decode-object "string" value)))))
 
 
 (defclass replica-set-condition
@@ -14485,72 +14553,49 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
             (decode-object "string" value)))))
 
 
-(defclass container-port
+(defclass affinity
           (resource)
-          ((host-ip
+          ((pod-anti-affinity
             :initarg
-            :host-ip
+            :pod-anti-affinity
             :type
-            (or string null)
+            (or pod-anti-affinity null)
             :documentation
-            "What host IP to bind the external port to.")
-           (host-port
+            "Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).")
+           (node-affinity
             :initarg
-            :host-port
+            :node-affinity
             :type
-            (or integer null)
+            (or node-affinity null)
             :documentation
-            "Number of port to expose on the host. If specified, this must be a valid port number, 0 < x < 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this.")
-           (container-port
+            "Describes node affinity scheduling rules for the pod.")
+           (pod-affinity
             :initarg
-            :container-port
+            :pod-affinity
             :type
-            integer
+            (or pod-affinity null)
             :documentation
-            "Number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536.")
-           (name
-            :initarg
-            :name
-            :type
-            (or string null)
-            :documentation
-            "If specified, this must be an IANA_SVC_NAME and unique within the pod. Each named port in a pod must have a unique name. Name for the port that can be referred to by services.")
-           (protocol
-            :initarg
-            :protocol
-            :type
-            (or string null)
-            :documentation
-            "Protocol for port. Must be UDP or TCP. Defaults to \"TCP\"."))
+            "Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s))."))
           (:documentation
-           "ContainerPort represents a network port in a single container."))
+           "Affinity is a group of affinity scheduling rules."))
 
 (defmethod unmarshal
-  ((object container-port) source)
+  ((object affinity) source)
   (multiple-value-bind (value present-p)
-      (gethash "hostIP" source)
+      (gethash "podAntiAffinity" source)
     (when present-p
-      (setf (slot-value object 'host-ip)
-            (decode-object "string" value))))
+      (setf (slot-value object 'pod-anti-affinity)
+            (decode-object "PodAntiAffinity" value))))
   (multiple-value-bind (value present-p)
-      (gethash "hostPort" source)
+      (gethash "nodeAffinity" source)
     (when present-p
-      (setf (slot-value object 'host-port)
-            (decode-object (cons "integer" "int32") value))))
+      (setf (slot-value object 'node-affinity)
+            (decode-object "NodeAffinity" value))))
   (multiple-value-bind (value present-p)
-      (gethash "containerPort" source)
+      (gethash "podAffinity" source)
     (when present-p
-      (setf (slot-value object 'container-port)
-            (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "protocol" source)
-    (when present-p
-      (setf (slot-value object 'protocol)
-            (decode-object "string" value)))))
+      (setf (slot-value object 'pod-affinity)
+            (decode-object "PodAffinity" value)))))
 
 
 (defclass toleration
@@ -14619,51 +14664,6 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
     (when present-p
       (setf (slot-value object 'value)
             (decode-object "string" value)))))
-
-
-(defclass affinity
-          (resource)
-          ((pod-anti-affinity
-            :initarg
-            :pod-anti-affinity
-            :type
-            (or pod-anti-affinity null)
-            :documentation
-            "Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).")
-           (node-affinity
-            :initarg
-            :node-affinity
-            :type
-            (or node-affinity null)
-            :documentation
-            "Describes node affinity scheduling rules for the pod.")
-           (pod-affinity
-            :initarg
-            :pod-affinity
-            :type
-            (or pod-affinity null)
-            :documentation
-            "Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s))."))
-          (:documentation
-           "Affinity is a group of affinity scheduling rules."))
-
-(defmethod unmarshal
-  ((object affinity) source)
-  (multiple-value-bind (value present-p)
-      (gethash "podAntiAffinity" source)
-    (when present-p
-      (setf (slot-value object 'pod-anti-affinity)
-            (decode-object "PodAntiAffinity" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeAffinity" source)
-    (when present-p
-      (setf (slot-value object 'node-affinity)
-            (decode-object "NodeAffinity" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "podAffinity" source)
-    (when present-p
-      (setf (slot-value object 'pod-affinity)
-            (decode-object "PodAffinity" value)))))
 
 
 (defclass daemon-set-update-strategy
@@ -14855,6 +14855,38 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
             (decode-object (cons "integer" "int32") value)))))
 
 
+(defclass host-alias
+          (resource)
+          ((hostnames
+            :initarg
+            :hostnames
+            :type
+            list
+            :documentation
+            "Hostnames for the above IP address.")
+           (ip
+            :initarg
+            :ip
+            :type
+            (or string null)
+            :documentation
+            "IP address of the host file entry."))
+          (:documentation
+           "HostAlias holds the mapping between IP and hostnames that will be injected as an entry in the pod's hosts file."))
+
+(defmethod unmarshal
+  ((object host-alias) source)
+  (multiple-value-bind (value present-p)
+      (gethash "hostnames" source)
+    (when present-p
+      (setf (slot-value object 'hostnames)
+            (decode-object (cons "array" "string") value))))
+  (multiple-value-bind (value present-p)
+      (gethash "ip" source)
+    (when present-p
+      (setf (slot-value object 'ip) (decode-object "string" value)))))
+
+
 (defclass stateful-set-condition
           (resource)
           ((message
@@ -14923,38 +14955,6 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
             (decode-object "string" value)))))
 
 
-(defclass host-alias
-          (resource)
-          ((hostnames
-            :initarg
-            :hostnames
-            :type
-            list
-            :documentation
-            "Hostnames for the above IP address.")
-           (ip
-            :initarg
-            :ip
-            :type
-            (or string null)
-            :documentation
-            "IP address of the host file entry."))
-          (:documentation
-           "HostAlias holds the mapping between IP and hostnames that will be injected as an entry in the pod's hosts file."))
-
-(defmethod unmarshal
-  ((object host-alias) source)
-  (multiple-value-bind (value present-p)
-      (gethash "hostnames" source)
-    (when present-p
-      (setf (slot-value object 'hostnames)
-            (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "ip" source)
-    (when present-p
-      (setf (slot-value object 'ip) (decode-object "string" value)))))
-
-
 (defclass volume-projection
           (resource)
           ((config-map
@@ -15000,39 +15000,6 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
             (decode-object "SecretProjection" value)))))
 
 
-(defclass flocker-volume-source
-          (resource)
-          ((dataset-uuid
-            :initarg
-            :dataset-uuid
-            :type
-            (or string null)
-            :documentation
-            "UUID of the dataset. This is unique identifier of a Flocker dataset")
-           (dataset-name
-            :initarg
-            :dataset-name
-            :type
-            (or string null)
-            :documentation
-            "Name of the dataset stored as metadata -> name on the dataset for Flocker should be considered as deprecated"))
-          (:documentation
-           "Represents a Flocker volume mounted by the Flocker agent. One and only one of datasetName and datasetUUID should be set. Flocker volumes do not support ownership management or SELinux relabeling."))
-
-(defmethod unmarshal
-  ((object flocker-volume-source) source)
-  (multiple-value-bind (value present-p)
-      (gethash "datasetUUID" source)
-    (when present-p
-      (setf (slot-value object 'dataset-uuid)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "datasetName" source)
-    (when present-p
-      (setf (slot-value object 'dataset-name)
-            (decode-object "string" value)))))
-
-
 (defclass secret-env-source
           (resource)
           ((optional
@@ -15065,6 +15032,39 @@ The contents of the target Secret's Data field will represent the key-value pair
       (gethash "name" source)
     (when present-p
       (setf (slot-value object 'name) (decode-object "string" value)))))
+
+
+(defclass flocker-volume-source
+          (resource)
+          ((dataset-uuid
+            :initarg
+            :dataset-uuid
+            :type
+            (or string null)
+            :documentation
+            "UUID of the dataset. This is unique identifier of a Flocker dataset")
+           (dataset-name
+            :initarg
+            :dataset-name
+            :type
+            (or string null)
+            :documentation
+            "Name of the dataset stored as metadata -> name on the dataset for Flocker should be considered as deprecated"))
+          (:documentation
+           "Represents a Flocker volume mounted by the Flocker agent. One and only one of datasetName and datasetUUID should be set. Flocker volumes do not support ownership management or SELinux relabeling."))
+
+(defmethod unmarshal
+  ((object flocker-volume-source) source)
+  (multiple-value-bind (value present-p)
+      (gethash "datasetUUID" source)
+    (when present-p
+      (setf (slot-value object 'dataset-uuid)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "datasetName" source)
+    (when present-p
+      (setf (slot-value object 'dataset-name)
+            (decode-object "string" value)))))
 
 
 (defclass daemon-set-spec
@@ -15136,6 +15136,49 @@ The contents of the target Secret's Data field will represent the key-value pair
             (decode-object "DaemonSetUpdateStrategy" value)))))
 
 
+(defclass secret-key-selector
+          (resource)
+          ((key
+            :initarg
+            :key
+            :type
+            string
+            :documentation
+            "The key of the secret to select from.  Must be a valid secret key.")
+           (optional
+            :initarg
+            :optional
+            :type
+            (or boolean null)
+            :documentation
+            "Specify whether the Secret or it's key must be defined")
+           (name
+            :initarg
+            :name
+            :type
+            (or string null)
+            :documentation
+            "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names"))
+          (:documentation
+           "SecretKeySelector selects a key of a Secret."))
+
+(defmethod unmarshal
+  ((object secret-key-selector) source)
+  (multiple-value-bind (value present-p)
+      (gethash "key" source)
+    (when present-p
+      (setf (slot-value object 'key) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "optional" source)
+    (when present-p
+      (setf (slot-value object 'optional)
+            (decode-object "boolean" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "name" source)
+    (when present-p
+      (setf (slot-value object 'name) (decode-object "string" value)))))
+
+
 (defclass replica-set
           (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -15192,49 +15235,6 @@ The contents of the target Secret's Data field will represent the key-value pair
             (decode-object "ObjectMeta" value)))))
 
 
-(defclass secret-key-selector
-          (resource)
-          ((key
-            :initarg
-            :key
-            :type
-            string
-            :documentation
-            "The key of the secret to select from.  Must be a valid secret key.")
-           (optional
-            :initarg
-            :optional
-            :type
-            (or boolean null)
-            :documentation
-            "Specify whether the Secret or it's key must be defined")
-           (name
-            :initarg
-            :name
-            :type
-            (or string null)
-            :documentation
-            "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names"))
-          (:documentation
-           "SecretKeySelector selects a key of a Secret."))
-
-(defmethod unmarshal
-  ((object secret-key-selector) source)
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional)
-            (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value)))))
-
-
 (defclass exec-action
           (resource)
           ((command
@@ -15256,57 +15256,37 @@ The contents of the target Secret's Data field will represent the key-value pair
             (decode-object (cons "array" "string") value)))))
 
 
-(defclass rolling-update-stateful-set-strategy
+(defclass initializers
           (resource)
-          ((partition
+          ((pending
             :initarg
-            :partition
+            :pending
             :type
-            (or integer null)
+            list
             :documentation
-            "Partition indicates the ordinal at which the StatefulSet should be partitioned. Default value is 0."))
+            "Pending is a list of initializers that must execute in order before this object is visible. When the last pending initializer is removed, and no failing result is set, the initializers struct will be set to nil and the object is considered as initialized and visible to all clients.")
+           (result
+            :initarg
+            :result
+            :type
+            (or status null)
+            :documentation
+            "If result is set with the Failure field, the object will be persisted to storage and then deleted, ensuring that other clients can observe the deletion."))
           (:documentation
-           "RollingUpdateStatefulSetStrategy is used to communicate parameter for RollingUpdateStatefulSetStrategyType."))
+           "Initializers tracks the progress of initialization."))
 
 (defmethod unmarshal
-  ((object rolling-update-stateful-set-strategy) source)
+  ((object initializers) source)
   (multiple-value-bind (value present-p)
-      (gethash "partition" source)
+      (gethash "pending" source)
     (when present-p
-      (setf (slot-value object 'partition)
-            (decode-object (cons "integer" "int32") value)))))
-
-
-(defclass deployment-strategy
-          (resource)
-          ((rolling-update
-            :initarg
-            :rolling-update
-            :type
-            (or rolling-update-deployment null)
-            :documentation
-            "Rolling update config params. Present only if DeploymentStrategyType = RollingUpdate.")
-           (type
-            :initarg
-            :type
-            :type
-            (or string null)
-            :documentation
-            "Type of deployment. Can be \"Recreate\" or \"RollingUpdate\". Default is RollingUpdate."))
-          (:documentation
-           "DeploymentStrategy describes how to replace existing pods with new ones."))
-
-(defmethod unmarshal
-  ((object deployment-strategy) source)
+      (setf (slot-value object 'pending)
+            (decode-object (cons "array" "Initializer") value))))
   (multiple-value-bind (value present-p)
-      (gethash "rollingUpdate" source)
+      (gethash "result" source)
     (when present-p
-      (setf (slot-value object 'rolling-update)
-            (decode-object "RollingUpdateDeployment" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value)))))
+      (setf (slot-value object 'result)
+            (decode-object "Status" value)))))
 
 
 (defclass env-from-source
@@ -15354,70 +15334,77 @@ The contents of the target Secret's Data field will represent the key-value pair
             (decode-object "string" value)))))
 
 
-(defclass initializers
+(defclass deployment-strategy
           (resource)
-          ((pending
+          ((rolling-update
             :initarg
-            :pending
+            :rolling-update
             :type
-            list
+            (or rolling-update-deployment null)
             :documentation
-            "Pending is a list of initializers that must execute in order before this object is visible. When the last pending initializer is removed, and no failing result is set, the initializers struct will be set to nil and the object is considered as initialized and visible to all clients.")
-           (result
+            "Rolling update config params. Present only if DeploymentStrategyType = RollingUpdate.")
+           (type
             :initarg
-            :result
             :type
-            (or status null)
-            :documentation
-            "If result is set with the Failure field, the object will be persisted to storage and then deleted, ensuring that other clients can observe the deletion."))
-          (:documentation
-           "Initializers tracks the progress of initialization."))
-
-(defmethod unmarshal
-  ((object initializers) source)
-  (multiple-value-bind (value present-p)
-      (gethash "pending" source)
-    (when present-p
-      (setf (slot-value object 'pending)
-            (decode-object (cons "array" "Initializer") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "result" source)
-    (when present-p
-      (setf (slot-value object 'result)
-            (decode-object "Status" value)))))
-
-
-(defclass empty-dir-volume-source
-          (resource)
-          ((size-limit
-            :initarg
-            :size-limit
             :type
             (or string null)
             :documentation
-            "Total amount of local storage required for this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. The default is nil which means that the limit is undefined. More info: http://kubernetes.io/docs/user-guide/volumes#emptydir")
-           (medium
-            :initarg
-            :medium
-            :type
-            (or string null)
-            :documentation
-            "What type of storage medium should back this directory. The default is \"\" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir"))
+            "Type of deployment. Can be \"Recreate\" or \"RollingUpdate\". Default is RollingUpdate."))
           (:documentation
-           "Represents an empty directory for a pod. Empty directory volumes support ownership management and SELinux relabeling."))
+           "DeploymentStrategy describes how to replace existing pods with new ones."))
 
 (defmethod unmarshal
-  ((object empty-dir-volume-source) source)
+  ((object deployment-strategy) source)
   (multiple-value-bind (value present-p)
-      (gethash "sizeLimit" source)
+      (gethash "rollingUpdate" source)
     (when present-p
-      (setf (slot-value object 'size-limit)
-            (decode-object "string" value))))
+      (setf (slot-value object 'rolling-update)
+            (decode-object "RollingUpdateDeployment" value))))
   (multiple-value-bind (value present-p)
-      (gethash "medium" source)
+      (gethash "type" source)
     (when present-p
-      (setf (slot-value object 'medium)
-            (decode-object "string" value)))))
+      (setf (slot-value object 'type) (decode-object "string" value)))))
+
+
+(defclass rolling-update-stateful-set-strategy
+          (resource)
+          ((partition
+            :initarg
+            :partition
+            :type
+            (or integer null)
+            :documentation
+            "Partition indicates the ordinal at which the StatefulSet should be partitioned. Default value is 0."))
+          (:documentation
+           "RollingUpdateStatefulSetStrategy is used to communicate parameter for RollingUpdateStatefulSetStrategyType."))
+
+(defmethod unmarshal
+  ((object rolling-update-stateful-set-strategy) source)
+  (multiple-value-bind (value present-p)
+      (gethash "partition" source)
+    (when present-p
+      (setf (slot-value object 'partition)
+            (decode-object (cons "integer" "int32") value)))))
+
+
+(defclass initializer
+          (resource)
+          ((name
+            :initarg
+            :name
+            :type
+            string
+            :documentation
+            "name of the process that is responsible for initializing this object."))
+          (:documentation
+           "Initializer is information about an initializer that has not yet completed."))
+
+(defmethod unmarshal
+  ((object initializer) source)
+  (multiple-value-bind (value present-p)
+      (gethash "name" source)
+    (when present-p
+      (setf (slot-value object 'name) (decode-object "string" value)))))
 
 
 (defclass secret-projection
@@ -15466,160 +15453,37 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object (cons "array" "KeyToPath") value)))))
 
 
-(defclass initializer
+(defclass empty-dir-volume-source
           (resource)
-          ((name
+          ((size-limit
             :initarg
-            :name
-            :type
-            string
-            :documentation
-            "name of the process that is responsible for initializing this object."))
-          (:documentation
-           "Initializer is information about an initializer that has not yet completed."))
-
-(defmethod unmarshal
-  ((object initializer) source)
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value)))))
-
-
-(defclass scale-status
-          (resource)
-          ((selector
-            :initarg
-            :selector
+            :size-limit
             :type
             (or string null)
             :documentation
-            "label query over pods that should match the replicas count. This is same as the label selector but in the string format to avoid introspection by clients. The string will be in the same format as the query-param syntax. More info about label selectors: http://kubernetes.io/docs/user-guide/labels#label-selectors")
-           (replicas
+            "Total amount of local storage required for this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. The default is nil which means that the limit is undefined. More info: http://kubernetes.io/docs/user-guide/volumes#emptydir")
+           (medium
             :initarg
-            :replicas
+            :medium
             :type
-            integer
+            (or string null)
             :documentation
-            "actual number of observed instances of the scaled object."))
+            "What type of storage medium should back this directory. The default is \"\" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir"))
           (:documentation
-           "ScaleStatus represents the current status of a scale subresource."))
+           "Represents an empty directory for a pod. Empty directory volumes support ownership management and SELinux relabeling."))
 
 (defmethod unmarshal
-  ((object scale-status) source)
+  ((object empty-dir-volume-source) source)
   (multiple-value-bind (value present-p)
-      (gethash "selector" source)
+      (gethash "sizeLimit" source)
     (when present-p
-      (setf (slot-value object 'selector)
+      (setf (slot-value object 'size-limit)
             (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
+      (gethash "medium" source)
     (when present-p
-      (setf (slot-value object 'replicas)
-            (decode-object (cons "integer" "int32") value)))))
-
-
-(defclass deployment
-          (resource)
-          ((api-version :initform "apps/v1" :allocation :class)
-           (kind :initform "Deployment" :allocation :class)
-           (status
-            :initarg
-            :status
-            :type
-            (or deployment-status null)
-            :documentation
-            "Most recently observed status of the Deployment.")
-           (spec
-            :initarg
-            :spec
-            :type
-            (or deployment-spec null)
-            :documentation
-            "Specification of the desired behavior of the Deployment.")
-           (metadata
-            :initarg
-            :metadata
-            :type
-            (or object-meta null)
-            :documentation
-            "Standard object metadata."))
-          (:documentation
-           "Deployment enables declarative updates for Pods and ReplicaSets."))
-
-(defmethod unmarshal
-  ((object deployment) source)
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-            (decode-object "DeploymentStatus" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec)
-            (decode-object "DeploymentSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata)
-            (decode-object "ObjectMeta" value)))))
-
-
-(defclass pod-dns-config
-          (resource)
-          ((searches
-            :initarg
-            :searches
-            :type
-            list
-            :documentation
-            "A list of DNS search domains for host-name lookup. This will be appended to the base search paths generated from DNSPolicy. Duplicated search paths will be removed.")
-           (options
-            :initarg
-            :options
-            :type
-            list
-            :documentation
-            "A list of DNS resolver options. This will be merged with the base options generated from DNSPolicy. Duplicated entries will be removed. Resolution options given in Options will override those that appear in the base DNSPolicy.")
-           (nameservers
-            :initarg
-            :nameservers
-            :type
-            list
-            :documentation
-            "A list of DNS name server IP addresses. This will be appended to the base nameservers generated from DNSPolicy. Duplicated nameservers will be removed."))
-          (:documentation
-           "PodDNSConfig defines the DNS parameters of a pod in addition to those generated from DNSPolicy."))
-
-(defmethod unmarshal
-  ((object pod-dns-config) source)
-  (multiple-value-bind (value present-p)
-      (gethash "searches" source)
-    (when present-p
-      (setf (slot-value object 'searches)
-            (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "options" source)
-    (when present-p
-      (setf (slot-value object 'options)
-            (decode-object
-             (cons "array" "PodDNSConfigOption")
-             value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nameservers" source)
-    (when present-p
-      (setf (slot-value object 'nameservers)
-            (decode-object (cons "array" "string") value)))))
+      (setf (slot-value object 'medium)
+            (decode-object "string" value)))))
 
 
 (defclass pod-security-context
@@ -15705,6 +15569,142 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object (cons "integer" "int64") value)))))
 
 
+(defclass pod-dns-config
+          (resource)
+          ((searches
+            :initarg
+            :searches
+            :type
+            list
+            :documentation
+            "A list of DNS search domains for host-name lookup. This will be appended to the base search paths generated from DNSPolicy. Duplicated search paths will be removed.")
+           (options
+            :initarg
+            :options
+            :type
+            list
+            :documentation
+            "A list of DNS resolver options. This will be merged with the base options generated from DNSPolicy. Duplicated entries will be removed. Resolution options given in Options will override those that appear in the base DNSPolicy.")
+           (nameservers
+            :initarg
+            :nameservers
+            :type
+            list
+            :documentation
+            "A list of DNS name server IP addresses. This will be appended to the base nameservers generated from DNSPolicy. Duplicated nameservers will be removed."))
+          (:documentation
+           "PodDNSConfig defines the DNS parameters of a pod in addition to those generated from DNSPolicy."))
+
+(defmethod unmarshal
+  ((object pod-dns-config) source)
+  (multiple-value-bind (value present-p)
+      (gethash "searches" source)
+    (when present-p
+      (setf (slot-value object 'searches)
+            (decode-object (cons "array" "string") value))))
+  (multiple-value-bind (value present-p)
+      (gethash "options" source)
+    (when present-p
+      (setf (slot-value object 'options)
+            (decode-object
+             (cons "array" "PodDNSConfigOption")
+             value))))
+  (multiple-value-bind (value present-p)
+      (gethash "nameservers" source)
+    (when present-p
+      (setf (slot-value object 'nameservers)
+            (decode-object (cons "array" "string") value)))))
+
+
+(defclass deployment
+          (resource)
+          ((api-version :initform "apps/v1" :allocation :class)
+           (kind :initform "Deployment" :allocation :class)
+           (status
+            :initarg
+            :status
+            :type
+            (or deployment-status null)
+            :documentation
+            "Most recently observed status of the Deployment.")
+           (spec
+            :initarg
+            :spec
+            :type
+            (or deployment-spec null)
+            :documentation
+            "Specification of the desired behavior of the Deployment.")
+           (metadata
+            :initarg
+            :metadata
+            :type
+            (or object-meta null)
+            :documentation
+            "Standard object metadata."))
+          (:documentation
+           "Deployment enables declarative updates for Pods and ReplicaSets."))
+
+(defmethod unmarshal
+  ((object deployment) source)
+  (multiple-value-bind (value present-p)
+      (gethash "kind" source)
+    (when present-p
+      (setf (slot-value object 'kind) (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "status" source)
+    (when present-p
+      (setf (slot-value object 'status)
+            (decode-object "DeploymentStatus" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "spec" source)
+    (when present-p
+      (setf (slot-value object 'spec)
+            (decode-object "DeploymentSpec" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "apiVersion" source)
+    (when present-p
+      (setf (slot-value object 'api-version)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "metadata" source)
+    (when present-p
+      (setf (slot-value object 'metadata)
+            (decode-object "ObjectMeta" value)))))
+
+
+(defclass scale-status
+          (resource)
+          ((selector
+            :initarg
+            :selector
+            :type
+            (or string null)
+            :documentation
+            "label query over pods that should match the replicas count. This is same as the label selector but in the string format to avoid introspection by clients. The string will be in the same format as the query-param syntax. More info about label selectors: http://kubernetes.io/docs/user-guide/labels#label-selectors")
+           (replicas
+            :initarg
+            :replicas
+            :type
+            integer
+            :documentation
+            "actual number of observed instances of the scaled object."))
+          (:documentation
+           "ScaleStatus represents the current status of a scale subresource."))
+
+(defmethod unmarshal
+  ((object scale-status) source)
+  (multiple-value-bind (value present-p)
+      (gethash "selector" source)
+    (when present-p
+      (setf (slot-value object 'selector)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "replicas" source)
+    (when present-p
+      (setf (slot-value object 'replicas)
+            (decode-object (cons "integer" "int32") value)))))
+
+
 (defclass downward-api-volume-source
           (resource)
           ((default-mode
@@ -15770,6 +15770,75 @@ The contents of the target Secret's Data field will be presented in a projected 
     (when present-p
       (setf (slot-value object 'type)
             (decode-object "HostPathType" value)))))
+
+
+(defclass volume-device
+          (resource)
+          ((device-path
+            :initarg
+            :device-path
+            :type
+            string
+            :documentation
+            "devicePath is the path inside of the container that the device will be mapped to.")
+           (name
+            :initarg
+            :name
+            :type
+            string
+            :documentation
+            "name must match the name of a persistentVolumeClaim in the pod"))
+          (:documentation
+           "volumeDevice describes a mapping of a raw block device within a container."))
+
+(defmethod unmarshal
+  ((object volume-device) source)
+  (multiple-value-bind (value present-p)
+      (gethash "devicePath" source)
+    (when present-p
+      (setf (slot-value object 'device-path)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "name" source)
+    (when present-p
+      (setf (slot-value object 'name) (decode-object "string" value)))))
+
+
+(defclass node-selector-term
+          (resource)
+          ((match-fields
+            :initarg
+            :match-fields
+            :type
+            list
+            :documentation
+            "A list of node selector requirements by node's fields.")
+           (match-expressions
+            :initarg
+            :match-expressions
+            :type
+            list
+            :documentation
+            "A list of node selector requirements by node's labels."))
+          (:documentation
+           "A null or empty node selector term matches no objects. The requirements of them are ANDed."))
+
+(defmethod unmarshal
+  ((object node-selector-term) source)
+  (multiple-value-bind (value present-p)
+      (gethash "matchFields" source)
+    (when present-p
+      (setf (slot-value object 'match-fields)
+            (decode-object
+             (cons "array" "NodeSelectorRequirement")
+             value))))
+  (multiple-value-bind (value present-p)
+      (gethash "matchExpressions" source)
+    (when present-p
+      (setf (slot-value object 'match-expressions)
+            (decode-object
+             (cons "array" "NodeSelectorRequirement")
+             value)))))
 
 
 (defclass stateful-set-status
@@ -15891,110 +15960,53 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object (cons "integer" "int32") value)))))
 
 
-(defclass node-selector-term
-          (resource)
-          ((match-fields
-            :initarg
-            :match-fields
-            :type
-            list
-            :documentation
-            "A list of node selector requirements by node's fields.")
-           (match-expressions
-            :initarg
-            :match-expressions
-            :type
-            list
-            :documentation
-            "A list of node selector requirements by node's labels."))
-          (:documentation
-           "A null or empty node selector term matches no objects. The requirements of them are ANDed."))
-
-(defmethod unmarshal
-  ((object node-selector-term) source)
-  (multiple-value-bind (value present-p)
-      (gethash "matchFields" source)
-    (when present-p
-      (setf (slot-value object 'match-fields)
-            (decode-object
-             (cons "array" "NodeSelectorRequirement")
-             value))))
-  (multiple-value-bind (value present-p)
-      (gethash "matchExpressions" source)
-    (when present-p
-      (setf (slot-value object 'match-expressions)
-            (decode-object
-             (cons "array" "NodeSelectorRequirement")
-             value)))))
-
-
-(defclass volume-device
-          (resource)
-          ((device-path
-            :initarg
-            :device-path
-            :type
-            string
-            :documentation
-            "devicePath is the path inside of the container that the device will be mapped to.")
-           (name
-            :initarg
-            :name
-            :type
-            string
-            :documentation
-            "name must match the name of a persistentVolumeClaim in the pod"))
-          (:documentation
-           "volumeDevice describes a mapping of a raw block device within a container."))
-
-(defmethod unmarshal
-  ((object volume-device) source)
-  (multiple-value-bind (value present-p)
-      (gethash "devicePath" source)
-    (when present-p
-      (setf (slot-value object 'device-path)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value)))))
-
-
 (defclass azure-data-disk-kind (resource) nil (:documentation nil))
 
 (defmethod unmarshal ((object azure-data-disk-kind) source))
 
 
-(defclass stateful-set-update-strategy
+(defclass glusterfs-volume-source
           (resource)
-          ((rolling-update
+          ((path
             :initarg
-            :rolling-update
+            :path
             :type
-            (or rolling-update-stateful-set-strategy null)
+            string
             :documentation
-            "RollingUpdate is used to communicate parameters when Type is RollingUpdateStatefulSetStrategyType.")
-           (type
+            "Path is the Glusterfs volume path. More info: https://releases.k8s.io/HEAD/examples/volumes/glusterfs/README.md#create-a-pod")
+           (read-only
             :initarg
+            :read-only
             :type
-            :type
-            (or string null)
+            (or boolean null)
             :documentation
-            "Type indicates the type of the StatefulSetUpdateStrategy. Default is RollingUpdate."))
+            "ReadOnly here will force the Glusterfs volume to be mounted with read-only permissions. Defaults to false. More info: https://releases.k8s.io/HEAD/examples/volumes/glusterfs/README.md#create-a-pod")
+           (endpoints
+            :initarg
+            :endpoints
+            :type
+            string
+            :documentation
+            "EndpointsName is the endpoint name that details Glusterfs topology. More info: https://releases.k8s.io/HEAD/examples/volumes/glusterfs/README.md#create-a-pod"))
           (:documentation
-           "StatefulSetUpdateStrategy indicates the strategy that the StatefulSet controller will use to perform updates. It includes any additional parameters necessary to perform the update for the indicated strategy."))
+           "Represents a Glusterfs mount that lasts the lifetime of a pod. Glusterfs volumes do not support ownership management or SELinux relabeling."))
 
 (defmethod unmarshal
-  ((object stateful-set-update-strategy) source)
+  ((object glusterfs-volume-source) source)
   (multiple-value-bind (value present-p)
-      (gethash "rollingUpdate" source)
+      (gethash "path" source)
     (when present-p
-      (setf (slot-value object 'rolling-update)
-            (decode-object "RollingUpdateStatefulSetStrategy" value))))
+      (setf (slot-value object 'path) (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "type" source)
+      (gethash "readOnly" source)
     (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value)))))
+      (setf (slot-value object 'read-only)
+            (decode-object "boolean" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "endpoints" source)
+    (when present-p
+      (setf (slot-value object 'endpoints)
+            (decode-object "string" value)))))
 
 
 (defclass volume-mount
@@ -16065,48 +16077,36 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object "MountPropagationMode" value)))))
 
 
-(defclass glusterfs-volume-source
+(defclass stateful-set-update-strategy
           (resource)
-          ((path
+          ((rolling-update
             :initarg
-            :path
+            :rolling-update
             :type
-            string
+            (or rolling-update-stateful-set-strategy null)
             :documentation
-            "Path is the Glusterfs volume path. More info: https://releases.k8s.io/HEAD/examples/volumes/glusterfs/README.md#create-a-pod")
-           (read-only
+            "RollingUpdate is used to communicate parameters when Type is RollingUpdateStatefulSetStrategyType.")
+           (type
             :initarg
-            :read-only
             :type
-            (or boolean null)
-            :documentation
-            "ReadOnly here will force the Glusterfs volume to be mounted with read-only permissions. Defaults to false. More info: https://releases.k8s.io/HEAD/examples/volumes/glusterfs/README.md#create-a-pod")
-           (endpoints
-            :initarg
-            :endpoints
             :type
-            string
+            (or string null)
             :documentation
-            "EndpointsName is the endpoint name that details Glusterfs topology. More info: https://releases.k8s.io/HEAD/examples/volumes/glusterfs/README.md#create-a-pod"))
+            "Type indicates the type of the StatefulSetUpdateStrategy. Default is RollingUpdate."))
           (:documentation
-           "Represents a Glusterfs mount that lasts the lifetime of a pod. Glusterfs volumes do not support ownership management or SELinux relabeling."))
+           "StatefulSetUpdateStrategy indicates the strategy that the StatefulSet controller will use to perform updates. It includes any additional parameters necessary to perform the update for the indicated strategy."))
 
 (defmethod unmarshal
-  ((object glusterfs-volume-source) source)
+  ((object stateful-set-update-strategy) source)
   (multiple-value-bind (value present-p)
-      (gethash "path" source)
+      (gethash "rollingUpdate" source)
     (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
+      (setf (slot-value object 'rolling-update)
+            (decode-object "RollingUpdateStatefulSetStrategy" value))))
   (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
+      (gethash "type" source)
     (when present-p
-      (setf (slot-value object 'read-only)
-            (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "endpoints" source)
-    (when present-p
-      (setf (slot-value object 'endpoints)
-            (decode-object "string" value)))))
+      (setf (slot-value object 'type) (decode-object "string" value)))))
 
 
 (defclass scale-spec
@@ -16128,6 +16128,39 @@ The contents of the target Secret's Data field will be presented in a projected 
     (when present-p
       (setf (slot-value object 'replicas)
             (decode-object (cons "integer" "int32") value)))))
+
+
+(defclass photon-persistent-disk-volume-source
+          (resource)
+          ((pd-id
+            :initarg
+            :pd-id
+            :type
+            string
+            :documentation
+            "ID that identifies Photon Controller persistent disk")
+           (fs-type
+            :initarg
+            :fs-type
+            :type
+            (or string null)
+            :documentation
+            "Filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified."))
+          (:documentation
+           "Represents a Photon Controller persistent disk resource."))
+
+(defmethod unmarshal
+  ((object photon-persistent-disk-volume-source) source)
+  (multiple-value-bind (value present-p)
+      (gethash "pdID" source)
+    (when present-p
+      (setf (slot-value object 'pd-id)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "fsType" source)
+    (when present-p
+      (setf (slot-value object 'fs-type)
+            (decode-object "string" value)))))
 
 
 (defclass pod-affinity
@@ -16168,37 +16201,54 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object (cons "array" "PodAffinityTerm") value)))))
 
 
-(defclass photon-persistent-disk-volume-source
+(defclass resource-field-selector
           (resource)
-          ((pd-id
+          ((container-name
             :initarg
-            :pd-id
-            :type
-            string
-            :documentation
-            "ID that identifies Photon Controller persistent disk")
-           (fs-type
-            :initarg
-            :fs-type
+            :container-name
             :type
             (or string null)
             :documentation
-            "Filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified."))
+            "Container name: required for volumes, optional for env vars")
+           (resource
+            :initarg
+            :resource
+            :type
+            string
+            :documentation
+            "Required: resource to select")
+           (divisor
+            :initarg
+            :divisor
+            :type
+            (or string null)
+            :documentation
+            "Specifies the output format of the exposed resources, defaults to \"1\""))
           (:documentation
-           "Represents a Photon Controller persistent disk resource."))
+           "ResourceFieldSelector represents container resources (cpu, memory) and their output format"))
 
 (defmethod unmarshal
-  ((object photon-persistent-disk-volume-source) source)
+  ((object resource-field-selector) source)
   (multiple-value-bind (value present-p)
-      (gethash "pdID" source)
+      (gethash "containerName" source)
     (when present-p
-      (setf (slot-value object 'pd-id)
+      (setf (slot-value object 'container-name)
             (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
+      (gethash "resource" source)
     (when present-p
-      (setf (slot-value object 'fs-type)
+      (setf (slot-value object 'resource)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "divisor" source)
+    (when present-p
+      (setf (slot-value object 'divisor)
             (decode-object "string" value)))))
+
+
+(defclass capability (resource) nil (:documentation nil))
+
+(defmethod unmarshal ((object capability) source))
 
 
 (defclass daemon-set-status
@@ -16330,56 +16380,6 @@ The contents of the target Secret's Data field will be presented in a projected 
     (when present-p
       (setf (slot-value object 'collision-count)
             (decode-object (cons "integer" "int32") value)))))
-
-
-(defclass capability (resource) nil (:documentation nil))
-
-(defmethod unmarshal ((object capability) source))
-
-
-(defclass resource-field-selector
-          (resource)
-          ((container-name
-            :initarg
-            :container-name
-            :type
-            (or string null)
-            :documentation
-            "Container name: required for volumes, optional for env vars")
-           (resource
-            :initarg
-            :resource
-            :type
-            string
-            :documentation
-            "Required: resource to select")
-           (divisor
-            :initarg
-            :divisor
-            :type
-            (or string null)
-            :documentation
-            "Specifies the output format of the exposed resources, defaults to \"1\""))
-          (:documentation
-           "ResourceFieldSelector represents container resources (cpu, memory) and their output format"))
-
-(defmethod unmarshal
-  ((object resource-field-selector) source)
-  (multiple-value-bind (value present-p)
-      (gethash "containerName" source)
-    (when present-p
-      (setf (slot-value object 'container-name)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resource" source)
-    (when present-p
-      (setf (slot-value object 'resource)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "divisor" source)
-    (when present-p
-      (setf (slot-value object 'divisor)
-            (decode-object "string" value)))))
 
 
 (defclass cinder-volume-source
@@ -16707,6 +16707,11 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object (cons "array" "string") value)))))
 
 
+(defclass mount-propagation-mode (resource) nil (:documentation nil))
+
+(defmethod unmarshal ((object mount-propagation-mode) source))
+
+
 (defclass pod-affinity-term
           (resource)
           ((topology-key
@@ -16752,11 +16757,6 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object (cons "array" "string") value)))))
 
 
-(defclass mount-propagation-mode (resource) nil (:documentation nil))
-
-(defmethod unmarshal ((object mount-propagation-mode) source))
-
-
 (defclass persistent-volume-mode (resource) nil (:documentation nil))
 
 (defmethod unmarshal ((object persistent-volume-mode) source))
@@ -16780,6 +16780,14 @@ The contents of the target Secret's Data field will be presented in a projected 
       (gethash "name" source)
     (when present-p
       (setf (slot-value object 'name) (decode-object "string" value)))))
+
+
+(defclass azure-data-disk-caching-mode
+          (resource)
+          nil
+          (:documentation nil))
+
+(defmethod unmarshal ((object azure-data-disk-caching-mode) source))
 
 
 (defclass status
@@ -16874,14 +16882,6 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object "ListMeta" value)))))
 
 
-(defclass azure-data-disk-caching-mode
-          (resource)
-          nil
-          (:documentation nil))
-
-(defmethod unmarshal ((object azure-data-disk-caching-mode) source))
-
-
 (defclass node-selector-requirement
           (resource)
           ((key
@@ -16923,98 +16923,6 @@ The contents of the target Secret's Data field will be presented in a projected 
     (when present-p
       (setf (slot-value object 'operator)
             (decode-object "string" value)))))
-
-
-(defclass persistent-volume-claim-status
-          (resource)
-          ((conditions
-            :initarg
-            :conditions
-            :type
-            list
-            :documentation
-            "Current Condition of persistent volume claim. If underlying persistent volume is being resized then the Condition will be set to 'ResizeStarted'.")
-           (phase :initarg
-                  :phase
-                  :type
-                  (or string null)
-                  :documentation
-                  "Phase represents the current phase of PersistentVolumeClaim.")
-           (capacity
-            :initarg
-            :capacity
-            :type
-            (or hash-table null)
-            :documentation
-            "Represents the actual resources of the underlying volume.")
-           (access-modes
-            :initarg
-            :access-modes
-            :type
-            list
-            :documentation
-            "AccessModes contains the actual access modes the volume backing the PVC has. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1"))
-          (:documentation
-           "PersistentVolumeClaimStatus is the current status of a persistent volume claim."))
-
-(defmethod unmarshal
-  ((object persistent-volume-claim-status) source)
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-            (decode-object
-             (cons "array" "PersistentVolumeClaimCondition")
-             value))))
-  (multiple-value-bind (value present-p)
-      (gethash "phase" source)
-    (when present-p
-      (setf (slot-value object 'phase)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "capacity" source)
-    (when present-p
-      (setf (slot-value object 'capacity)
-            (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "accessModes" source)
-    (when present-p
-      (setf (slot-value object 'access-modes)
-            (decode-object
-             (cons "array" "PersistentVolumeAccessMode")
-             value)))))
-
-
-(defclass projected-volume-source
-          (resource)
-          ((default-mode
-            :initarg
-            :default-mode
-            :type
-            (or integer null)
-            :documentation
-            "Mode bits to use on created files by default. Must be a value between 0 and 0777. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.")
-           (sources
-            :initarg
-            :sources
-            :type
-            list
-            :documentation
-            "list of volume projections"))
-          (:documentation "Represents a projected volume source"))
-
-(defmethod unmarshal
-  ((object projected-volume-source) source)
-  (multiple-value-bind (value present-p)
-      (gethash "defaultMode" source)
-    (when present-p
-      (setf (slot-value object 'default-mode)
-            (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "sources" source)
-    (when present-p
-      (setf (slot-value object 'sources)
-            (decode-object (cons "array" "VolumeProjection") value)))))
 
 
 (defclass storage-os-volume-source
@@ -17084,6 +16992,98 @@ The contents of the target Secret's Data field will be presented in a projected 
     (when present-p
       (setf (slot-value object 'fs-type)
             (decode-object "string" value)))))
+
+
+(defclass projected-volume-source
+          (resource)
+          ((default-mode
+            :initarg
+            :default-mode
+            :type
+            (or integer null)
+            :documentation
+            "Mode bits to use on created files by default. Must be a value between 0 and 0777. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.")
+           (sources
+            :initarg
+            :sources
+            :type
+            list
+            :documentation
+            "list of volume projections"))
+          (:documentation "Represents a projected volume source"))
+
+(defmethod unmarshal
+  ((object projected-volume-source) source)
+  (multiple-value-bind (value present-p)
+      (gethash "defaultMode" source)
+    (when present-p
+      (setf (slot-value object 'default-mode)
+            (decode-object (cons "integer" "int32") value))))
+  (multiple-value-bind (value present-p)
+      (gethash "sources" source)
+    (when present-p
+      (setf (slot-value object 'sources)
+            (decode-object (cons "array" "VolumeProjection") value)))))
+
+
+(defclass persistent-volume-claim-status
+          (resource)
+          ((conditions
+            :initarg
+            :conditions
+            :type
+            list
+            :documentation
+            "Current Condition of persistent volume claim. If underlying persistent volume is being resized then the Condition will be set to 'ResizeStarted'.")
+           (phase :initarg
+                  :phase
+                  :type
+                  (or string null)
+                  :documentation
+                  "Phase represents the current phase of PersistentVolumeClaim.")
+           (capacity
+            :initarg
+            :capacity
+            :type
+            (or hash-table null)
+            :documentation
+            "Represents the actual resources of the underlying volume.")
+           (access-modes
+            :initarg
+            :access-modes
+            :type
+            list
+            :documentation
+            "AccessModes contains the actual access modes the volume backing the PVC has. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1"))
+          (:documentation
+           "PersistentVolumeClaimStatus is the current status of a persistent volume claim."))
+
+(defmethod unmarshal
+  ((object persistent-volume-claim-status) source)
+  (multiple-value-bind (value present-p)
+      (gethash "conditions" source)
+    (when present-p
+      (setf (slot-value object 'conditions)
+            (decode-object
+             (cons "array" "PersistentVolumeClaimCondition")
+             value))))
+  (multiple-value-bind (value present-p)
+      (gethash "phase" source)
+    (when present-p
+      (setf (slot-value object 'phase)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "capacity" source)
+    (when present-p
+      (setf (slot-value object 'capacity)
+            (decode-object "object" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "accessModes" source)
+    (when present-p
+      (setf (slot-value object 'access-modes)
+            (decode-object
+             (cons "array" "PersistentVolumeAccessMode")
+             value)))))
 
 
 (defclass status-details
@@ -17955,72 +17955,58 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object "string" value)))))
 
 
-(defclass persistent-volume-claim-condition
+(defclass se-linux-options
           (resource)
-          ((message
+          ((level
             :initarg
-            :message
+            :level
             :type
             (or string null)
             :documentation
-            "Human-readable message indicating details about last transition.")
-           (last-probe-time
+            "Level is SELinux level label that applies to the container.")
+           (type
             :initarg
-            :last-probe-time
+            :type
             :type
             (or string null)
             :documentation
-            "Last time we probed the condition.")
-           (last-transition-time
+            "Type is a SELinux type label that applies to the container.")
+           (role
             :initarg
-            :last-transition-time
+            :role
             :type
             (or string null)
             :documentation
-            "Last time the condition transitioned from one status to another.")
-           (type :initarg :type :type string :documentation nil)
-           (status :initarg :status :type string :documentation nil)
-           (reason
+            "Role is a SELinux role label that applies to the container.")
+           (user
             :initarg
-            :reason
+            :user
             :type
             (or string null)
             :documentation
-            "Unique, this should be a short, machine understandable string that gives the reason for condition's last transition. If it reports \"ResizeStarted\" that means the underlying persistent volume is being resized."))
+            "User is a SELinux user label that applies to the container."))
           (:documentation
-           "PersistentVolumeClaimCondition contails details about state of pvc"))
+           "SELinuxOptions are the labels to be applied to the container"))
 
 (defmethod unmarshal
-  ((object persistent-volume-claim-condition) source)
+  ((object se-linux-options) source)
   (multiple-value-bind (value present-p)
-      (gethash "message" source)
+      (gethash "level" source)
     (when present-p
-      (setf (slot-value object 'message)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastProbeTime" source)
-    (when present-p
-      (setf (slot-value object 'last-probe-time)
-            (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
+      (setf (slot-value object 'level)
             (decode-object "string" value))))
   (multiple-value-bind (value present-p)
       (gethash "type" source)
     (when present-p
       (setf (slot-value object 'type) (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "status" source)
+      (gethash "role" source)
     (when present-p
-      (setf (slot-value object 'status)
-            (decode-object "string" value))))
+      (setf (slot-value object 'role) (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "reason" source)
+      (gethash "user" source)
     (when present-p
-      (setf (slot-value object 'reason)
-            (decode-object "string" value)))))
+      (setf (slot-value object 'user) (decode-object "string" value)))))
 
 
 (defclass deployment-status
@@ -18130,58 +18116,72 @@ The contents of the target Secret's Data field will be presented in a projected 
             (decode-object (cons "integer" "int32") value)))))
 
 
-(defclass se-linux-options
+(defclass persistent-volume-claim-condition
           (resource)
-          ((level
+          ((message
             :initarg
-            :level
+            :message
             :type
             (or string null)
             :documentation
-            "Level is SELinux level label that applies to the container.")
-           (type
+            "Human-readable message indicating details about last transition.")
+           (last-probe-time
             :initarg
-            :type
+            :last-probe-time
             :type
             (or string null)
             :documentation
-            "Type is a SELinux type label that applies to the container.")
-           (role
+            "Last time we probed the condition.")
+           (last-transition-time
             :initarg
-            :role
+            :last-transition-time
             :type
             (or string null)
             :documentation
-            "Role is a SELinux role label that applies to the container.")
-           (user
+            "Last time the condition transitioned from one status to another.")
+           (type :initarg :type :type string :documentation nil)
+           (status :initarg :status :type string :documentation nil)
+           (reason
             :initarg
-            :user
+            :reason
             :type
             (or string null)
             :documentation
-            "User is a SELinux user label that applies to the container."))
+            "Unique, this should be a short, machine understandable string that gives the reason for condition's last transition. If it reports \"ResizeStarted\" that means the underlying persistent volume is being resized."))
           (:documentation
-           "SELinuxOptions are the labels to be applied to the container"))
+           "PersistentVolumeClaimCondition contails details about state of pvc"))
 
 (defmethod unmarshal
-  ((object se-linux-options) source)
+  ((object persistent-volume-claim-condition) source)
   (multiple-value-bind (value present-p)
-      (gethash "level" source)
+      (gethash "message" source)
     (when present-p
-      (setf (slot-value object 'level)
+      (setf (slot-value object 'message)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "lastProbeTime" source)
+    (when present-p
+      (setf (slot-value object 'last-probe-time)
+            (decode-object "string" value))))
+  (multiple-value-bind (value present-p)
+      (gethash "lastTransitionTime" source)
+    (when present-p
+      (setf (slot-value object 'last-transition-time)
             (decode-object "string" value))))
   (multiple-value-bind (value present-p)
       (gethash "type" source)
     (when present-p
       (setf (slot-value object 'type) (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "role" source)
+      (gethash "status" source)
     (when present-p
-      (setf (slot-value object 'role) (decode-object "string" value))))
+      (setf (slot-value object 'status)
+            (decode-object "string" value))))
   (multiple-value-bind (value present-p)
-      (gethash "user" source)
+      (gethash "reason" source)
     (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value)))))
+      (setf (slot-value object 'reason)
+            (decode-object "string" value)))))
 
 
 (defclass pod-spec

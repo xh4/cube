@@ -14,8 +14,9 @@
   (check-type pretty (or string null))
   (check-type binding binding)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/bindings" namespace))
          (query nil))
     (when pretty
@@ -23,9 +24,10 @@
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -82,8 +84,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/componentstatuses")
          (query nil))
     (when pretty
@@ -118,9 +121,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -150,8 +154,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type pretty (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/componentstatuses/~A" name))
          (query nil))
     (when pretty
@@ -159,9 +164,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -220,8 +226,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/configmaps" namespace))
          (query nil))
@@ -257,9 +264,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -291,8 +299,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type config-map config-map)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/configmaps" namespace))
          (query nil))
@@ -301,9 +310,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -363,8 +373,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/configmaps" namespace))
          (query nil))
@@ -400,9 +411,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -461,8 +473,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/configmaps"
@@ -500,9 +513,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -542,8 +556,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/configmaps/~A"
@@ -559,9 +574,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -597,8 +613,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type config-map config-map)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/configmaps/~A"
@@ -610,9 +627,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -649,8 +667,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/configmaps/~A"
@@ -662,9 +681,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -712,8 +732,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/configmaps/~A"
@@ -737,9 +758,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -803,8 +825,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/configmaps/~A"
@@ -843,9 +866,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -900,8 +924,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/configmaps")
          (query nil))
     (when pretty
@@ -936,9 +961,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -993,8 +1019,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/configmaps")
          (query nil))
     (when pretty
@@ -1029,9 +1056,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1090,8 +1118,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/endpoints" namespace))
          (query nil))
@@ -1127,9 +1156,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1161,8 +1191,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type endpoints endpoints)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/endpoints" namespace))
          (query nil))
@@ -1171,9 +1202,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1233,8 +1265,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/endpoints" namespace))
          (query nil))
@@ -1270,9 +1303,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1331,8 +1365,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/endpoints"
@@ -1370,9 +1405,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1412,8 +1448,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/endpoints/~A"
@@ -1429,9 +1466,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1467,8 +1505,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type endpoints endpoints)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/endpoints/~A"
@@ -1480,9 +1519,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1519,8 +1559,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/endpoints/~A"
@@ -1532,9 +1573,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1582,8 +1624,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/endpoints/~A"
@@ -1607,9 +1650,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1673,8 +1717,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/endpoints/~A"
@@ -1713,9 +1758,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1770,8 +1816,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/endpoints")
          (query nil))
     (when pretty
@@ -1806,9 +1853,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1863,8 +1911,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/endpoints")
          (query nil))
     (when pretty
@@ -1899,9 +1948,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -1960,8 +2010,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/events" namespace))
          (query nil))
     (when pretty
@@ -1996,9 +2047,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2030,8 +2082,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type event event)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/events" namespace))
          (query nil))
     (when pretty
@@ -2039,9 +2092,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2101,8 +2155,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/events" namespace))
          (query nil))
     (when pretty
@@ -2137,9 +2192,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2198,8 +2254,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/watch/namespaces/~A/events" namespace))
          (query nil))
@@ -2235,9 +2292,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2276,8 +2334,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/events/~A"
@@ -2293,9 +2352,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2330,8 +2390,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type event event)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/events/~A"
@@ -2343,9 +2404,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2382,8 +2444,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/events/~A"
@@ -2395,9 +2458,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2445,8 +2509,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/events/~A"
@@ -2470,9 +2535,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2536,8 +2602,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/events/~A"
@@ -2576,9 +2643,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2633,8 +2701,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/events")
          (query nil))
     (when pretty
@@ -2669,9 +2738,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2726,8 +2796,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/events")
          (query nil))
     (when pretty
@@ -2762,9 +2833,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2823,8 +2895,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/limitranges" namespace))
          (query nil))
@@ -2860,9 +2933,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2895,8 +2969,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type limit-range limit-range)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/limitranges" namespace))
          (query nil))
@@ -2905,9 +2980,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -2967,8 +3043,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/limitranges" namespace))
          (query nil))
@@ -3004,9 +3081,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3065,8 +3143,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/limitranges"
@@ -3104,9 +3183,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3146,8 +3226,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/limitranges/~A"
@@ -3163,9 +3244,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3201,8 +3283,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit-range limit-range)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/limitranges/~A"
@@ -3214,9 +3297,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3253,8 +3337,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/limitranges/~A"
@@ -3266,9 +3351,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3316,8 +3402,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/limitranges/~A"
@@ -3341,9 +3428,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3407,8 +3495,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/limitranges/~A"
@@ -3447,9 +3536,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3504,8 +3594,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/limitranges")
          (query nil))
     (when pretty
@@ -3540,9 +3631,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3597,8 +3689,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/limitranges")
          (query nil))
     (when pretty
@@ -3633,9 +3726,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3690,8 +3784,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/namespaces")
          (query nil))
     (when pretty
@@ -3726,9 +3821,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3757,8 +3853,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type pretty (or string null))
   (check-type namespace namespace)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/namespaces")
          (query nil))
     (when pretty
@@ -3766,9 +3863,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3825,8 +3923,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/namespaces")
          (query nil))
     (when pretty
@@ -3861,9 +3960,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3899,8 +3999,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A" name))
          (query nil))
     (when pretty
@@ -3912,9 +4013,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3946,8 +4048,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace namespace)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A" name))
          (query nil))
     (when pretty
@@ -3955,9 +4058,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -3991,8 +4095,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A" name))
          (query nil))
     (when pretty
@@ -4000,9 +4105,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4047,8 +4153,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type orphan-dependents (or boolean null))
   (check-type propagation-policy (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A" name))
          (query nil))
     (when pretty
@@ -4068,9 +4175,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4131,8 +4239,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/watch/namespaces/~A" name))
          (query nil))
     (when pretty
@@ -4167,9 +4276,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4202,8 +4312,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace namespace)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/finalize" name))
          (query nil))
     (when pretty
@@ -4211,9 +4322,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4245,8 +4357,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type pretty (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/status" name))
          (query nil))
     (when pretty
@@ -4254,9 +4367,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4288,8 +4402,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace namespace)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/status" name))
          (query nil))
     (when pretty
@@ -4297,9 +4412,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4333,8 +4449,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/status" name))
          (query nil))
     (when pretty
@@ -4342,9 +4459,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4401,8 +4519,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/nodes")
          (query nil))
     (when pretty
@@ -4437,9 +4556,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4468,8 +4588,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type pretty (or string null))
   (check-type node node)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/nodes")
          (query nil))
     (when pretty
@@ -4477,9 +4598,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4535,8 +4657,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/nodes")
          (query nil))
     (when pretty
@@ -4571,9 +4694,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4628,8 +4752,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/nodes")
          (query nil))
     (when pretty
@@ -4664,9 +4789,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4702,8 +4828,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A" name))
          (query nil))
     (when pretty
@@ -4715,9 +4842,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4749,8 +4877,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type node node)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A" name))
          (query nil))
     (when pretty
@@ -4758,9 +4887,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4794,8 +4924,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A" name))
          (query nil))
     (when pretty
@@ -4803,9 +4934,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4850,8 +4982,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type orphan-dependents (or boolean null))
   (check-type propagation-policy (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A" name))
          (query nil))
     (when pretty
@@ -4871,9 +5004,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -4934,8 +5068,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/watch/nodes/~A" name))
          (query nil))
     (when pretty
@@ -4970,9 +5105,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5002,8 +5138,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type path (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy" name))
          (query nil))
     (when path
@@ -5011,9 +5148,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5042,8 +5180,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type path (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy" name))
          (query nil))
     (when path
@@ -5051,9 +5190,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5082,8 +5222,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type path (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy" name))
          (query nil))
     (when path
@@ -5091,9 +5232,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5122,8 +5264,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type path (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy" name))
          (query nil))
     (when path
@@ -5131,9 +5274,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5162,8 +5306,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type path (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy" name))
          (query nil))
     (when path
@@ -5171,9 +5316,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5202,8 +5348,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type path (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy" name))
          (query nil))
     (when path
@@ -5211,9 +5358,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5242,8 +5390,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type path (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy" name))
          (query nil))
     (when path
@@ -5251,9 +5400,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5286,8 +5436,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy/~A" name path))
          (query nil))
     (when path
@@ -5295,9 +5446,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5329,8 +5481,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy/~A" name path))
          (query nil))
     (when path
@@ -5338,9 +5491,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5372,8 +5526,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy/~A" name path))
          (query nil))
     (when path
@@ -5381,9 +5536,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5415,8 +5571,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy/~A" name path))
          (query nil))
     (when path
@@ -5424,9 +5581,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5458,8 +5616,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy/~A" name path))
          (query nil))
     (when path
@@ -5467,9 +5626,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5501,8 +5661,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy/~A" name path))
          (query nil))
     (when path
@@ -5510,9 +5671,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5544,8 +5706,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/proxy/~A" name path))
          (query nil))
     (when path
@@ -5553,9 +5716,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5585,8 +5749,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type pretty (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/status" name))
          (query nil))
     (when pretty
@@ -5594,9 +5759,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5628,8 +5794,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type node node)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/status" name))
          (query nil))
     (when pretty
@@ -5637,9 +5804,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5673,8 +5841,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/nodes/~A/status" name))
          (query nil))
     (when pretty
@@ -5682,9 +5851,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5745,8 +5915,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims"
@@ -5784,9 +5955,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5819,8 +5991,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type persistent-volume-claim persistent-volume-claim)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims"
@@ -5831,9 +6004,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5893,8 +6067,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims"
@@ -5932,9 +6107,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -5993,8 +6169,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/persistentvolumeclaims"
@@ -6032,9 +6209,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6074,8 +6252,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims/~A"
@@ -6091,9 +6270,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6129,8 +6309,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type persistent-volume-claim persistent-volume-claim)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims/~A"
@@ -6142,9 +6323,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6182,8 +6364,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims/~A"
@@ -6195,9 +6378,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6245,8 +6429,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims/~A"
@@ -6270,9 +6455,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6336,8 +6522,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/persistentvolumeclaims/~A"
@@ -6376,9 +6563,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6433,8 +6621,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/persistentvolumeclaims")
          (query nil))
     (when pretty
@@ -6469,9 +6658,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6526,8 +6716,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/persistentvolumeclaims")
          (query nil))
     (when pretty
@@ -6562,9 +6753,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6598,8 +6790,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims/~A/status"
@@ -6611,9 +6804,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6649,8 +6843,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type persistent-volume-claim persistent-volume-claim)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims/~A/status"
@@ -6662,9 +6857,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6702,8 +6898,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/persistentvolumeclaims/~A/status"
@@ -6715,9 +6912,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6774,8 +6972,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/persistentvolumes")
          (query nil))
     (when pretty
@@ -6810,9 +7009,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6841,8 +7041,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type pretty (or string null))
   (check-type persistent-volume persistent-volume)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/persistentvolumes")
          (query nil))
     (when pretty
@@ -6850,9 +7051,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -6908,8 +7110,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/persistentvolumes")
          (query nil))
     (when pretty
@@ -6944,9 +7147,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7001,8 +7205,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/persistentvolumes")
          (query nil))
     (when pretty
@@ -7037,9 +7242,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7075,8 +7281,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/persistentvolumes/~A" name))
          (query nil))
     (when pretty
@@ -7088,9 +7295,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7122,8 +7330,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type persistent-volume persistent-volume)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/persistentvolumes/~A" name))
          (query nil))
     (when pretty
@@ -7131,9 +7340,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7167,8 +7377,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/persistentvolumes/~A" name))
          (query nil))
     (when pretty
@@ -7176,9 +7387,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7223,8 +7435,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type orphan-dependents (or boolean null))
   (check-type propagation-policy (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/persistentvolumes/~A" name))
          (query nil))
     (when pretty
@@ -7244,9 +7457,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7307,8 +7521,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/watch/persistentvolumes/~A" name))
          (query nil))
     (when pretty
@@ -7343,9 +7558,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7375,8 +7591,9 @@ The server guarantees that the objects returned when using continue will be iden
 "
   (check-type pretty (or string null))
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/persistentvolumes/~A/status" name))
          (query nil))
     (when pretty
@@ -7384,9 +7601,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7419,8 +7637,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type persistent-volume persistent-volume)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/persistentvolumes/~A/status" name))
          (query nil))
     (when pretty
@@ -7428,9 +7647,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7464,8 +7684,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/persistentvolumes/~A/status" name))
          (query nil))
     (when pretty
@@ -7473,9 +7694,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7536,8 +7758,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/pods" namespace))
          (query nil))
     (when pretty
@@ -7572,9 +7795,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7606,8 +7830,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type pod pod)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/pods" namespace))
          (query nil))
     (when pretty
@@ -7615,9 +7840,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7677,8 +7903,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/pods" namespace))
          (query nil))
     (when pretty
@@ -7713,9 +7940,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7774,8 +8002,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/watch/namespaces/~A/pods" namespace))
          (query nil))
@@ -7811,9 +8040,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7852,8 +8082,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/pods/~A" namespace name))
          (query nil))
@@ -7866,9 +8097,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7903,8 +8135,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pod pod)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/pods/~A" namespace name))
          (query nil))
@@ -7913,9 +8146,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -7952,8 +8186,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/pods/~A" namespace name))
          (query nil))
@@ -7962,9 +8197,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8012,8 +8248,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/pods/~A" namespace name))
          (query nil))
@@ -8034,9 +8271,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8100,8 +8338,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/pods/~A"
@@ -8140,9 +8379,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8197,8 +8437,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/pods")
          (query nil))
     (when pretty
@@ -8233,9 +8474,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8290,8 +8532,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/pods")
          (query nil))
     (when pretty
@@ -8326,9 +8569,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8374,8 +8618,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type container (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/attach"
@@ -8395,9 +8640,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8442,8 +8688,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type container (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/attach"
@@ -8463,9 +8710,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8502,8 +8750,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type binding binding)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/binding"
@@ -8515,9 +8764,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8556,8 +8806,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type eviction eviction)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/eviction"
@@ -8569,9 +8820,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8622,8 +8874,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type command (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/exec"
@@ -8645,9 +8898,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8695,8 +8949,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type command (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/exec"
@@ -8718,9 +8973,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8776,8 +9032,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit-bytes (or integer null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/log"
@@ -8811,9 +9068,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8847,8 +9105,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type ports (or integer null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/portforward"
@@ -8860,9 +9119,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8895,8 +9155,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type ports (or integer null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/portforward"
@@ -8908,9 +9169,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8943,8 +9205,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy"
@@ -8956,9 +9219,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -8990,8 +9254,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy"
@@ -9003,9 +9268,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9037,8 +9303,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy"
@@ -9050,9 +9317,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9084,8 +9352,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy"
@@ -9097,9 +9366,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9131,8 +9401,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy"
@@ -9144,9 +9415,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9178,8 +9450,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy"
@@ -9191,9 +9464,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9225,8 +9499,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy"
@@ -9238,9 +9513,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9277,8 +9553,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy/~A"
@@ -9291,9 +9568,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9329,8 +9607,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy/~A"
@@ -9343,9 +9622,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9381,8 +9661,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy/~A"
@@ -9395,9 +9676,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9433,8 +9715,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy/~A"
@@ -9447,9 +9730,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9485,8 +9769,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy/~A"
@@ -9499,9 +9784,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9537,8 +9823,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy/~A"
@@ -9551,9 +9838,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9589,8 +9877,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/proxy/~A"
@@ -9603,9 +9892,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9638,8 +9928,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/status"
@@ -9651,9 +9942,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9688,8 +9980,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pod pod)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/status"
@@ -9701,9 +9994,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9740,8 +10034,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/pods/~A/status"
@@ -9753,9 +10048,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9816,8 +10112,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/podtemplates" namespace))
          (query nil))
@@ -9853,9 +10150,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9888,8 +10186,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type pod-template pod-template)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/podtemplates" namespace))
          (query nil))
@@ -9898,9 +10197,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -9960,8 +10260,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/namespaces/~A/podtemplates" namespace))
          (query nil))
@@ -9997,9 +10298,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10058,8 +10360,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/podtemplates"
@@ -10097,9 +10400,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10139,8 +10443,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/podtemplates/~A"
@@ -10156,9 +10461,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10194,8 +10500,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pod-template pod-template)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/podtemplates/~A"
@@ -10207,9 +10514,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10246,8 +10554,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/podtemplates/~A"
@@ -10259,9 +10568,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10309,8 +10619,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/podtemplates/~A"
@@ -10334,9 +10645,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10400,8 +10712,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/podtemplates/~A"
@@ -10440,9 +10753,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10497,8 +10811,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/podtemplates")
          (query nil))
     (when pretty
@@ -10533,9 +10848,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10590,8 +10906,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/podtemplates")
          (query nil))
     (when pretty
@@ -10626,9 +10943,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10687,8 +11005,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers"
@@ -10726,9 +11045,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10761,8 +11081,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type replication-controller replication-controller)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers"
@@ -10773,9 +11094,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10835,8 +11157,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers"
@@ -10874,9 +11197,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -10935,8 +11259,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/replicationcontrollers"
@@ -10974,9 +11299,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11016,8 +11342,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A"
@@ -11033,9 +11360,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11071,8 +11399,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type replication-controller replication-controller)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A"
@@ -11084,9 +11413,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11124,8 +11454,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A"
@@ -11137,9 +11468,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11187,8 +11519,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A"
@@ -11212,9 +11545,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11278,8 +11612,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/replicationcontrollers/~A"
@@ -11318,9 +11653,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11375,8 +11711,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/replicationcontrollers")
          (query nil))
     (when pretty
@@ -11411,9 +11748,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11468,8 +11806,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/replicationcontrollers")
          (query nil))
     (when pretty
@@ -11504,9 +11843,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11540,8 +11880,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A/scale"
@@ -11553,9 +11894,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11591,8 +11933,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type scale scale)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A/scale"
@@ -11604,9 +11947,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11644,8 +11988,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A/scale"
@@ -11657,9 +12002,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11695,8 +12041,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A/status"
@@ -11708,9 +12055,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11746,8 +12094,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type replication-controller replication-controller)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A/status"
@@ -11759,9 +12108,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11799,8 +12149,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/replicationcontrollers/~A/status"
@@ -11812,9 +12163,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11875,8 +12227,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas"
@@ -11914,9 +12267,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -11949,8 +12303,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type resource-quota resource-quota)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas"
@@ -11961,9 +12316,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12023,8 +12379,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas"
@@ -12062,9 +12419,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12123,8 +12481,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/resourcequotas"
@@ -12162,9 +12521,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12204,8 +12564,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas/~A"
@@ -12221,9 +12582,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12259,8 +12621,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type resource-quota resource-quota)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas/~A"
@@ -12272,9 +12635,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12312,8 +12676,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas/~A"
@@ -12325,9 +12690,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12375,8 +12741,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas/~A"
@@ -12400,9 +12767,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12466,8 +12834,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/resourcequotas/~A"
@@ -12506,9 +12875,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12563,8 +12933,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/resourcequotas")
          (query nil))
     (when pretty
@@ -12599,9 +12970,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12656,8 +13028,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/resourcequotas")
          (query nil))
     (when pretty
@@ -12692,9 +13065,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12728,8 +13102,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas/~A/status"
@@ -12741,9 +13116,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12779,8 +13155,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type resource-quota resource-quota)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas/~A/status"
@@ -12792,9 +13169,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12832,8 +13210,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/resourcequotas/~A/status"
@@ -12845,9 +13224,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12908,8 +13288,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/secrets" namespace))
          (query nil))
     (when pretty
@@ -12944,9 +13325,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -12978,8 +13360,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type secret secret)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/secrets" namespace))
          (query nil))
     (when pretty
@@ -12987,9 +13370,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13049,8 +13433,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/secrets" namespace))
          (query nil))
     (when pretty
@@ -13085,9 +13470,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13146,8 +13532,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil "/api/v1/watch/namespaces/~A/secrets" namespace))
          (query nil))
@@ -13183,9 +13570,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13224,8 +13612,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/secrets/~A"
@@ -13241,9 +13630,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13278,8 +13668,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type secret secret)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/secrets/~A"
@@ -13291,9 +13682,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13330,8 +13722,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/secrets/~A"
@@ -13343,9 +13736,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13393,8 +13787,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/secrets/~A"
@@ -13418,9 +13813,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13484,8 +13880,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/secrets/~A"
@@ -13524,9 +13921,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13581,8 +13979,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/secrets")
          (query nil))
     (when pretty
@@ -13617,9 +14016,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13674,8 +14074,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/secrets")
          (query nil))
     (when pretty
@@ -13710,9 +14111,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13771,8 +14173,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/serviceaccounts"
@@ -13810,9 +14213,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13845,8 +14249,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type service-account service-account)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/serviceaccounts"
@@ -13857,9 +14262,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -13919,8 +14325,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/serviceaccounts"
@@ -13958,9 +14365,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14019,8 +14427,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/serviceaccounts"
@@ -14058,9 +14467,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14100,8 +14510,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/serviceaccounts/~A"
@@ -14117,9 +14528,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14155,8 +14567,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type service-account service-account)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/serviceaccounts/~A"
@@ -14168,9 +14581,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14208,8 +14622,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/serviceaccounts/~A"
@@ -14221,9 +14636,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14271,8 +14687,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/serviceaccounts/~A"
@@ -14296,9 +14713,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14362,8 +14780,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/serviceaccounts/~A"
@@ -14402,9 +14821,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14459,8 +14879,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/serviceaccounts")
          (query nil))
     (when pretty
@@ -14495,9 +14916,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14552,8 +14974,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/serviceaccounts")
          (query nil))
     (when pretty
@@ -14588,9 +15011,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14649,8 +15073,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/services" namespace))
          (query nil))
     (when pretty
@@ -14685,9 +15110,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14719,8 +15145,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type service service)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path (format nil "/api/v1/namespaces/~A/services" namespace))
          (query nil))
     (when pretty
@@ -14728,9 +15155,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14791,8 +15219,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/services"
@@ -14830,9 +15259,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14872,8 +15302,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A"
@@ -14889,9 +15320,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14926,8 +15358,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type service service)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A"
@@ -14939,9 +15372,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -14978,8 +15412,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A"
@@ -14991,9 +15426,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15041,8 +15477,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A"
@@ -15066,9 +15503,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15132,8 +15570,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/watch/namespaces/~A/services/~A"
@@ -15172,9 +15611,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15229,8 +15669,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/services")
          (query nil))
     (when pretty
@@ -15265,9 +15706,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15322,8 +15764,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1/watch/services")
          (query nil))
     (when pretty
@@ -15358,9 +15801,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15393,8 +15837,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy"
@@ -15406,9 +15851,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15440,8 +15886,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy"
@@ -15453,9 +15900,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15487,8 +15935,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy"
@@ -15500,9 +15949,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15535,8 +15985,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy"
@@ -15548,9 +15999,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15583,8 +16035,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy"
@@ -15596,9 +16049,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15630,8 +16084,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy"
@@ -15643,9 +16098,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15678,8 +16134,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy"
@@ -15691,9 +16148,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15730,8 +16188,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy/~A"
@@ -15744,9 +16203,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15782,8 +16242,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy/~A"
@@ -15796,9 +16257,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15834,8 +16296,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy/~A"
@@ -15848,9 +16311,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15886,8 +16350,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy/~A"
@@ -15900,9 +16365,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15938,8 +16404,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy/~A"
@@ -15952,9 +16419,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -15990,8 +16458,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy/~A"
@@ -16004,9 +16473,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16042,8 +16512,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type namespace string)
   (check-type name string)
   (check-type path string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/proxy/~A"
@@ -16056,9 +16527,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16091,8 +16563,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/status"
@@ -16104,9 +16577,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16142,8 +16616,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type service service)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/status"
@@ -16155,9 +16630,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16195,8 +16671,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/api/v1/namespaces/~A/services/~A/status"
@@ -16208,9 +16685,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16235,16 +16713,18 @@ The server guarantees that the objects returned when using continue will be iden
 
 (defun get-api-resources ()
   "get available resources"
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/api/v1")
          (query nil))
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16303,8 +16783,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/controllerrevisions"
@@ -16342,9 +16823,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16377,8 +16859,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type controller-revision controller-revision)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/controllerrevisions"
@@ -16389,9 +16872,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16451,8 +16935,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/controllerrevisions"
@@ -16490,9 +16975,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16551,8 +17037,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/controllerrevisions"
@@ -16590,9 +17077,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16632,8 +17120,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/controllerrevisions/~A"
@@ -16649,9 +17138,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16687,8 +17177,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type controller-revision controller-revision)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/controllerrevisions/~A"
@@ -16700,9 +17191,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16740,8 +17232,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/controllerrevisions/~A"
@@ -16753,9 +17246,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16803,8 +17297,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/controllerrevisions/~A"
@@ -16828,9 +17323,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16894,8 +17390,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/controllerrevisions/~A"
@@ -16934,9 +17431,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -16991,8 +17489,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/controllerrevisions")
          (query nil))
     (when pretty
@@ -17027,9 +17526,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17084,8 +17584,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/watch/controllerrevisions")
          (query nil))
     (when pretty
@@ -17120,9 +17621,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17181,8 +17683,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets"
@@ -17220,9 +17723,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17254,8 +17758,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type daemon-set daemon-set)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets"
@@ -17266,9 +17771,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17328,8 +17834,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets"
@@ -17367,9 +17874,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17428,8 +17936,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/daemonsets"
@@ -17467,9 +17976,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17509,8 +18019,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets/~A"
@@ -17526,9 +18037,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17564,8 +18076,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type daemon-set daemon-set)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets/~A"
@@ -17577,9 +18090,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17616,8 +18130,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets/~A"
@@ -17629,9 +18144,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17679,8 +18195,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets/~A"
@@ -17704,9 +18221,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17770,8 +18288,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/daemonsets/~A"
@@ -17810,9 +18329,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17867,8 +18387,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/daemonsets")
          (query nil))
     (when pretty
@@ -17903,9 +18424,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -17960,8 +18482,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/watch/daemonsets")
          (query nil))
     (when pretty
@@ -17996,9 +18519,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18031,8 +18555,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets/~A/status"
@@ -18044,9 +18569,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18082,8 +18608,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type daemon-set daemon-set)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets/~A/status"
@@ -18095,9 +18622,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18135,8 +18663,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/daemonsets/~A/status"
@@ -18148,9 +18677,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18211,8 +18741,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments"
@@ -18250,9 +18781,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18284,8 +18816,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type deployment deployment)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments"
@@ -18296,9 +18829,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18358,8 +18892,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments"
@@ -18397,9 +18932,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18458,8 +18994,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/deployments"
@@ -18497,9 +19034,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18539,8 +19077,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A"
@@ -18556,9 +19095,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18594,8 +19134,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type deployment deployment)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A"
@@ -18607,9 +19148,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18646,8 +19188,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A"
@@ -18659,9 +19202,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18709,8 +19253,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A"
@@ -18734,9 +19279,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18800,8 +19346,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/deployments/~A"
@@ -18840,9 +19387,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18897,8 +19445,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/deployments")
          (query nil))
     (when pretty
@@ -18933,9 +19482,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -18990,8 +19540,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/watch/deployments")
          (query nil))
     (when pretty
@@ -19026,9 +19577,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19061,8 +19613,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A/scale"
@@ -19074,9 +19627,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19112,8 +19666,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type scale scale)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A/scale"
@@ -19125,9 +19680,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19165,8 +19721,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A/scale"
@@ -19178,9 +19735,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19215,8 +19773,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A/status"
@@ -19228,9 +19787,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19266,8 +19826,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type deployment deployment)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A/status"
@@ -19279,9 +19840,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19319,8 +19881,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/deployments/~A/status"
@@ -19332,9 +19895,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19395,8 +19959,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets"
@@ -19434,9 +19999,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19469,8 +20035,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type replica-set replica-set)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets"
@@ -19481,9 +20048,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19543,8 +20111,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets"
@@ -19582,9 +20151,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19643,8 +20213,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/replicasets"
@@ -19682,9 +20253,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19724,8 +20296,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A"
@@ -19741,9 +20314,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19779,8 +20353,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type replica-set replica-set)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A"
@@ -19792,9 +20367,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19831,8 +20407,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A"
@@ -19844,9 +20421,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19894,8 +20472,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A"
@@ -19919,9 +20498,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -19985,8 +20565,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/replicasets/~A"
@@ -20025,9 +20606,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20082,8 +20664,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/replicasets")
          (query nil))
     (when pretty
@@ -20118,9 +20701,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20175,8 +20759,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/watch/replicasets")
          (query nil))
     (when pretty
@@ -20211,9 +20796,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20246,8 +20832,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A/scale"
@@ -20259,9 +20846,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20297,8 +20885,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type scale scale)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A/scale"
@@ -20310,9 +20899,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20350,8 +20940,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A/scale"
@@ -20363,9 +20954,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20400,8 +20992,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A/status"
@@ -20413,9 +21006,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20451,8 +21045,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type replica-set replica-set)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A/status"
@@ -20464,9 +21059,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20504,8 +21100,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/replicasets/~A/status"
@@ -20517,9 +21114,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20580,8 +21178,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets"
@@ -20619,9 +21218,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20654,8 +21254,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type stateful-set stateful-set)
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets"
@@ -20666,9 +21267,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20728,8 +21330,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets"
@@ -20767,9 +21370,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20828,8 +21432,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type limit (or integer null))
   (check-type continue (or string null))
   (check-type namespace string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/statefulsets"
@@ -20867,9 +21472,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20909,8 +21515,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type exact (or boolean null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A"
@@ -20926,9 +21533,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -20964,8 +21572,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type stateful-set stateful-set)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A"
@@ -20977,9 +21586,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21016,8 +21626,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A"
@@ -21029,9 +21640,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21079,8 +21691,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type propagation-policy (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A"
@@ -21104,9 +21717,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21170,8 +21784,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type continue (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/watch/namespaces/~A/statefulsets/~A"
@@ -21210,9 +21825,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21267,8 +21883,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/statefulsets")
          (query nil))
     (when pretty
@@ -21303,9 +21920,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21360,8 +21978,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type timeout-seconds (or integer null))
   (check-type limit (or integer null))
   (check-type continue (or string null))
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1/watch/statefulsets")
          (query nil))
     (when pretty
@@ -21396,9 +22015,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21431,8 +22051,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A/scale"
@@ -21444,9 +22065,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21482,8 +22104,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type scale scale)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A/scale"
@@ -21495,9 +22118,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21535,8 +22159,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A/scale"
@@ -21548,9 +22173,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21585,8 +22211,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A/status"
@@ -21598,9 +22225,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21636,8 +22264,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type stateful-set stateful-set)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A/status"
@@ -21649,9 +22278,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21689,8 +22319,9 @@ The server guarantees that the objects returned when using continue will be iden
   (check-type patch patch)
   (check-type namespace string)
   (check-type name string)
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path
           (format nil
                   "/apis/apps/v1/namespaces/~A/statefulsets/~A/status"
@@ -21702,9 +22333,10 @@ The server guarantees that the objects returned when using continue will be iden
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
@@ -21729,16 +22361,18 @@ The server guarantees that the objects returned when using continue will be iden
 
 (defun get-api-resources ()
   "get available resources"
-  (let* ((scheme "http")
-         (host "localhost:8080")
+  (let* ((scheme *api-endpoint-scheme*)
+         (host *api-endpoint-host*)
+         (port *api-endpoint-port*)
          (path "/apis/apps/v1")
          (query nil))
     (let* ((query-string (quri.encode:url-encode-params query))
            (url
             (format nil
-                    "~A://~A~A~:[~;?~A~]"
+                    "~A://~A:~D~A~:[~;?~A~]"
                     scheme
                     host
+                    port
                     path
                     query
                     query-string)))
