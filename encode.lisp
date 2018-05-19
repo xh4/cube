@@ -239,6 +239,22 @@ Return a string with the generated JSON output."
        (write-indentation *json-output*)
        (write-delimiter ,end-char *json-output*))))
 
+(defmacro with-object/stream ((begin-char end-char) &body body)
+  "Set up context for object serialization for the stream encoder."
+  `(progn
+     (unless (boundp '*json-output*)
+       (error 'no-json-output-context))
+     (write-indentation *json-output*)
+     (write-delimiter ,begin-char *json-output*)
+     (change-indentation *json-output* #'+)
+     (push nil (stack *json-output*))
+     (prog1
+         (progn ,@body)
+       (pop (stack *json-output*))
+       (change-indentation *json-output* #'-)
+       (write-indentation *json-output*)
+       (write-delimiter ,end-char *json-output*))))
+
 (defmacro with-array (() &body body)
   "Open a JSON array, then run BODY.  Inside the body,
 ENCODE-ARRAY-ELEMENT must be called to encode elements to the opened
@@ -251,7 +267,7 @@ WITH-OUTPUT and WITH-OUTPUT-TO-STRING*."
 ENCODE-OBJECT-ELEMENT or WITH-OBJECT-ELEMENT must be called to encode
 elements to the object.  Must be called within an existing JSON
 encoder context, see WITH-OUTPUT and WITH-OUTPUT-TO-STRING*."
-  `(with-aggregate/stream (#\{ #\}) ,@body))
+  `(with-object/stream (#\{ #\}) ,@body))
 
 (defun encode-array-element (object)
   "Encode OBJECT as next array element to the last JSON array opened
