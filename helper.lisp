@@ -18,9 +18,15 @@
       (ref
        (let* ((class-symbol (symbolize ref))
               (instance (make-instance class-symbol)))
-         (unmarshal instance object)
-         instanceo)))))
+         (unmarshal object instance)
+         instance)))))
 
-(defgeneric marshal (stream object))
+(defgeneric marshal (stream object &key pretty))
 
 (defgeneric unmarshal (source object))
+
+(defmethod marshal (stream object &key (pretty nil))
+  (yason:with-output (stream :indent pretty)
+    (yason:encode object stream)))
+
+(defgeneric watch (stream))

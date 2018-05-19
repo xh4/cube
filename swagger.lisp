@@ -2,7 +2,6 @@
 
 (ql:quickload '(:alexandria
                 :optima.ppcre
-                :cl-json
                 :yason
                 :cl-change-case
                 :drakma
@@ -41,12 +40,12 @@
   #p"/Users/kevin/db.vision/cube/operations.lisp")
 
 (defclass parameter ()
-  ((name :initarg :name)
-   (type :initarg :type)
-   (param-type :initarg :param-type)
-   (description :initarg :description)
-   (required :initarg :required)
-   (allow-multiple :initarg :allow-multiple)))
+  ((name :initarg :name :accessor parameter-name)
+   (type :initarg :type :accessor parameter-type)
+   (param-type :initarg :param-type :accessor parameter-param-type)
+   (description :initarg :description :accessor parameter-description)
+   (required :initarg :required :accessor parameter-required)
+   (allow-multiple :initarg :allow-multiple :accessor parameter-allow-multiple)))
 
 (defclass response ()
   ((code :initarg :code)
@@ -251,10 +250,16 @@
                when (not (find (slot-value property 'name) '("apiVersion" "kind") :test 'equal))
                collect
                  (generate property)))
-        (:documentation ,class-documentation))
+        ,@(when class-documentation
+            `((:documentation ,class-documentation))))
 
-      (defmethod marshal (stream (object ,class-symbol))
-        )
+      (defmethod yason:encode ((,class-symbol ,class-symbol) &optional (stream *standard-output*))
+        (yason:with-object ()
+          ,@(loop for property in (slot-value model 'properties)
+               collect
+                 `(when (slot-boundp ,class-symbol ',(symbolize (slot-value property 'name)))
+                    (yason:encode-object-element ,(slot-value property 'name)
+                                                 (slot-value ,class-symbol ',(symbolize (slot-value property 'name))))))))
 
       (defmethod unmarshal ((source hash-table) (object ,class-symbol))
         ,@(loop for property in (slot-value model 'properties)
@@ -306,57 +311,86 @@
        do (setf path (regex-replace placeholder path "~A")))
     `(format nil ,path ,@(mapcar #'cdr arguments))))
 
+(defun parameter-conflict-p (parameter1 parameter2)
+  (equal (parameter-name parameter1)
+         (parameter-name parameter2)))
+
+(defun find-duplicated-parameters (parameters)
+  (loop for p1 in parameters
+     for i from 0
+     do
+       (when (> (length parameters) i)
+         (loop for p2 in (subseq parameters (1+ i))
+            do
+              (when (parameter-conflict-p p1 p2)
+                (return-from find-duplicated-parameters (values p1 p2)))))))
+
+(defun resolve-duplicated-parameters (parameters)
+  (loop for (p1 p2) = (multiple-value-list (find-duplicated-parameters parameters))
+     while p1
+     do
+       (progn
+         (setf (parameter-name p1) (format nil "~A~D" (parameter-name p1) 1))
+         (setf (parameter-name p2) (format nil "~A~D" (parameter-name p2) 2)))))
+
 (defmethod generate ((operation operation))
   (let* ((function-symbol (symbolize (slot-value operation 'nickname)))
          (parameters (slot-value operation 'parameters))
-         (required-parameters (remove-if-not (lambda (p) (slot-value p 'required)) parameters))
-         (optional-parameters (remove-if (lambda (p) (slot-value p 'required)) parameters))
-         (argument-list (make-argument-list required-parameters optional-parameters))
-         (path (slot-value operation 'path))
-         (path-paramters (remove-if-not
-                          (lambda (p)
-                            (equal (slot-value p 'param-type) "path"))
-                          parameters))
-         (query-parameters (remove-if-not
-                            (lambda (p)
-                              (equal (slot-value p 'param-type) "query"))
-                            parameters))
-         (body-parameter (first (remove-if-not
-                                 (lambda (p)
-                                   (equal (slot-value p 'param-type) "body"))
-                                 parameters))))
-    `(defun ,function-symbol ,argument-list
-       ,(make-operation-doc operation)
-       ,@(loop for param in parameters
-            collect (make-check-type-for-parameter param))
-       (let* ((scheme *api-endpoint-scheme*)
-              (host *api-endpoint-host*)
-              (port *api-endpoint-port*)
-              (path ,(if path-paramters
-                         (make-path-format path)
-                         path))
-              (query nil))
-         ,@(loop for param in query-parameters
-              collect `(when ,(symbolize-parameter param)
-                         (alexandria:appendf query
-                                             (list (cons ,(slot-value param 'name)
-                                                         ,(symbolize-parameter param))))))
-         (let* ((query-string (quri:url-encode-params query))
-                (url (format nil "~A://~A:~D~A~:[~;?~A~]" scheme host port path query query-string)))
-           (multiple-value-bind (stream status-code headers)
-               (drakma:http-request url
-                                    :method ,(intern (slot-value operation 'method) :keyword)
-                                    :connection-timeout 5
-                                    :read-timeout 5
-                                    :want-stream t
-                                    ,@(when body-parameter
-                                        `(:content (json:encode-json ,(symbolize-parameter body-parameter)))))
-             (let* ((response (alexandria::read-stream-content-into-string stream))
-                    (object (yason:parse response)))
-               (format t "~A~%" response)
-               ,(match (slot-value operation 'type)
-                 ((ppcre "(.*)\\.(.*)" version type)
-                  `(decode-object ,type object))))))))))
+         (path (slot-value operation 'path)))
+
+    (resolve-duplicated-parameters parameters)
+
+    (let* ((required-parameters (remove-if-not #'parameter-required parameters))
+           (optional-parameters (remove-if #'parameter-required parameters))
+           (path-parameters (remove-if-not
+                             (lambda (p)
+                               (equal (parameter-param-type p) "path"))
+                             parameters))
+           (query-parameters (remove-if-not
+                              (lambda (p)
+                                (equal (parameter-param-type p) "query"))
+                              parameters))
+           (body-parameter (first (remove-if-not
+                                   (lambda (p)
+                                     (equal (parameter-param-type p) "body"))
+                                   parameters)))
+           (argument-list (make-argument-list required-parameters optional-parameters)))
+      `(defun ,function-symbol ,argument-list
+         ,(make-operation-doc operation)
+         ,@(loop for param in parameters
+              collect (make-check-type-for-parameter param))
+         (let* ((scheme *api-endpoint-scheme*)
+                (host *api-endpoint-host*)
+                (port *api-endpoint-port*)
+                (path ,(if path-parameters
+                           (make-path-format path)
+                           path))
+                (query nil))
+           ,@(loop for param in query-parameters
+                collect `(when ,(symbolize-parameter param)
+                           (alexandria:appendf query
+                                               (list (cons ,(slot-value param 'name)
+                                                           ,(symbolize-parameter param))))))
+           (let* ((query-string (quri:url-encode-params query))
+                  (url (format nil "~A://~A:~D~A~:[~;?~A~]" scheme host port path query query-string)))
+             (multiple-value-bind (stream status-code headers)
+                 (drakma:http-request url
+                                      :method ,(intern (slot-value operation 'method) :keyword)
+                                      :content-type "application/json"
+                                      :connection-timeout 5
+                                      ;; :read-timeout 5
+                                      :want-stream t
+                                      :ca-file *cluster-certificate-authority*
+                                      :certificate *client-certificate*
+                                      :key *client-key*
+                                      ,@(when body-parameter
+                                          `(:content (with-output-to-string (s)
+                                                       (marshal s ,(symbolize-parameter body-parameter))))))
+               ,(if (equal (slot-value operation 'type) "v1.WatchEvent")
+                   'stream
+                   `(let* ((response (alexandria::read-stream-content-into-string stream))
+                          (object (yason:parse response)))
+                     (decode-object (gethash "kind" object) object))))))))))
 
 (defmethod generate ((api api))
   (loop for operation in (slot-value api 'operations)

@@ -12,11 +12,12 @@
                :optima.ppcre
                :drakma
                :quri
-               :cl-json
+               :yason
                :cl-change-case)
   :serial t
   :components ((:file "package")
                (:file "variables")
+               (:file "config")
                (:file "helper")
                (:file "resources")
                (:file "operations")))
