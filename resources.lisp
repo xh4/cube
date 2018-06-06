@@ -28,25 +28,6 @@
       (funcall (json:stream-object-member-encoder stream) "target"
                (slot-value binding 'target)))))
 
-(defmethod unmarshal ((source hash-table) (object binding))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "target" source)
-    (when present-p
-      (setf (slot-value object 'target)
-              (decode-object "ObjectReference" value)))))
-
 
 (defclass object-meta (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -166,81 +147,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "clusterName"
                (slot-value object-meta 'cluster-name)))))
 
-(defmethod unmarshal ((source hash-table) (object object-meta))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "generateName" source)
-    (when present-p
-      (setf (slot-value object 'generate-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "namespace" source)
-    (when present-p
-      (setf (slot-value object 'namespace) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selfLink" source)
-    (when present-p
-      (setf (slot-value object 'self-link) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resourceVersion" source)
-    (when present-p
-      (setf (slot-value object 'resource-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "generation" source)
-    (when present-p
-      (setf (slot-value object 'generation)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "creationTimestamp" source)
-    (when present-p
-      (setf (slot-value object 'creation-timestamp)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "deletionTimestamp" source)
-    (when present-p
-      (setf (slot-value object 'deletion-timestamp)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "deletionGracePeriodSeconds" source)
-    (when present-p
-      (setf (slot-value object 'deletion-grace-period-seconds)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "labels" source)
-    (when present-p
-      (setf (slot-value object 'labels) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "annotations" source)
-    (when present-p
-      (setf (slot-value object 'annotations) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "ownerReferences" source)
-    (when present-p
-      (setf (slot-value object 'owner-references)
-              (decode-object (cons "array" "OwnerReference") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initializers" source)
-    (when present-p
-      (setf (slot-value object 'initializers)
-              (decode-object "Initializers" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "finalizers" source)
-    (when present-p
-      (setf (slot-value object 'finalizers)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "clusterName" source)
-    (when present-p
-      (setf (slot-value object 'cluster-name) (decode-object "string" value)))))
-
 
 (defclass owner-reference (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -280,33 +186,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "blockOwnerDeletion"
                (slot-value owner-reference 'block-owner-deletion)))))
 
-(defmethod unmarshal ((source hash-table) (object owner-reference))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "controller" source)
-    (when present-p
-      (setf (slot-value object 'controller) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "blockOwnerDeletion" source)
-    (when present-p
-      (setf (slot-value object 'block-owner-deletion)
-              (decode-object "boolean" value)))))
-
 
 (defclass initializers (resource)
           ((pending :initarg :pending :type list :documentation
@@ -325,17 +204,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "result"
                (slot-value initializers 'result)))))
 
-(defmethod unmarshal ((source hash-table) (object initializers))
-  (multiple-value-bind (value present-p)
-      (gethash "pending" source)
-    (when present-p
-      (setf (slot-value object 'pending)
-              (decode-object (cons "array" "Initializer") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "result" source)
-    (when present-p
-      (setf (slot-value object 'result) (decode-object "Status" value)))))
-
 
 (defclass initializer (resource)
           ((name :initarg :name :type string :documentation
@@ -348,12 +216,6 @@ When an object is created, the system will populate this list with the current s
     (when (slot-boundp initializer 'name)
       (funcall (json:stream-object-member-encoder stream) "name"
                (slot-value initializer 'name)))))
-
-(defmethod unmarshal ((source hash-table) (object initializer))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value)))))
 
 
 (defclass status (resource)
@@ -403,42 +265,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "code"
                (slot-value status 'code)))))
 
-(defmethod unmarshal ((source hash-table) (object status))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "details" source)
-    (when present-p
-      (setf (slot-value object 'details)
-              (decode-object "StatusDetails" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "code" source)
-    (when present-p
-      (setf (slot-value object 'code)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass list-meta (resource)
           ((self-link :initarg :self-link :type (or string null) :documentation
@@ -462,21 +288,6 @@ When an object is created, the system will populate this list with the current s
     (when (slot-boundp list-meta 'continue)
       (funcall (json:stream-object-member-encoder stream) "continue"
                (slot-value list-meta 'continue)))))
-
-(defmethod unmarshal ((source hash-table) (object list-meta))
-  (multiple-value-bind (value present-p)
-      (gethash "selfLink" source)
-    (when present-p
-      (setf (slot-value object 'self-link) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resourceVersion" source)
-    (when present-p
-      (setf (slot-value object 'resource-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "continue" source)
-    (when present-p
-      (setf (slot-value object 'continue) (decode-object "string" value)))))
 
 
 (defclass status-details (resource)
@@ -516,34 +327,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "retryAfterSeconds"
                (slot-value status-details 'retry-after-seconds)))))
 
-(defmethod unmarshal ((source hash-table) (object status-details))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "group" source)
-    (when present-p
-      (setf (slot-value object 'group) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "causes" source)
-    (when present-p
-      (setf (slot-value object 'causes)
-              (decode-object (cons "array" "StatusCause") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "retryAfterSeconds" source)
-    (when present-p
-      (setf (slot-value object 'retry-after-seconds)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass status-cause (resource)
           ((reason :initarg :reason :type (or string null) :documentation
@@ -570,20 +353,6 @@ Examples:
     (when (slot-boundp status-cause 'field)
       (funcall (json:stream-object-member-encoder stream) "field"
                (slot-value status-cause 'field)))))
-
-(defmethod unmarshal ((source hash-table) (object status-cause))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "field" source)
-    (when present-p
-      (setf (slot-value object 'field) (decode-object "string" value)))))
 
 
 (defclass object-reference (resource)
@@ -629,37 +398,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "fieldPath"
                (slot-value object-reference 'field-path)))))
 
-(defmethod unmarshal ((source hash-table) (object object-reference))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "namespace" source)
-    (when present-p
-      (setf (slot-value object 'namespace) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resourceVersion" source)
-    (when present-p
-      (setf (slot-value object 'resource-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fieldPath" source)
-    (when present-p
-      (setf (slot-value object 'field-path) (decode-object "string" value)))))
-
 
 (defclass component-status-list (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -687,25 +425,6 @@ Examples:
     (when (slot-boundp component-status-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value component-status-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object component-status-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "ComponentStatus") value)))))
 
 
 (defclass component-status (resource)
@@ -735,25 +454,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "conditions"
                (slot-value component-status 'conditions)))))
 
-(defmethod unmarshal ((source hash-table) (object component-status))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "ComponentCondition") value)))))
-
 
 (defclass component-condition (resource)
           ((type :initarg :type :type string :documentation
@@ -782,24 +482,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "error"
                (slot-value component-condition 'error)))))
 
-(defmethod unmarshal ((source hash-table) (object component-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "error" source)
-    (when present-p
-      (setf (slot-value object 'error) (decode-object "string" value)))))
-
 
 (defclass config-map-list (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -827,25 +509,6 @@ Examples:
     (when (slot-boundp config-map-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value config-map-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object config-map-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "ConfigMap") value)))))
 
 
 (defclass config-map (resource)
@@ -879,28 +542,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "binaryData"
                (slot-value config-map 'binary-data)))))
 
-(defmethod unmarshal ((source hash-table) (object config-map))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "data" source)
-    (when present-p
-      (setf (slot-value object 'data) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "binaryData" source)
-    (when present-p
-      (setf (slot-value object 'binary-data) (decode-object "object" value)))))
-
 
 (defclass watch-event (resource)
           ((type :initarg :type :type string :documentation nil)
@@ -915,16 +556,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "object"
                (slot-value watch-event 'object)))))
 
-(defmethod unmarshal ((source hash-table) (object watch-event))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "object" source)
-    (when present-p
-      (setf (slot-value object 'object) (decode-object "string" value)))))
-
 
 (defclass patch (resource) nil
           (:documentation
@@ -932,8 +563,6 @@ Examples:
 
 (defmethod json:encode-json ((patch patch) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object patch)))
 
 
 (defclass delete-options (resource)
@@ -975,36 +604,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "propagationPolicy"
                (slot-value delete-options 'propagation-policy)))))
 
-(defmethod unmarshal ((source hash-table) (object delete-options))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "gracePeriodSeconds" source)
-    (when present-p
-      (setf (slot-value object 'grace-period-seconds)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preconditions" source)
-    (when present-p
-      (setf (slot-value object 'preconditions)
-              (decode-object "Preconditions" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "orphanDependents" source)
-    (when present-p
-      (setf (slot-value object 'orphan-dependents)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "propagationPolicy" source)
-    (when present-p
-      (setf (slot-value object 'propagation-policy)
-              (decode-object "DeletionPropagation" value)))))
-
 
 (defclass preconditions (resource)
           ((uid :initarg :uid :type (or uid null) :documentation
@@ -1018,19 +617,11 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "uid"
                (slot-value preconditions 'uid)))))
 
-(defmethod unmarshal ((source hash-table) (object preconditions))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "UID" value)))))
-
 
 (defclass uid (resource) nil)
 
 (defmethod json:encode-json ((uid uid) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object uid)))
 
 
 (defclass deletion-propagation (resource) nil)
@@ -1038,8 +629,6 @@ Examples:
 (defmethod json:encode-json
            ((deletion-propagation deletion-propagation) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object deletion-propagation)))
 
 
 (defclass endpoints-list (resource)
@@ -1066,25 +655,6 @@ Examples:
     (when (slot-boundp endpoints-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value endpoints-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object endpoints-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "Endpoints") value)))))
 
 
 (defclass endpoints (resource)
@@ -1124,25 +694,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "subsets"
                (slot-value endpoints 'subsets)))))
 
-(defmethod unmarshal ((source hash-table) (object endpoints))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "subsets" source)
-    (when present-p
-      (setf (slot-value object 'subsets)
-              (decode-object (cons "array" "EndpointSubset") value)))))
-
 
 (defclass endpoint-subset (resource)
           ((addresses :initarg :addresses :type list :documentation
@@ -1175,23 +726,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "ports"
                (slot-value endpoint-subset 'ports)))))
 
-(defmethod unmarshal ((source hash-table) (object endpoint-subset))
-  (multiple-value-bind (value present-p)
-      (gethash "addresses" source)
-    (when present-p
-      (setf (slot-value object 'addresses)
-              (decode-object (cons "array" "EndpointAddress") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "notReadyAddresses" source)
-    (when present-p
-      (setf (slot-value object 'not-ready-addresses)
-              (decode-object (cons "array" "EndpointAddress") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "ports" source)
-    (when present-p
-      (setf (slot-value object 'ports)
-              (decode-object (cons "array" "EndpointPort") value)))))
-
 
 (defclass endpoint-address (resource)
           ((ip :initarg :ip :type string :documentation
@@ -1221,25 +755,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "targetRef"
                (slot-value endpoint-address 'target-ref)))))
 
-(defmethod unmarshal ((source hash-table) (object endpoint-address))
-  (multiple-value-bind (value present-p)
-      (gethash "ip" source)
-    (when present-p
-      (setf (slot-value object 'ip) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostname" source)
-    (when present-p
-      (setf (slot-value object 'hostname) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeName" source)
-    (when present-p
-      (setf (slot-value object 'node-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "targetRef" source)
-    (when present-p
-      (setf (slot-value object 'target-ref)
-              (decode-object "ObjectReference" value)))))
-
 
 (defclass endpoint-port (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -1262,21 +777,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp endpoint-port 'protocol)
       (funcall (json:stream-object-member-encoder stream) "protocol"
                (slot-value endpoint-port 'protocol)))))
-
-(defmethod unmarshal ((source hash-table) (object endpoint-port))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "port" source)
-    (when present-p
-      (setf (slot-value object 'port)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "protocol" source)
-    (when present-p
-      (setf (slot-value object 'protocol) (decode-object "string" value)))))
 
 
 (defclass event-list (resource)
@@ -1302,25 +802,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp event-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value event-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object event-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "Event") value)))))
 
 
 (defclass event (resource)
@@ -1418,83 +899,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "reportingInstance"
                (slot-value event 'reporting-instance)))))
 
-(defmethod unmarshal ((source hash-table) (object event))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "involvedObject" source)
-    (when present-p
-      (setf (slot-value object 'involved-object)
-              (decode-object "ObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "source" source)
-    (when present-p
-      (setf (slot-value object 'source) (decode-object "EventSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "firstTimestamp" source)
-    (when present-p
-      (setf (slot-value object 'first-timestamp)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTimestamp" source)
-    (when present-p
-      (setf (slot-value object 'last-timestamp)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "count" source)
-    (when present-p
-      (setf (slot-value object 'count)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "eventTime" source)
-    (when present-p
-      (setf (slot-value object 'event-time) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "series" source)
-    (when present-p
-      (setf (slot-value object 'series) (decode-object "EventSeries" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "action" source)
-    (when present-p
-      (setf (slot-value object 'action) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "related" source)
-    (when present-p
-      (setf (slot-value object 'related)
-              (decode-object "ObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reportingComponent" source)
-    (when present-p
-      (setf (slot-value object 'reporting-component)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reportingInstance" source)
-    (when present-p
-      (setf (slot-value object 'reporting-instance)
-              (decode-object "string" value)))))
-
 
 (defclass event-source (resource)
           ((component :initarg :component :type (or string null) :documentation
@@ -1511,16 +915,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp event-source 'host)
       (funcall (json:stream-object-member-encoder stream) "host"
                (slot-value event-source 'host)))))
-
-(defmethod unmarshal ((source hash-table) (object event-source))
-  (multiple-value-bind (value present-p)
-      (gethash "component" source)
-    (when present-p
-      (setf (slot-value object 'component) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "host" source)
-    (when present-p
-      (setf (slot-value object 'host) (decode-object "string" value)))))
 
 
 (defclass event-series (resource)
@@ -1545,22 +939,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp event-series 'state)
       (funcall (json:stream-object-member-encoder stream) "state"
                (slot-value event-series 'state)))))
-
-(defmethod unmarshal ((source hash-table) (object event-series))
-  (multiple-value-bind (value present-p)
-      (gethash "count" source)
-    (when present-p
-      (setf (slot-value object 'count)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastObservedTime" source)
-    (when present-p
-      (setf (slot-value object 'last-observed-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "state" source)
-    (when present-p
-      (setf (slot-value object 'state) (decode-object "string" value)))))
 
 
 (defclass limit-range-list (resource)
@@ -1589,25 +967,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value limit-range-list 'items)))))
 
-(defmethod unmarshal ((source hash-table) (object limit-range-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "LimitRange") value)))))
-
 
 (defclass limit-range (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -1635,24 +994,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "spec"
                (slot-value limit-range 'spec)))))
 
-(defmethod unmarshal ((source hash-table) (object limit-range))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "LimitRangeSpec" value)))))
-
 
 (defclass limit-range-spec (resource)
           ((limits :initarg :limits :type list :documentation
@@ -1666,13 +1007,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp limit-range-spec 'limits)
       (funcall (json:stream-object-member-encoder stream) "limits"
                (slot-value limit-range-spec 'limits)))))
-
-(defmethod unmarshal ((source hash-table) (object limit-range-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "limits" source)
-    (when present-p
-      (setf (slot-value object 'limits)
-              (decode-object (cons "array" "LimitRangeItem") value)))))
 
 
 (defclass limit-range-item (resource)
@@ -1715,34 +1049,6 @@ The resulting set of endpoints can be viewed as:
                "maxLimitRequestRatio"
                (slot-value limit-range-item 'max-limit-request-ratio)))))
 
-(defmethod unmarshal ((source hash-table) (object limit-range-item))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "max" source)
-    (when present-p
-      (setf (slot-value object 'max) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "min" source)
-    (when present-p
-      (setf (slot-value object 'min) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "default" source)
-    (when present-p
-      (setf (slot-value object 'default) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "defaultRequest" source)
-    (when present-p
-      (setf (slot-value object 'default-request)
-              (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "maxLimitRequestRatio" source)
-    (when present-p
-      (setf (slot-value object 'max-limit-request-ratio)
-              (decode-object "object" value)))))
-
 
 (defclass namespace-list (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -1768,25 +1074,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp namespace-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value namespace-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object namespace-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "Namespace") value)))))
 
 
 (defclass namespace (resource)
@@ -1821,29 +1108,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value namespace 'status)))))
 
-(defmethod unmarshal ((source hash-table) (object namespace))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "NamespaceSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "NamespaceStatus" value)))))
-
 
 (defclass namespace-spec (resource)
           ((finalizers :initarg :finalizers :type list :documentation
@@ -1857,20 +1121,11 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "finalizers"
                (slot-value namespace-spec 'finalizers)))))
 
-(defmethod unmarshal ((source hash-table) (object namespace-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "finalizers" source)
-    (when present-p
-      (setf (slot-value object 'finalizers)
-              (decode-object (cons "array" "FinalizerName") value)))))
-
 
 (defclass finalizer-name (resource) nil)
 
 (defmethod json:encode-json ((finalizer-name finalizer-name) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object finalizer-name)))
 
 
 (defclass namespace-status (resource)
@@ -1885,12 +1140,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp namespace-status 'phase)
       (funcall (json:stream-object-member-encoder stream) "phase"
                (slot-value namespace-status 'phase)))))
-
-(defmethod unmarshal ((source hash-table) (object namespace-status))
-  (multiple-value-bind (value present-p)
-      (gethash "phase" source)
-    (when present-p
-      (setf (slot-value object 'phase) (decode-object "string" value)))))
 
 
 (defclass node-list (resource)
@@ -1917,25 +1166,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp node-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value node-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object node-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "Node") value)))))
 
 
 (defclass node (resource)
@@ -1968,28 +1198,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp node 'status)
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value node 'status)))))
-
-(defmethod unmarshal ((source hash-table) (object node))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "NodeSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "NodeStatus" value)))))
 
 
 (defclass node-spec (resource)
@@ -2033,35 +1241,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "externalId"
                (slot-value node-spec 'external-id)))))
 
-(defmethod unmarshal ((source hash-table) (object node-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "podCidr" source)
-    (when present-p
-      (setf (slot-value object 'pod-cidr) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "providerId" source)
-    (when present-p
-      (setf (slot-value object 'provider-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "unschedulable" source)
-    (when present-p
-      (setf (slot-value object 'unschedulable)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "taints" source)
-    (when present-p
-      (setf (slot-value object 'taints)
-              (decode-object (cons "array" "Taint") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configSource" source)
-    (when present-p
-      (setf (slot-value object 'config-source)
-              (decode-object "NodeConfigSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "externalId" source)
-    (when present-p
-      (setf (slot-value object 'external-id) (decode-object "string" value)))))
-
 
 (defclass taint (resource)
           ((key :initarg :key :type string :documentation
@@ -2091,24 +1270,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "timeAdded"
                (slot-value taint 'time-added)))))
 
-(defmethod unmarshal ((source hash-table) (object taint))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "effect" source)
-    (when present-p
-      (setf (slot-value object 'effect) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "timeAdded" source)
-    (when present-p
-      (setf (slot-value object 'time-added) (decode-object "string" value)))))
-
 
 (defclass node-config-source (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -2130,21 +1291,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp node-config-source 'config-map-ref)
       (funcall (json:stream-object-member-encoder stream) "configMapRef"
                (slot-value node-config-source 'config-map-ref)))))
-
-(defmethod unmarshal ((source hash-table) (object node-config-source))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configMapRef" source)
-    (when present-p
-      (setf (slot-value object 'config-map-ref)
-              (decode-object "ObjectReference" value)))))
 
 
 (defclass node-status (resource)
@@ -2206,55 +1352,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "volumesAttached"
                (slot-value node-status 'volumes-attached)))))
 
-(defmethod unmarshal ((source hash-table) (object node-status))
-  (multiple-value-bind (value present-p)
-      (gethash "capacity" source)
-    (when present-p
-      (setf (slot-value object 'capacity) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "allocatable" source)
-    (when present-p
-      (setf (slot-value object 'allocatable) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "phase" source)
-    (when present-p
-      (setf (slot-value object 'phase) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "NodeCondition") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "addresses" source)
-    (when present-p
-      (setf (slot-value object 'addresses)
-              (decode-object (cons "array" "NodeAddress") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "daemonEndpoints" source)
-    (when present-p
-      (setf (slot-value object 'daemon-endpoints)
-              (decode-object "NodeDaemonEndpoints" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeInfo" source)
-    (when present-p
-      (setf (slot-value object 'node-info)
-              (decode-object "NodeSystemInfo" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "images" source)
-    (when present-p
-      (setf (slot-value object 'images)
-              (decode-object (cons "array" "ContainerImage") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumesInUse" source)
-    (when present-p
-      (setf (slot-value object 'volumes-in-use)
-              (decode-object (cons "array" "UniqueVolumeName") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumesAttached" source)
-    (when present-p
-      (setf (slot-value object 'volumes-attached)
-              (decode-object (cons "array" "AttachedVolume") value)))))
-
 
 (defclass node-condition (resource)
           ((type :initarg :type :type string :documentation
@@ -2295,34 +1392,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value node-condition 'message)))))
 
-(defmethod unmarshal ((source hash-table) (object node-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastHeartbeatTime" source)
-    (when present-p
-      (setf (slot-value object 'last-heartbeat-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
-
 
 (defclass node-address (resource)
           ((type :initarg :type :type string :documentation
@@ -2341,16 +1410,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "address"
                (slot-value node-address 'address)))))
 
-(defmethod unmarshal ((source hash-table) (object node-address))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "address" source)
-    (when present-p
-      (setf (slot-value object 'address) (decode-object "string" value)))))
-
 
 (defclass node-daemon-endpoints (resource)
           ((kubelet-endpoint :initarg :kubelet-endpoint :type
@@ -2366,13 +1425,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "kubeletEndpoint"
                (slot-value node-daemon-endpoints 'kubelet-endpoint)))))
 
-(defmethod unmarshal ((source hash-table) (object node-daemon-endpoints))
-  (multiple-value-bind (value present-p)
-      (gethash "kubeletEndpoint" source)
-    (when present-p
-      (setf (slot-value object 'kubelet-endpoint)
-              (decode-object "DaemonEndpoint" value)))))
-
 
 (defclass daemon-endpoint (resource)
           ((port :initarg :port :type (or integer null) :documentation
@@ -2386,13 +1438,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp daemon-endpoint 'port)
       (funcall (json:stream-object-member-encoder stream) "port"
                (slot-value daemon-endpoint 'port)))))
-
-(defmethod unmarshal ((source hash-table) (object daemon-endpoint))
-  (multiple-value-bind (value present-p)
-      (gethash "port" source)
-    (when present-p
-      (setf (slot-value object 'port)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass node-system-info (resource)
@@ -2457,53 +1502,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "architecture"
                (slot-value node-system-info 'architecture)))))
 
-(defmethod unmarshal ((source hash-table) (object node-system-info))
-  (multiple-value-bind (value present-p)
-      (gethash "machineId" source)
-    (when present-p
-      (setf (slot-value object 'machine-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "systemUuid" source)
-    (when present-p
-      (setf (slot-value object 'system-uuid) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "bootId" source)
-    (when present-p
-      (setf (slot-value object 'boot-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kernelVersion" source)
-    (when present-p
-      (setf (slot-value object 'kernel-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "osImage" source)
-    (when present-p
-      (setf (slot-value object 'os-image) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "containerRuntimeVersion" source)
-    (when present-p
-      (setf (slot-value object 'container-runtime-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kubeletVersion" source)
-    (when present-p
-      (setf (slot-value object 'kubelet-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kubeProxyVersion" source)
-    (when present-p
-      (setf (slot-value object 'kube-proxy-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "operatingSystem" source)
-    (when present-p
-      (setf (slot-value object 'operating-system)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "architecture" source)
-    (when present-p
-      (setf (slot-value object 'architecture) (decode-object "string" value)))))
-
 
 (defclass container-image (resource)
           ((names :initarg :names :type list :documentation
@@ -2522,26 +1520,12 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "sizeBytes"
                (slot-value container-image 'size-bytes)))))
 
-(defmethod unmarshal ((source hash-table) (object container-image))
-  (multiple-value-bind (value present-p)
-      (gethash "names" source)
-    (when present-p
-      (setf (slot-value object 'names)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "sizeBytes" source)
-    (when present-p
-      (setf (slot-value object 'size-bytes)
-              (decode-object (cons "integer" "int64") value)))))
-
 
 (defclass unique-volume-name (resource) nil)
 
 (defmethod json:encode-json
            ((unique-volume-name unique-volume-name) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object unique-volume-name)))
 
 
 (defclass attached-volume (resource)
@@ -2561,16 +1545,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp attached-volume 'device-path)
       (funcall (json:stream-object-member-encoder stream) "devicePath"
                (slot-value attached-volume 'device-path)))))
-
-(defmethod unmarshal ((source hash-table) (object attached-volume))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "devicePath" source)
-    (when present-p
-      (setf (slot-value object 'device-path) (decode-object "string" value)))))
 
 
 (defclass persistent-volume-claim-list (resource)
@@ -2600,26 +1574,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp persistent-volume-claim-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value persistent-volume-claim-list 'items)))))
-
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-claim-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "PersistentVolumeClaim") value)))))
 
 
 (defclass persistent-volume-claim (resource)
@@ -2655,30 +1609,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp persistent-volume-claim 'status)
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value persistent-volume-claim 'status)))))
-
-(defmethod unmarshal ((source hash-table) (object persistent-volume-claim))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec)
-              (decode-object "PersistentVolumeClaimSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "PersistentVolumeClaimStatus" value)))))
 
 
 (defclass persistent-volume-claim-spec (resource)
@@ -2725,39 +1655,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "volumeMode"
                (slot-value persistent-volume-claim-spec 'volume-mode)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-claim-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "accessModes" source)
-    (when present-p
-      (setf (slot-value object 'access-modes)
-              (decode-object (cons "array" "PersistentVolumeAccessMode")
-               value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector)
-              (decode-object "LabelSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resources" source)
-    (when present-p
-      (setf (slot-value object 'resources)
-              (decode-object "ResourceRequirements" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeName" source)
-    (when present-p
-      (setf (slot-value object 'volume-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storageClassName" source)
-    (when present-p
-      (setf (slot-value object 'storage-class-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeMode" source)
-    (when present-p
-      (setf (slot-value object 'volume-mode)
-              (decode-object "PersistentVolumeMode" value)))))
-
 
 (defclass persistent-volume-access-mode (resource) nil)
 
@@ -2765,9 +1662,6 @@ The resulting set of endpoints can be viewed as:
            ((persistent-volume-access-mode persistent-volume-access-mode)
             &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-access-mode)))
 
 
 (defclass label-selector (resource)
@@ -2787,18 +1681,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp label-selector 'match-expressions)
       (funcall (json:stream-object-member-encoder stream) "matchExpressions"
                (slot-value label-selector 'match-expressions)))))
-
-(defmethod unmarshal ((source hash-table) (object label-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "matchLabels" source)
-    (when present-p
-      (setf (slot-value object 'match-labels) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "matchExpressions" source)
-    (when present-p
-      (setf (slot-value object 'match-expressions)
-              (decode-object (cons "array" "LabelSelectorRequirement")
-               value)))))
 
 
 (defclass label-selector-requirement (resource)
@@ -2825,21 +1707,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "values"
                (slot-value label-selector-requirement 'values)))))
 
-(defmethod unmarshal ((source hash-table) (object label-selector-requirement))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "operator" source)
-    (when present-p
-      (setf (slot-value object 'operator) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "values" source)
-    (when present-p
-      (setf (slot-value object 'values)
-              (decode-object (cons "array" "string") value)))))
-
 
 (defclass resource-requirements (resource)
           ((limits :initarg :limits :type list :documentation
@@ -2859,24 +1726,12 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "requests"
                (slot-value resource-requirements 'requests)))))
 
-(defmethod unmarshal ((source hash-table) (object resource-requirements))
-  (multiple-value-bind (value present-p)
-      (gethash "limits" source)
-    (when present-p
-      (setf (slot-value object 'limits) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "requests" source)
-    (when present-p
-      (setf (slot-value object 'requests) (decode-object "object" value)))))
-
 
 (defclass persistent-volume-mode (resource) nil)
 
 (defmethod json:encode-json
            ((persistent-volume-mode persistent-volume-mode) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object persistent-volume-mode)))
 
 
 (defclass persistent-volume-claim-status (resource)
@@ -2907,29 +1762,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp persistent-volume-claim-status 'conditions)
       (funcall (json:stream-object-member-encoder stream) "conditions"
                (slot-value persistent-volume-claim-status 'conditions)))))
-
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-claim-status))
-  (multiple-value-bind (value present-p)
-      (gethash "phase" source)
-    (when present-p
-      (setf (slot-value object 'phase) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "accessModes" source)
-    (when present-p
-      (setf (slot-value object 'access-modes)
-              (decode-object (cons "array" "PersistentVolumeAccessMode")
-               value))))
-  (multiple-value-bind (value present-p)
-      (gethash "capacity" source)
-    (when present-p
-      (setf (slot-value object 'capacity) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "PersistentVolumeClaimCondition")
-               value)))))
 
 
 (defclass persistent-volume-claim-condition (resource)
@@ -2973,35 +1805,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value persistent-volume-claim-condition 'message)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-claim-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastProbeTime" source)
-    (when present-p
-      (setf (slot-value object 'last-probe-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
-
 
 (defclass persistent-volume-list (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -3029,25 +1832,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp persistent-volume-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value persistent-volume-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object persistent-volume-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "PersistentVolume") value)))))
 
 
 (defclass persistent-volume (resource)
@@ -3083,30 +1867,6 @@ The resulting set of endpoints can be viewed as:
     (when (slot-boundp persistent-volume 'status)
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value persistent-volume 'status)))))
-
-(defmethod unmarshal ((source hash-table) (object persistent-volume))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec)
-              (decode-object "PersistentVolumeSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "PersistentVolumeStatus" value)))))
 
 
 (defclass persistent-volume-spec (resource)
@@ -3298,156 +2058,6 @@ The resulting set of endpoints can be viewed as:
       (funcall (json:stream-object-member-encoder stream) "nodeAffinity"
                (slot-value persistent-volume-spec 'node-affinity)))))
 
-(defmethod unmarshal ((source hash-table) (object persistent-volume-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "capacity" source)
-    (when present-p
-      (setf (slot-value object 'capacity) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "gcePersistentDisk" source)
-    (when present-p
-      (setf (slot-value object 'gce-persistent-disk)
-              (decode-object "GCEPersistentDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "awsElasticBlockStore" source)
-    (when present-p
-      (setf (slot-value object 'aws-elastic-block-store)
-              (decode-object "AWSElasticBlockStoreVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostPath" source)
-    (when present-p
-      (setf (slot-value object 'host-path)
-              (decode-object "HostPathVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "glusterfs" source)
-    (when present-p
-      (setf (slot-value object 'glusterfs)
-              (decode-object "GlusterfsVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nfs" source)
-    (when present-p
-      (setf (slot-value object 'nfs) (decode-object "NFSVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "rbd" source)
-    (when present-p
-      (setf (slot-value object 'rbd)
-              (decode-object "RBDPersistentVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "iscsi" source)
-    (when present-p
-      (setf (slot-value object 'iscsi)
-              (decode-object "ISCSIPersistentVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "cinder" source)
-    (when present-p
-      (setf (slot-value object 'cinder)
-              (decode-object "CinderVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "cephfs" source)
-    (when present-p
-      (setf (slot-value object 'cephfs)
-              (decode-object "CephFSPersistentVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fc" source)
-    (when present-p
-      (setf (slot-value object 'fc) (decode-object "FCVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "flocker" source)
-    (when present-p
-      (setf (slot-value object 'flocker)
-              (decode-object "FlockerVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "flexVolume" source)
-    (when present-p
-      (setf (slot-value object 'flex-volume)
-              (decode-object "FlexPersistentVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "azureFile" source)
-    (when present-p
-      (setf (slot-value object 'azure-file)
-              (decode-object "AzureFilePersistentVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "vsphereVolume" source)
-    (when present-p
-      (setf (slot-value object 'vsphere-volume)
-              (decode-object "VsphereVirtualDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "quobyte" source)
-    (when present-p
-      (setf (slot-value object 'quobyte)
-              (decode-object "QuobyteVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "azureDisk" source)
-    (when present-p
-      (setf (slot-value object 'azure-disk)
-              (decode-object "AzureDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "photonPersistentDisk" source)
-    (when present-p
-      (setf (slot-value object 'photon-persistent-disk)
-              (decode-object "PhotonPersistentDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "portworxVolume" source)
-    (when present-p
-      (setf (slot-value object 'portworx-volume)
-              (decode-object "PortworxVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "scaleIo" source)
-    (when present-p
-      (setf (slot-value object 'scale-io)
-              (decode-object "ScaleIOPersistentVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "local" source)
-    (when present-p
-      (setf (slot-value object 'local)
-              (decode-object "LocalVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storageos" source)
-    (when present-p
-      (setf (slot-value object 'storageos)
-              (decode-object "StorageOSPersistentVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "csi" source)
-    (when present-p
-      (setf (slot-value object 'csi)
-              (decode-object "CSIPersistentVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "accessModes" source)
-    (when present-p
-      (setf (slot-value object 'access-modes)
-              (decode-object (cons "array" "PersistentVolumeAccessMode")
-               value))))
-  (multiple-value-bind (value present-p)
-      (gethash "claimRef" source)
-    (when present-p
-      (setf (slot-value object 'claim-ref)
-              (decode-object "ObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "persistentVolumeReclaimPolicy" source)
-    (when present-p
-      (setf (slot-value object 'persistent-volume-reclaim-policy)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storageClassName" source)
-    (when present-p
-      (setf (slot-value object 'storage-class-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "mountOptions" source)
-    (when present-p
-      (setf (slot-value object 'mount-options)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeMode" source)
-    (when present-p
-      (setf (slot-value object 'volume-mode)
-              (decode-object "PersistentVolumeMode" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeAffinity" source)
-    (when present-p
-      (setf (slot-value object 'node-affinity)
-              (decode-object "VolumeNodeAffinity" value)))))
-
 
 (defclass gce-persistent-disk-volume-source (resource)
           ((pd-name :initarg :pd-name :type string :documentation
@@ -3484,26 +2094,6 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value gce-persistent-disk-volume-source 'read-only)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object gce-persistent-disk-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "pdName" source)
-    (when present-p
-      (setf (slot-value object 'pd-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "partition" source)
-    (when present-p
-      (setf (slot-value object 'partition)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass aws-elastic-block-store-volume-source (resource)
           ((volume-id :initarg :volume-id :type (or string null) :documentation
@@ -3539,26 +2129,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value aws-elastic-block-store-volume-source 'read-only)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object aws-elastic-block-store-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeId" source)
-    (when present-p
-      (setf (slot-value object 'volume-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "partition" source)
-    (when present-p
-      (setf (slot-value object 'partition)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass host-path-volume-source (resource)
           ((path :initarg :path :type string :documentation
@@ -3578,23 +2148,11 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "type"
                (slot-value host-path-volume-source 'type)))))
 
-(defmethod unmarshal ((source hash-table) (object host-path-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "HostPathType" value)))))
-
 
 (defclass host-path-type (resource) nil)
 
 (defmethod json:encode-json ((host-path-type host-path-type) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object host-path-type)))
 
 
 (defclass glusterfs-volume-source (resource)
@@ -3621,20 +2179,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value glusterfs-volume-source 'read-only)))))
 
-(defmethod unmarshal ((source hash-table) (object glusterfs-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "endpoints" source)
-    (when present-p
-      (setf (slot-value object 'endpoints) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass nfs-volume-source (resource)
           ((server :initarg :server :type string :documentation
@@ -3659,20 +2203,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp nfs-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value nfs-volume-source 'read-only)))))
-
-(defmethod unmarshal ((source hash-table) (object nfs-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "server" source)
-    (when present-p
-      (setf (slot-value object 'server) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass rbd-persistent-volume-source (resource)
@@ -3726,43 +2256,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value rbd-persistent-volume-source 'read-only)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object rbd-persistent-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "monitors" source)
-    (when present-p
-      (setf (slot-value object 'monitors)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "image" source)
-    (when present-p
-      (setf (slot-value object 'image) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "pool" source)
-    (when present-p
-      (setf (slot-value object 'pool) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "keyring" source)
-    (when present-p
-      (setf (slot-value object 'keyring) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "SecretReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass secret-reference (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -3781,16 +2274,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp secret-reference 'namespace)
       (funcall (json:stream-object-member-encoder stream) "namespace"
                (slot-value secret-reference 'namespace)))))
-
-(defmethod unmarshal ((source hash-table) (object secret-reference))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "namespace" source)
-    (when present-p
-      (setf (slot-value object 'namespace) (decode-object "string" value)))))
 
 
 (defclass iscsi-persistent-volume-source (resource)
@@ -3864,61 +2347,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "initiatorName"
                (slot-value iscsi-persistent-volume-source 'initiator-name)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object iscsi-persistent-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "targetPortal" source)
-    (when present-p
-      (setf (slot-value object 'target-portal)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "iqn" source)
-    (when present-p
-      (setf (slot-value object 'iqn) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lun" source)
-    (when present-p
-      (setf (slot-value object 'lun)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "iscsiInterface" source)
-    (when present-p
-      (setf (slot-value object 'iscsi-interface)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "portals" source)
-    (when present-p
-      (setf (slot-value object 'portals)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "chapAuthDiscovery" source)
-    (when present-p
-      (setf (slot-value object 'chap-auth-discovery)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "chapAuthSession" source)
-    (when present-p
-      (setf (slot-value object 'chap-auth-session)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "SecretReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initiatorName" source)
-    (when present-p
-      (setf (slot-value object 'initiator-name)
-              (decode-object "string" value)))))
-
 
 (defclass cinder-volume-source (resource)
           ((volume-id :initarg :volume-id :type (or string null) :documentation
@@ -3943,20 +2371,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp cinder-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value cinder-volume-source 'read-only)))))
-
-(defmethod unmarshal ((source hash-table) (object cinder-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeId" source)
-    (when present-p
-      (setf (slot-value object 'volume-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass ceph-fs-persistent-volume-source (resource)
@@ -4001,35 +2415,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value ceph-fs-persistent-volume-source 'read-only)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object ceph-fs-persistent-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "monitors" source)
-    (when present-p
-      (setf (slot-value object 'monitors)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretFile" source)
-    (when present-p
-      (setf (slot-value object 'secret-file) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "SecretReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass fc-volume-source (resource)
           ((target-ww-ns :initarg :target-ww-ns :type list :documentation
@@ -4065,31 +2450,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "wwids"
                (slot-value fc-volume-source 'wwids)))))
 
-(defmethod unmarshal ((source hash-table) (object fc-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "targetWwNs" source)
-    (when present-p
-      (setf (slot-value object 'target-ww-ns)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lun" source)
-    (when present-p
-      (setf (slot-value object 'lun)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "wwids" source)
-    (when present-p
-      (setf (slot-value object 'wwids)
-              (decode-object (cons "array" "string") value)))))
-
 
 (defclass flocker-volume-source (resource)
           ((dataset-name :initarg :dataset-name :type (or string null)
@@ -4110,16 +2470,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp flocker-volume-source 'dataset-uuid)
       (funcall (json:stream-object-member-encoder stream) "datasetUuid"
                (slot-value flocker-volume-source 'dataset-uuid)))))
-
-(defmethod unmarshal ((source hash-table) (object flocker-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "datasetName" source)
-    (when present-p
-      (setf (slot-value object 'dataset-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "datasetUuid" source)
-    (when present-p
-      (setf (slot-value object 'dataset-uuid) (decode-object "string" value)))))
 
 
 (defclass flex-persistent-volume-source (resource)
@@ -4158,30 +2508,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "options"
                (slot-value flex-persistent-volume-source 'options)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object flex-persistent-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "driver" source)
-    (when present-p
-      (setf (slot-value object 'driver) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "SecretReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "options" source)
-    (when present-p
-      (setf (slot-value object 'options) (decode-object "object" value)))))
-
 
 (defclass azure-file-persistent-volume-source (resource)
           ((secret-name :initarg :secret-name :type string :documentation
@@ -4216,26 +2542,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "secretNamespace"
                (slot-value azure-file-persistent-volume-source
                            'secret-namespace)))))
-
-(defmethod unmarshal
-           ((source hash-table) (object azure-file-persistent-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "secretName" source)
-    (when present-p
-      (setf (slot-value object 'secret-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "shareName" source)
-    (when present-p
-      (setf (slot-value object 'share-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretNamespace" source)
-    (when present-p
-      (setf (slot-value object 'secret-namespace)
-              (decode-object "string" value)))))
 
 
 (defclass vsphere-virtual-disk-volume-source (resource)
@@ -4272,27 +2578,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
                (slot-value vsphere-virtual-disk-volume-source
                            'storage-policy-id)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object vsphere-virtual-disk-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumePath" source)
-    (when present-p
-      (setf (slot-value object 'volume-path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storagePolicyName" source)
-    (when present-p
-      (setf (slot-value object 'storage-policy-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storagePolicyId" source)
-    (when present-p
-      (setf (slot-value object 'storage-policy-id)
-              (decode-object "string" value)))))
-
 
 (defclass quobyte-volume-source (resource)
           ((registry :initarg :registry :type string :documentation
@@ -4327,28 +2612,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp quobyte-volume-source 'group)
       (funcall (json:stream-object-member-encoder stream) "group"
                (slot-value quobyte-volume-source 'group)))))
-
-(defmethod unmarshal ((source hash-table) (object quobyte-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "registry" source)
-    (when present-p
-      (setf (slot-value object 'registry) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volume" source)
-    (when present-p
-      (setf (slot-value object 'volume) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "group" source)
-    (when present-p
-      (setf (slot-value object 'group) (decode-object "string" value)))))
 
 
 (defclass azure-disk-volume-source (resource)
@@ -4391,34 +2654,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "kind"
                (slot-value azure-disk-volume-source 'kind)))))
 
-(defmethod unmarshal ((source hash-table) (object azure-disk-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "diskName" source)
-    (when present-p
-      (setf (slot-value object 'disk-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "diskUri" source)
-    (when present-p
-      (setf (slot-value object 'disk-uri) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "cachingMode" source)
-    (when present-p
-      (setf (slot-value object 'caching-mode)
-              (decode-object "AzureDataDiskCachingMode" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind)
-              (decode-object "AzureDataDiskKind" value)))))
-
 
 (defclass azure-data-disk-caching-mode (resource) nil)
 
@@ -4427,17 +2662,12 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
             &optional stream)
   (json:with-object (stream)))
 
-(defmethod unmarshal
-           ((source hash-table) (object azure-data-disk-caching-mode)))
-
 
 (defclass azure-data-disk-kind (resource) nil)
 
 (defmethod json:encode-json
            ((azure-data-disk-kind azure-data-disk-kind) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object azure-data-disk-kind)))
 
 
 (defclass photon-persistent-disk-volume-source (resource)
@@ -4460,17 +2690,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp photon-persistent-disk-volume-source 'fs-type)
       (funcall (json:stream-object-member-encoder stream) "fsType"
                (slot-value photon-persistent-disk-volume-source 'fs-type)))))
-
-(defmethod unmarshal
-           ((source hash-table) (object photon-persistent-disk-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "pdId" source)
-    (when present-p
-      (setf (slot-value object 'pd-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value)))))
 
 
 (defclass portworx-volume-source (resource)
@@ -4496,20 +2715,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp portworx-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value portworx-volume-source 'read-only)))))
-
-(defmethod unmarshal ((source hash-table) (object portworx-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeId" source)
-    (when present-p
-      (setf (slot-value object 'volume-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass scale-io-persistent-volume-source (resource)
@@ -4581,51 +2786,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value scale-io-persistent-volume-source 'read-only)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object scale-io-persistent-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "gateway" source)
-    (when present-p
-      (setf (slot-value object 'gateway) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "system" source)
-    (when present-p
-      (setf (slot-value object 'system) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "SecretReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "sslEnabled" source)
-    (when present-p
-      (setf (slot-value object 'ssl-enabled) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "protectionDomain" source)
-    (when present-p
-      (setf (slot-value object 'protection-domain)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storagePool" source)
-    (when present-p
-      (setf (slot-value object 'storage-pool) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storageMode" source)
-    (when present-p
-      (setf (slot-value object 'storage-mode) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeName" source)
-    (when present-p
-      (setf (slot-value object 'volume-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass local-volume-source (resource)
           ((path :initarg :path :type string :documentation
@@ -4639,12 +2799,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp local-volume-source 'path)
       (funcall (json:stream-object-member-encoder stream) "path"
                (slot-value local-volume-source 'path)))))
-
-(defmethod unmarshal ((source hash-table) (object local-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value)))))
 
 
 (defclass storage-os-persistent-volume-source (resource)
@@ -4686,31 +2840,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp storage-os-persistent-volume-source 'secret-ref)
       (funcall (json:stream-object-member-encoder stream) "secretRef"
                (slot-value storage-os-persistent-volume-source 'secret-ref)))))
-
-(defmethod unmarshal
-           ((source hash-table) (object storage-os-persistent-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeName" source)
-    (when present-p
-      (setf (slot-value object 'volume-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeNamespace" source)
-    (when present-p
-      (setf (slot-value object 'volume-namespace)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "ObjectReference" value)))))
 
 
 (defclass csi-persistent-volume-source (resource)
@@ -4774,46 +2903,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
                (slot-value csi-persistent-volume-source
                            'node-publish-secret-ref)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object csi-persistent-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "driver" source)
-    (when present-p
-      (setf (slot-value object 'driver) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeHandle" source)
-    (when present-p
-      (setf (slot-value object 'volume-handle)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeAttributes" source)
-    (when present-p
-      (setf (slot-value object 'volume-attributes)
-              (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "controllerPublishSecretRef" source)
-    (when present-p
-      (setf (slot-value object 'controller-publish-secret-ref)
-              (decode-object "SecretReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeStageSecretRef" source)
-    (when present-p
-      (setf (slot-value object 'node-stage-secret-ref)
-              (decode-object "SecretReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodePublishSecretRef" source)
-    (when present-p
-      (setf (slot-value object 'node-publish-secret-ref)
-              (decode-object "SecretReference" value)))))
-
 
 (defclass volume-node-affinity (resource)
           ((required :initarg :required :type (or node-selector null)
@@ -4829,13 +2918,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "required"
                (slot-value volume-node-affinity 'required)))))
 
-(defmethod unmarshal ((source hash-table) (object volume-node-affinity))
-  (multiple-value-bind (value present-p)
-      (gethash "required" source)
-    (when present-p
-      (setf (slot-value object 'required)
-              (decode-object "NodeSelector" value)))))
-
 
 (defclass node-selector (resource)
           ((node-selector-terms :initarg :node-selector-terms :type list
@@ -4849,13 +2931,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp node-selector 'node-selector-terms)
       (funcall (json:stream-object-member-encoder stream) "nodeSelectorTerms"
                (slot-value node-selector 'node-selector-terms)))))
-
-(defmethod unmarshal ((source hash-table) (object node-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeSelectorTerms" source)
-    (when present-p
-      (setf (slot-value object 'node-selector-terms)
-              (decode-object (cons "array" "NodeSelectorTerm") value)))))
 
 
 (defclass node-selector-term (resource)
@@ -4876,18 +2951,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp node-selector-term 'match-fields)
       (funcall (json:stream-object-member-encoder stream) "matchFields"
                (slot-value node-selector-term 'match-fields)))))
-
-(defmethod unmarshal ((source hash-table) (object node-selector-term))
-  (multiple-value-bind (value present-p)
-      (gethash "matchExpressions" source)
-    (when present-p
-      (setf (slot-value object 'match-expressions)
-              (decode-object (cons "array" "NodeSelectorRequirement") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "matchFields" source)
-    (when present-p
-      (setf (slot-value object 'match-fields)
-              (decode-object (cons "array" "NodeSelectorRequirement") value)))))
 
 
 (defclass node-selector-requirement (resource)
@@ -4914,21 +2977,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "values"
                (slot-value node-selector-requirement 'values)))))
 
-(defmethod unmarshal ((source hash-table) (object node-selector-requirement))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "operator" source)
-    (when present-p
-      (setf (slot-value object 'operator) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "values" source)
-    (when present-p
-      (setf (slot-value object 'values)
-              (decode-object (cons "array" "string") value)))))
-
 
 (defclass persistent-volume-status (resource)
           ((phase :initarg :phase :type (or string null) :documentation
@@ -4953,20 +3001,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp persistent-volume-status 'reason)
       (funcall (json:stream-object-member-encoder stream) "reason"
                (slot-value persistent-volume-status 'reason)))))
-
-(defmethod unmarshal ((source hash-table) (object persistent-volume-status))
-  (multiple-value-bind (value present-p)
-      (gethash "phase" source)
-    (when present-p
-      (setf (slot-value object 'phase) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value)))))
 
 
 (defclass pod-list (resource)
@@ -4993,25 +3027,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp pod-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value pod-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "Pod") value)))))
 
 
 (defclass pod (resource)
@@ -5044,28 +3059,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp pod 'status)
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value pod 'status)))))
-
-(defmethod unmarshal ((source hash-table) (object pod))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "PodSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "PodStatus" value)))))
 
 
 (defclass pod-spec (resource)
@@ -5228,136 +3221,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp pod-spec 'dns-config)
       (funcall (json:stream-object-member-encoder stream) "dnsConfig"
                (slot-value pod-spec 'dns-config)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "volumes" source)
-    (when present-p
-      (setf (slot-value object 'volumes)
-              (decode-object (cons "array" "Volume") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initContainers" source)
-    (when present-p
-      (setf (slot-value object 'init-containers)
-              (decode-object (cons "array" "Container") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "containers" source)
-    (when present-p
-      (setf (slot-value object 'containers)
-              (decode-object (cons "array" "Container") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "restartPolicy" source)
-    (when present-p
-      (setf (slot-value object 'restart-policy)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "terminationGracePeriodSeconds" source)
-    (when present-p
-      (setf (slot-value object 'termination-grace-period-seconds)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "activeDeadlineSeconds" source)
-    (when present-p
-      (setf (slot-value object 'active-deadline-seconds)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "dnsPolicy" source)
-    (when present-p
-      (setf (slot-value object 'dns-policy) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeSelector" source)
-    (when present-p
-      (setf (slot-value object 'node-selector)
-              (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "serviceAccountName" source)
-    (when present-p
-      (setf (slot-value object 'service-account-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "serviceAccount" source)
-    (when present-p
-      (setf (slot-value object 'service-account)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "automountServiceAccountToken" source)
-    (when present-p
-      (setf (slot-value object 'automount-service-account-token)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeName" source)
-    (when present-p
-      (setf (slot-value object 'node-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostNetwork" source)
-    (when present-p
-      (setf (slot-value object 'host-network)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostPid" source)
-    (when present-p
-      (setf (slot-value object 'host-pid) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostIpc" source)
-    (when present-p
-      (setf (slot-value object 'host-ipc) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "shareProcessNamespace" source)
-    (when present-p
-      (setf (slot-value object 'share-process-namespace)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "securityContext" source)
-    (when present-p
-      (setf (slot-value object 'security-context)
-              (decode-object "PodSecurityContext" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "imagePullSecrets" source)
-    (when present-p
-      (setf (slot-value object 'image-pull-secrets)
-              (decode-object (cons "array" "LocalObjectReference") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostname" source)
-    (when present-p
-      (setf (slot-value object 'hostname) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "subdomain" source)
-    (when present-p
-      (setf (slot-value object 'subdomain) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "affinity" source)
-    (when present-p
-      (setf (slot-value object 'affinity) (decode-object "Affinity" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "schedulerName" source)
-    (when present-p
-      (setf (slot-value object 'scheduler-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tolerations" source)
-    (when present-p
-      (setf (slot-value object 'tolerations)
-              (decode-object (cons "array" "Toleration") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostAliases" source)
-    (when present-p
-      (setf (slot-value object 'host-aliases)
-              (decode-object (cons "array" "HostAlias") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "priorityClassName" source)
-    (when present-p
-      (setf (slot-value object 'priority-class-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "priority" source)
-    (when present-p
-      (setf (slot-value object 'priority)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "dnsConfig" source)
-    (when present-p
-      (setf (slot-value object 'dns-config)
-              (decode-object "PodDNSConfig" value)))))
 
 
 (defclass volume (resource)
@@ -5534,144 +3397,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "storageos"
                (slot-value volume 'storageos)))))
 
-(defmethod unmarshal ((source hash-table) (object volume))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostPath" source)
-    (when present-p
-      (setf (slot-value object 'host-path)
-              (decode-object "HostPathVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "emptyDir" source)
-    (when present-p
-      (setf (slot-value object 'empty-dir)
-              (decode-object "EmptyDirVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "gcePersistentDisk" source)
-    (when present-p
-      (setf (slot-value object 'gce-persistent-disk)
-              (decode-object "GCEPersistentDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "awsElasticBlockStore" source)
-    (when present-p
-      (setf (slot-value object 'aws-elastic-block-store)
-              (decode-object "AWSElasticBlockStoreVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "gitRepo" source)
-    (when present-p
-      (setf (slot-value object 'git-repo)
-              (decode-object "GitRepoVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secret" source)
-    (when present-p
-      (setf (slot-value object 'secret)
-              (decode-object "SecretVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nfs" source)
-    (when present-p
-      (setf (slot-value object 'nfs) (decode-object "NFSVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "iscsi" source)
-    (when present-p
-      (setf (slot-value object 'iscsi)
-              (decode-object "ISCSIVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "glusterfs" source)
-    (when present-p
-      (setf (slot-value object 'glusterfs)
-              (decode-object "GlusterfsVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "persistentVolumeClaim" source)
-    (when present-p
-      (setf (slot-value object 'persistent-volume-claim)
-              (decode-object "PersistentVolumeClaimVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "rbd" source)
-    (when present-p
-      (setf (slot-value object 'rbd) (decode-object "RBDVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "flexVolume" source)
-    (when present-p
-      (setf (slot-value object 'flex-volume)
-              (decode-object "FlexVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "cinder" source)
-    (when present-p
-      (setf (slot-value object 'cinder)
-              (decode-object "CinderVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "cephfs" source)
-    (when present-p
-      (setf (slot-value object 'cephfs)
-              (decode-object "CephFSVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "flocker" source)
-    (when present-p
-      (setf (slot-value object 'flocker)
-              (decode-object "FlockerVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "downwardApi" source)
-    (when present-p
-      (setf (slot-value object 'downward-api)
-              (decode-object "DownwardAPIVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fc" source)
-    (when present-p
-      (setf (slot-value object 'fc) (decode-object "FCVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "azureFile" source)
-    (when present-p
-      (setf (slot-value object 'azure-file)
-              (decode-object "AzureFileVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configMap" source)
-    (when present-p
-      (setf (slot-value object 'config-map)
-              (decode-object "ConfigMapVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "vsphereVolume" source)
-    (when present-p
-      (setf (slot-value object 'vsphere-volume)
-              (decode-object "VsphereVirtualDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "quobyte" source)
-    (when present-p
-      (setf (slot-value object 'quobyte)
-              (decode-object "QuobyteVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "azureDisk" source)
-    (when present-p
-      (setf (slot-value object 'azure-disk)
-              (decode-object "AzureDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "photonPersistentDisk" source)
-    (when present-p
-      (setf (slot-value object 'photon-persistent-disk)
-              (decode-object "PhotonPersistentDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "projected" source)
-    (when present-p
-      (setf (slot-value object 'projected)
-              (decode-object "ProjectedVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "portworxVolume" source)
-    (when present-p
-      (setf (slot-value object 'portworx-volume)
-              (decode-object "PortworxVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "scaleIo" source)
-    (when present-p
-      (setf (slot-value object 'scale-io)
-              (decode-object "ScaleIOVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storageos" source)
-    (when present-p
-      (setf (slot-value object 'storageos)
-              (decode-object "StorageOSVolumeSource" value)))))
-
 
 (defclass empty-dir-volume-source (resource)
           ((medium :initarg :medium :type (or string null) :documentation
@@ -5691,16 +3416,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp empty-dir-volume-source 'size-limit)
       (funcall (json:stream-object-member-encoder stream) "sizeLimit"
                (slot-value empty-dir-volume-source 'size-limit)))))
-
-(defmethod unmarshal ((source hash-table) (object empty-dir-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "medium" source)
-    (when present-p
-      (setf (slot-value object 'medium) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "sizeLimit" source)
-    (when present-p
-      (setf (slot-value object 'size-limit) (decode-object "string" value)))))
 
 
 (defclass git-repo-volume-source (resource)
@@ -5725,20 +3440,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp git-repo-volume-source 'directory)
       (funcall (json:stream-object-member-encoder stream) "directory"
                (slot-value git-repo-volume-source 'directory)))))
-
-(defmethod unmarshal ((source hash-table) (object git-repo-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "repository" source)
-    (when present-p
-      (setf (slot-value object 'repository) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "revision" source)
-    (when present-p
-      (setf (slot-value object 'revision) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "directory" source)
-    (when present-p
-      (setf (slot-value object 'directory) (decode-object "string" value)))))
 
 
 (defclass secret-volume-source (resource)
@@ -5772,26 +3473,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value secret-volume-source 'optional)))))
 
-(defmethod unmarshal ((source hash-table) (object secret-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "secretName" source)
-    (when present-p
-      (setf (slot-value object 'secret-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "KeyToPath") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "defaultMode" source)
-    (when present-p
-      (setf (slot-value object 'default-mode)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
-
 
 (defclass key-to-path (resource)
           ((key :initarg :key :type string :documentation
@@ -5813,21 +3494,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp key-to-path 'mode)
       (funcall (json:stream-object-member-encoder stream) "mode"
                (slot-value key-to-path 'mode)))))
-
-(defmethod unmarshal ((source hash-table) (object key-to-path))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "mode" source)
-    (when present-p
-      (setf (slot-value object 'mode)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass iscsi-volume-source (resource)
@@ -5899,60 +3565,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "initiatorName"
                (slot-value iscsi-volume-source 'initiator-name)))))
 
-(defmethod unmarshal ((source hash-table) (object iscsi-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "targetPortal" source)
-    (when present-p
-      (setf (slot-value object 'target-portal)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "iqn" source)
-    (when present-p
-      (setf (slot-value object 'iqn) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lun" source)
-    (when present-p
-      (setf (slot-value object 'lun)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "iscsiInterface" source)
-    (when present-p
-      (setf (slot-value object 'iscsi-interface)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "portals" source)
-    (when present-p
-      (setf (slot-value object 'portals)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "chapAuthDiscovery" source)
-    (when present-p
-      (setf (slot-value object 'chap-auth-discovery)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "chapAuthSession" source)
-    (when present-p
-      (setf (slot-value object 'chap-auth-session)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initiatorName" source)
-    (when present-p
-      (setf (slot-value object 'initiator-name)
-              (decode-object "string" value)))))
-
 
 (defclass local-object-reference (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -5966,12 +3578,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp local-object-reference 'name)
       (funcall (json:stream-object-member-encoder stream) "name"
                (slot-value local-object-reference 'name)))))
-
-(defmethod unmarshal ((source hash-table) (object local-object-reference))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value)))))
 
 
 (defclass persistent-volume-claim-volume-source (resource)
@@ -5995,17 +3601,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp persistent-volume-claim-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value persistent-volume-claim-volume-source 'read-only)))))
-
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-claim-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "claimName" source)
-    (when present-p
-      (setf (slot-value object 'claim-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass rbd-volume-source (resource)
@@ -6058,42 +3653,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value rbd-volume-source 'read-only)))))
 
-(defmethod unmarshal ((source hash-table) (object rbd-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "monitors" source)
-    (when present-p
-      (setf (slot-value object 'monitors)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "image" source)
-    (when present-p
-      (setf (slot-value object 'image) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "pool" source)
-    (when present-p
-      (setf (slot-value object 'pool) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "keyring" source)
-    (when present-p
-      (setf (slot-value object 'keyring) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass flex-volume-source (resource)
           ((driver :initarg :driver :type string :documentation
@@ -6129,29 +3688,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp flex-volume-source 'options)
       (funcall (json:stream-object-member-encoder stream) "options"
                (slot-value flex-volume-source 'options)))))
-
-(defmethod unmarshal ((source hash-table) (object flex-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "driver" source)
-    (when present-p
-      (setf (slot-value object 'driver) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "options" source)
-    (when present-p
-      (setf (slot-value object 'options) (decode-object "object" value)))))
 
 
 (defclass ceph-fs-volume-source (resource)
@@ -6195,34 +3731,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value ceph-fs-volume-source 'read-only)))))
 
-(defmethod unmarshal ((source hash-table) (object ceph-fs-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "monitors" source)
-    (when present-p
-      (setf (slot-value object 'monitors)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretFile" source)
-    (when present-p
-      (setf (slot-value object 'secret-file) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass downward-api-volume-source (resource)
           ((items :initarg :items :type list :documentation
@@ -6243,18 +3751,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp downward-api-volume-source 'default-mode)
       (funcall (json:stream-object-member-encoder stream) "defaultMode"
                (slot-value downward-api-volume-source 'default-mode)))))
-
-(defmethod unmarshal ((source hash-table) (object downward-api-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "DownwardAPIVolumeFile") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "defaultMode" source)
-    (when present-p
-      (setf (slot-value object 'default-mode)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass downward-api-volume-file (resource)
@@ -6288,27 +3784,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "mode"
                (slot-value downward-api-volume-file 'mode)))))
 
-(defmethod unmarshal ((source hash-table) (object downward-api-volume-file))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fieldRef" source)
-    (when present-p
-      (setf (slot-value object 'field-ref)
-              (decode-object "ObjectFieldSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resourceFieldRef" source)
-    (when present-p
-      (setf (slot-value object 'resource-field-ref)
-              (decode-object "ResourceFieldSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "mode" source)
-    (when present-p
-      (setf (slot-value object 'mode)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass object-field-selector (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -6326,16 +3801,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp object-field-selector 'field-path)
       (funcall (json:stream-object-member-encoder stream) "fieldPath"
                (slot-value object-field-selector 'field-path)))))
-
-(defmethod unmarshal ((source hash-table) (object object-field-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fieldPath" source)
-    (when present-p
-      (setf (slot-value object 'field-path) (decode-object "string" value)))))
 
 
 (defclass resource-field-selector (resource)
@@ -6362,21 +3827,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "divisor"
                (slot-value resource-field-selector 'divisor)))))
 
-(defmethod unmarshal ((source hash-table) (object resource-field-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "containerName" source)
-    (when present-p
-      (setf (slot-value object 'container-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resource" source)
-    (when present-p
-      (setf (slot-value object 'resource) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "divisor" source)
-    (when present-p
-      (setf (slot-value object 'divisor) (decode-object "string" value)))))
-
 
 (defclass azure-file-volume-source (resource)
           ((secret-name :initarg :secret-name :type string :documentation
@@ -6402,20 +3852,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp azure-file-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value azure-file-volume-source 'read-only)))))
-
-(defmethod unmarshal ((source hash-table) (object azure-file-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "secretName" source)
-    (when present-p
-      (setf (slot-value object 'secret-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "shareName" source)
-    (when present-p
-      (setf (slot-value object 'share-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass config-map-volume-source (resource)
@@ -6449,26 +3885,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value config-map-volume-source 'optional)))))
 
-(defmethod unmarshal ((source hash-table) (object config-map-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "KeyToPath") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "defaultMode" source)
-    (when present-p
-      (setf (slot-value object 'default-mode)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
-
 
 (defclass projected-volume-source (resource)
           ((sources :initarg :sources :type list :documentation
@@ -6487,18 +3903,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
     (when (slot-boundp projected-volume-source 'default-mode)
       (funcall (json:stream-object-member-encoder stream) "defaultMode"
                (slot-value projected-volume-source 'default-mode)))))
-
-(defmethod unmarshal ((source hash-table) (object projected-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "sources" source)
-    (when present-p
-      (setf (slot-value object 'sources)
-              (decode-object (cons "array" "VolumeProjection") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "defaultMode" source)
-    (when present-p
-      (setf (slot-value object 'default-mode)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass volume-projection (resource)
@@ -6526,23 +3930,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
       (funcall (json:stream-object-member-encoder stream) "configMap"
                (slot-value volume-projection 'config-map)))))
 
-(defmethod unmarshal ((source hash-table) (object volume-projection))
-  (multiple-value-bind (value present-p)
-      (gethash "secret" source)
-    (when present-p
-      (setf (slot-value object 'secret)
-              (decode-object "SecretProjection" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "downwardApi" source)
-    (when present-p
-      (setf (slot-value object 'downward-api)
-              (decode-object "DownwardAPIProjection" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configMap" source)
-    (when present-p
-      (setf (slot-value object 'config-map)
-              (decode-object "ConfigMapProjection" value)))))
-
 
 (defclass secret-projection (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -6568,21 +3955,6 @@ The contents of the target Secret's Data field will be presented in a projected 
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value secret-projection 'optional)))))
 
-(defmethod unmarshal ((source hash-table) (object secret-projection))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "KeyToPath") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
-
 
 (defclass downward-api-projection (resource)
           ((items :initarg :items :type list :documentation
@@ -6596,13 +3968,6 @@ The contents of the target Secret's Data field will be presented in a projected 
     (when (slot-boundp downward-api-projection 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value downward-api-projection 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object downward-api-projection))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "DownwardAPIVolumeFile") value)))))
 
 
 (defclass config-map-projection (resource)
@@ -6628,21 +3993,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
     (when (slot-boundp config-map-projection 'optional)
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value config-map-projection 'optional)))))
-
-(defmethod unmarshal ((source hash-table) (object config-map-projection))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "KeyToPath") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
 
 
 (defclass scale-io-volume-source (resource)
@@ -6710,50 +4060,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value scale-io-volume-source 'read-only)))))
 
-(defmethod unmarshal ((source hash-table) (object scale-io-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "gateway" source)
-    (when present-p
-      (setf (slot-value object 'gateway) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "system" source)
-    (when present-p
-      (setf (slot-value object 'system) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "sslEnabled" source)
-    (when present-p
-      (setf (slot-value object 'ssl-enabled) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "protectionDomain" source)
-    (when present-p
-      (setf (slot-value object 'protection-domain)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storagePool" source)
-    (when present-p
-      (setf (slot-value object 'storage-pool) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storageMode" source)
-    (when present-p
-      (setf (slot-value object 'storage-mode) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeName" source)
-    (when present-p
-      (setf (slot-value object 'volume-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass storage-os-volume-source (resource)
           ((volume-name :initarg :volume-name :type (or string null)
@@ -6791,30 +4097,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
     (when (slot-boundp storage-os-volume-source 'secret-ref)
       (funcall (json:stream-object-member-encoder stream) "secretRef"
                (slot-value storage-os-volume-source 'secret-ref)))))
-
-(defmethod unmarshal ((source hash-table) (object storage-os-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeName" source)
-    (when present-p
-      (setf (slot-value object 'volume-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeNamespace" source)
-    (when present-p
-      (setf (slot-value object 'volume-namespace)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value)))))
 
 
 (defclass container (resource)
@@ -6941,106 +4223,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
       (funcall (json:stream-object-member-encoder stream) "tty"
                (slot-value container 'tty)))))
 
-(defmethod unmarshal ((source hash-table) (object container))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "image" source)
-    (when present-p
-      (setf (slot-value object 'image) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "command" source)
-    (when present-p
-      (setf (slot-value object 'command)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "args" source)
-    (when present-p
-      (setf (slot-value object 'args)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "workingDir" source)
-    (when present-p
-      (setf (slot-value object 'working-dir) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "ports" source)
-    (when present-p
-      (setf (slot-value object 'ports)
-              (decode-object (cons "array" "ContainerPort") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "envFrom" source)
-    (when present-p
-      (setf (slot-value object 'env-from)
-              (decode-object (cons "array" "EnvFromSource") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "env" source)
-    (when present-p
-      (setf (slot-value object 'env)
-              (decode-object (cons "array" "EnvVar") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resources" source)
-    (when present-p
-      (setf (slot-value object 'resources)
-              (decode-object "ResourceRequirements" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeMounts" source)
-    (when present-p
-      (setf (slot-value object 'volume-mounts)
-              (decode-object (cons "array" "VolumeMount") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeDevices" source)
-    (when present-p
-      (setf (slot-value object 'volume-devices)
-              (decode-object (cons "array" "VolumeDevice") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "livenessProbe" source)
-    (when present-p
-      (setf (slot-value object 'liveness-probe)
-              (decode-object "Probe" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readinessProbe" source)
-    (when present-p
-      (setf (slot-value object 'readiness-probe)
-              (decode-object "Probe" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lifecycle" source)
-    (when present-p
-      (setf (slot-value object 'lifecycle) (decode-object "Lifecycle" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "terminationMessagePath" source)
-    (when present-p
-      (setf (slot-value object 'termination-message-path)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "terminationMessagePolicy" source)
-    (when present-p
-      (setf (slot-value object 'termination-message-policy)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "imagePullPolicy" source)
-    (when present-p
-      (setf (slot-value object 'image-pull-policy)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "securityContext" source)
-    (when present-p
-      (setf (slot-value object 'security-context)
-              (decode-object "SecurityContext" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "stdin" source)
-    (when present-p
-      (setf (slot-value object 'stdin) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "stdinOnce" source)
-    (when present-p
-      (setf (slot-value object 'stdin-once) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tty" source)
-    (when present-p
-      (setf (slot-value object 'tty) (decode-object "boolean" value)))))
-
 
 (defclass container-port (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -7076,30 +4258,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
       (funcall (json:stream-object-member-encoder stream) "hostIp"
                (slot-value container-port 'host-ip)))))
 
-(defmethod unmarshal ((source hash-table) (object container-port))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostPort" source)
-    (when present-p
-      (setf (slot-value object 'host-port)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "containerPort" source)
-    (when present-p
-      (setf (slot-value object 'container-port)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "protocol" source)
-    (when present-p
-      (setf (slot-value object 'protocol) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostIp" source)
-    (when present-p
-      (setf (slot-value object 'host-ip) (decode-object "string" value)))))
-
 
 (defclass env-from-source (resource)
           ((prefix :initarg :prefix :type (or string null) :documentation
@@ -7125,22 +4283,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
       (funcall (json:stream-object-member-encoder stream) "secretRef"
                (slot-value env-from-source 'secret-ref)))))
 
-(defmethod unmarshal ((source hash-table) (object env-from-source))
-  (multiple-value-bind (value present-p)
-      (gethash "prefix" source)
-    (when present-p
-      (setf (slot-value object 'prefix) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configMapRef" source)
-    (when present-p
-      (setf (slot-value object 'config-map-ref)
-              (decode-object "ConfigMapEnvSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "SecretEnvSource" value)))))
-
 
 (defclass config-map-env-source (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -7162,16 +4304,6 @@ The contents of the target ConfigMap's Data field will represent the key-value p
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value config-map-env-source 'optional)))))
 
-(defmethod unmarshal ((source hash-table) (object config-map-env-source))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
-
 
 (defclass secret-env-source (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -7192,16 +4324,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp secret-env-source 'optional)
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value secret-env-source 'optional)))))
-
-(defmethod unmarshal ((source hash-table) (object secret-env-source))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
 
 
 (defclass env-var (resource)
@@ -7226,21 +4348,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp env-var 'value-from)
       (funcall (json:stream-object-member-encoder stream) "valueFrom"
                (slot-value env-var 'value-from)))))
-
-(defmethod unmarshal ((source hash-table) (object env-var))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "valueFrom" source)
-    (when present-p
-      (setf (slot-value object 'value-from)
-              (decode-object "EnvVarSource" value)))))
 
 
 (defclass env-var-source (resource)
@@ -7274,28 +4381,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "secretKeyRef"
                (slot-value env-var-source 'secret-key-ref)))))
 
-(defmethod unmarshal ((source hash-table) (object env-var-source))
-  (multiple-value-bind (value present-p)
-      (gethash "fieldRef" source)
-    (when present-p
-      (setf (slot-value object 'field-ref)
-              (decode-object "ObjectFieldSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resourceFieldRef" source)
-    (when present-p
-      (setf (slot-value object 'resource-field-ref)
-              (decode-object "ResourceFieldSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configMapKeyRef" source)
-    (when present-p
-      (setf (slot-value object 'config-map-key-ref)
-              (decode-object "ConfigMapKeySelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretKeyRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-key-ref)
-              (decode-object "SecretKeySelector" value)))))
-
 
 (defclass config-map-key-selector (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -7317,20 +4402,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp config-map-key-selector 'optional)
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value config-map-key-selector 'optional)))))
-
-(defmethod unmarshal ((source hash-table) (object config-map-key-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
 
 
 (defclass secret-key-selector (resource)
@@ -7354,20 +4425,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp secret-key-selector 'optional)
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value secret-key-selector 'optional)))))
-
-(defmethod unmarshal ((source hash-table) (object secret-key-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
 
 
 (defclass volume-mount (resource)
@@ -7404,37 +4461,12 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "mountPropagation"
                (slot-value volume-mount 'mount-propagation)))))
 
-(defmethod unmarshal ((source hash-table) (object volume-mount))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "mountPath" source)
-    (when present-p
-      (setf (slot-value object 'mount-path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "subPath" source)
-    (when present-p
-      (setf (slot-value object 'sub-path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "mountPropagation" source)
-    (when present-p
-      (setf (slot-value object 'mount-propagation)
-              (decode-object "MountPropagationMode" value)))))
-
 
 (defclass mount-propagation-mode (resource) nil)
 
 (defmethod json:encode-json
            ((mount-propagation-mode mount-propagation-mode) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object mount-propagation-mode)))
 
 
 (defclass volume-device (resource)
@@ -7453,16 +4485,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp volume-device 'device-path)
       (funcall (json:stream-object-member-encoder stream) "devicePath"
                (slot-value volume-device 'device-path)))))
-
-(defmethod unmarshal ((source hash-table) (object volume-device))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "devicePath" source)
-    (when present-p
-      (setf (slot-value object 'device-path) (decode-object "string" value)))))
 
 
 (defclass probe (resource)
@@ -7518,47 +4540,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "failureThreshold"
                (slot-value probe 'failure-threshold)))))
 
-(defmethod unmarshal ((source hash-table) (object probe))
-  (multiple-value-bind (value present-p)
-      (gethash "exec" source)
-    (when present-p
-      (setf (slot-value object 'exec) (decode-object "ExecAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "httpGet" source)
-    (when present-p
-      (setf (slot-value object 'http-get)
-              (decode-object "HTTPGetAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tcpSocket" source)
-    (when present-p
-      (setf (slot-value object 'tcp-socket)
-              (decode-object "TCPSocketAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initialDelaySeconds" source)
-    (when present-p
-      (setf (slot-value object 'initial-delay-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "timeoutSeconds" source)
-    (when present-p
-      (setf (slot-value object 'timeout-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "periodSeconds" source)
-    (when present-p
-      (setf (slot-value object 'period-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "successThreshold" source)
-    (when present-p
-      (setf (slot-value object 'success-threshold)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "failureThreshold" source)
-    (when present-p
-      (setf (slot-value object 'failure-threshold)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass exec-action (resource)
           ((command :initarg :command :type list :documentation
@@ -7571,13 +4552,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp exec-action 'command)
       (funcall (json:stream-object-member-encoder stream) "command"
                (slot-value exec-action 'command)))))
-
-(defmethod unmarshal ((source hash-table) (object exec-action))
-  (multiple-value-bind (value present-p)
-      (gethash "command" source)
-    (when present-p
-      (setf (slot-value object 'command)
-              (decode-object (cons "array" "string") value)))))
 
 
 (defclass http-get-action (resource)
@@ -7613,29 +4587,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "httpHeaders"
                (slot-value http-get-action 'http-headers)))))
 
-(defmethod unmarshal ((source hash-table) (object http-get-action))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "port" source)
-    (when present-p
-      (setf (slot-value object 'port) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "host" source)
-    (when present-p
-      (setf (slot-value object 'host) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "scheme" source)
-    (when present-p
-      (setf (slot-value object 'scheme) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "httpHeaders" source)
-    (when present-p
-      (setf (slot-value object 'http-headers)
-              (decode-object (cons "array" "HTTPHeader") value)))))
-
 
 (defclass http-header (resource)
           ((name :initarg :name :type string :documentation
@@ -7653,16 +4604,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp http-header 'value)
       (funcall (json:stream-object-member-encoder stream) "value"
                (slot-value http-header 'value)))))
-
-(defmethod unmarshal ((source hash-table) (object http-header))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value) (decode-object "string" value)))))
 
 
 (defclass tcp-socket-action (resource)
@@ -7683,16 +4624,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "host"
                (slot-value tcp-socket-action 'host)))))
 
-(defmethod unmarshal ((source hash-table) (object tcp-socket-action))
-  (multiple-value-bind (value present-p)
-      (gethash "port" source)
-    (when present-p
-      (setf (slot-value object 'port) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "host" source)
-    (when present-p
-      (setf (slot-value object 'host) (decode-object "string" value)))))
-
 
 (defclass lifecycle (resource)
           ((post-start :initarg :post-start :type (or handler null)
@@ -7711,16 +4642,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp lifecycle 'pre-stop)
       (funcall (json:stream-object-member-encoder stream) "preStop"
                (slot-value lifecycle 'pre-stop)))))
-
-(defmethod unmarshal ((source hash-table) (object lifecycle))
-  (multiple-value-bind (value present-p)
-      (gethash "postStart" source)
-    (when present-p
-      (setf (slot-value object 'post-start) (decode-object "Handler" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preStop" source)
-    (when present-p
-      (setf (slot-value object 'pre-stop) (decode-object "Handler" value)))))
 
 
 (defclass handler (resource)
@@ -7745,22 +4666,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp handler 'tcp-socket)
       (funcall (json:stream-object-member-encoder stream) "tcpSocket"
                (slot-value handler 'tcp-socket)))))
-
-(defmethod unmarshal ((source hash-table) (object handler))
-  (multiple-value-bind (value present-p)
-      (gethash "exec" source)
-    (when present-p
-      (setf (slot-value object 'exec) (decode-object "ExecAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "httpGet" source)
-    (when present-p
-      (setf (slot-value object 'http-get)
-              (decode-object "HTTPGetAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tcpSocket" source)
-    (when present-p
-      (setf (slot-value object 'tcp-socket)
-              (decode-object "TCPSocketAction" value)))))
 
 
 (defclass security-context (resource)
@@ -7821,47 +4726,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                "allowPrivilegeEscalation"
                (slot-value security-context 'allow-privilege-escalation)))))
 
-(defmethod unmarshal ((source hash-table) (object security-context))
-  (multiple-value-bind (value present-p)
-      (gethash "capabilities" source)
-    (when present-p
-      (setf (slot-value object 'capabilities)
-              (decode-object "Capabilities" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "privileged" source)
-    (when present-p
-      (setf (slot-value object 'privileged) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "seLinuxOptions" source)
-    (when present-p
-      (setf (slot-value object 'se-linux-options)
-              (decode-object "SELinuxOptions" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsUser" source)
-    (when present-p
-      (setf (slot-value object 'run-as-user)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsGroup" source)
-    (when present-p
-      (setf (slot-value object 'run-as-group)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsNonRoot" source)
-    (when present-p
-      (setf (slot-value object 'run-as-non-root)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnlyRootFilesystem" source)
-    (when present-p
-      (setf (slot-value object 'read-only-root-filesystem)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "allowPrivilegeEscalation" source)
-    (when present-p
-      (setf (slot-value object 'allow-privilege-escalation)
-              (decode-object "boolean" value)))))
-
 
 (defclass capabilities (resource)
           ((add :initarg :add :type list :documentation "Added capabilities")
@@ -7879,25 +4743,11 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "drop"
                (slot-value capabilities 'drop)))))
 
-(defmethod unmarshal ((source hash-table) (object capabilities))
-  (multiple-value-bind (value present-p)
-      (gethash "add" source)
-    (when present-p
-      (setf (slot-value object 'add)
-              (decode-object (cons "array" "Capability") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "drop" source)
-    (when present-p
-      (setf (slot-value object 'drop)
-              (decode-object (cons "array" "Capability") value)))))
-
 
 (defclass capability (resource) nil)
 
 (defmethod json:encode-json ((capability capability) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object capability)))
 
 
 (defclass se-linux-options (resource)
@@ -7927,24 +4777,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp se-linux-options 'level)
       (funcall (json:stream-object-member-encoder stream) "level"
                (slot-value se-linux-options 'level)))))
-
-(defmethod unmarshal ((source hash-table) (object se-linux-options))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "role" source)
-    (when present-p
-      (setf (slot-value object 'role) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "level" source)
-    (when present-p
-      (setf (slot-value object 'level) (decode-object "string" value)))))
 
 
 (defclass pod-security-context (resource)
@@ -7992,38 +4824,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "fsGroup"
                (slot-value pod-security-context 'fs-group)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-security-context))
-  (multiple-value-bind (value present-p)
-      (gethash "seLinuxOptions" source)
-    (when present-p
-      (setf (slot-value object 'se-linux-options)
-              (decode-object "SELinuxOptions" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsUser" source)
-    (when present-p
-      (setf (slot-value object 'run-as-user)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsGroup" source)
-    (when present-p
-      (setf (slot-value object 'run-as-group)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsNonRoot" source)
-    (when present-p
-      (setf (slot-value object 'run-as-non-root)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "supplementalGroups" source)
-    (when present-p
-      (setf (slot-value object 'supplemental-groups)
-              (decode-object (cons "array" "integer") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsGroup" source)
-    (when present-p
-      (setf (slot-value object 'fs-group)
-              (decode-object (cons "integer" "int64") value)))))
-
 
 (defclass affinity (resource)
           ((node-affinity :initarg :node-affinity :type (or node-affinity null)
@@ -8048,23 +4848,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp affinity 'pod-anti-affinity)
       (funcall (json:stream-object-member-encoder stream) "podAntiAffinity"
                (slot-value affinity 'pod-anti-affinity)))))
-
-(defmethod unmarshal ((source hash-table) (object affinity))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeAffinity" source)
-    (when present-p
-      (setf (slot-value object 'node-affinity)
-              (decode-object "NodeAffinity" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "podAffinity" source)
-    (when present-p
-      (setf (slot-value object 'pod-affinity)
-              (decode-object "PodAffinity" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "podAntiAffinity" source)
-    (when present-p
-      (setf (slot-value object 'pod-anti-affinity)
-              (decode-object "PodAntiAffinity" value)))))
 
 
 (defclass node-affinity (resource)
@@ -8096,20 +4879,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                (slot-value node-affinity
                            'preferred-during-scheduling-ignored-during-execution)))))
 
-(defmethod unmarshal ((source hash-table) (object node-affinity))
-  (multiple-value-bind (value present-p)
-      (gethash "requiredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'required-during-scheduling-ignored-during-execution)
-              (decode-object "NodeSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preferredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'preferred-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "PreferredSchedulingTerm") value)))))
-
 
 (defclass preferred-scheduling-term (resource)
           ((weight :initarg :weight :type integer :documentation
@@ -8130,18 +4899,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp preferred-scheduling-term 'preference)
       (funcall (json:stream-object-member-encoder stream) "preference"
                (slot-value preferred-scheduling-term 'preference)))))
-
-(defmethod unmarshal ((source hash-table) (object preferred-scheduling-term))
-  (multiple-value-bind (value present-p)
-      (gethash "weight" source)
-    (when present-p
-      (setf (slot-value object 'weight)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preference" source)
-    (when present-p
-      (setf (slot-value object 'preference)
-              (decode-object "NodeSelectorTerm" value)))))
 
 
 (defclass pod-affinity (resource)
@@ -8173,20 +4930,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                (slot-value pod-affinity
                            'preferred-during-scheduling-ignored-during-execution)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-affinity))
-  (multiple-value-bind (value present-p)
-      (gethash "requiredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'required-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "PodAffinityTerm") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preferredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'preferred-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "WeightedPodAffinityTerm") value)))))
-
 
 (defclass pod-affinity-term (resource)
           ((label-selector :initarg :label-selector :type
@@ -8212,22 +4955,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "topologyKey"
                (slot-value pod-affinity-term 'topology-key)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-affinity-term))
-  (multiple-value-bind (value present-p)
-      (gethash "labelSelector" source)
-    (when present-p
-      (setf (slot-value object 'label-selector)
-              (decode-object "LabelSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "namespaces" source)
-    (when present-p
-      (setf (slot-value object 'namespaces)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "topologyKey" source)
-    (when present-p
-      (setf (slot-value object 'topology-key) (decode-object "string" value)))))
-
 
 (defclass weighted-pod-affinity-term (resource)
           ((weight :initarg :weight :type integer :documentation
@@ -8248,18 +4975,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp weighted-pod-affinity-term 'pod-affinity-term)
       (funcall (json:stream-object-member-encoder stream) "podAffinityTerm"
                (slot-value weighted-pod-affinity-term 'pod-affinity-term)))))
-
-(defmethod unmarshal ((source hash-table) (object weighted-pod-affinity-term))
-  (multiple-value-bind (value present-p)
-      (gethash "weight" source)
-    (when present-p
-      (setf (slot-value object 'weight)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "podAffinityTerm" source)
-    (when present-p
-      (setf (slot-value object 'pod-affinity-term)
-              (decode-object "PodAffinityTerm" value)))))
 
 
 (defclass pod-anti-affinity (resource)
@@ -8291,20 +5006,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                "preferredDuringSchedulingIgnoredDuringExecution"
                (slot-value pod-anti-affinity
                            'preferred-during-scheduling-ignored-during-execution)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-anti-affinity))
-  (multiple-value-bind (value present-p)
-      (gethash "requiredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'required-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "PodAffinityTerm") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preferredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'preferred-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "WeightedPodAffinityTerm") value)))))
 
 
 (defclass toleration (resource)
@@ -8340,29 +5041,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "tolerationSeconds"
                (slot-value toleration 'toleration-seconds)))))
 
-(defmethod unmarshal ((source hash-table) (object toleration))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "operator" source)
-    (when present-p
-      (setf (slot-value object 'operator) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "effect" source)
-    (when present-p
-      (setf (slot-value object 'effect) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tolerationSeconds" source)
-    (when present-p
-      (setf (slot-value object 'toleration-seconds)
-              (decode-object (cons "integer" "int64") value)))))
-
 
 (defclass host-alias (resource)
           ((ip :initarg :ip :type (or string null) :documentation
@@ -8380,17 +5058,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp host-alias 'hostnames)
       (funcall (json:stream-object-member-encoder stream) "hostnames"
                (slot-value host-alias 'hostnames)))))
-
-(defmethod unmarshal ((source hash-table) (object host-alias))
-  (multiple-value-bind (value present-p)
-      (gethash "ip" source)
-    (when present-p
-      (setf (slot-value object 'ip) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostnames" source)
-    (when present-p
-      (setf (slot-value object 'hostnames)
-              (decode-object (cons "array" "string") value)))))
 
 
 (defclass pod-dns-config (resource)
@@ -8415,23 +5082,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "options"
                (slot-value pod-dns-config 'options)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-dns-config))
-  (multiple-value-bind (value present-p)
-      (gethash "nameservers" source)
-    (when present-p
-      (setf (slot-value object 'nameservers)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "searches" source)
-    (when present-p
-      (setf (slot-value object 'searches)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "options" source)
-    (when present-p
-      (setf (slot-value object 'options)
-              (decode-object (cons "array" "PodDNSConfigOption") value)))))
-
 
 (defclass pod-dns-config-option (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -8449,16 +5099,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp pod-dns-config-option 'value)
       (funcall (json:stream-object-member-encoder stream) "value"
                (slot-value pod-dns-config-option 'value)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-dns-config-option))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value) (decode-object "string" value)))))
 
 
 (defclass pod-status (resource)
@@ -8528,56 +5168,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "qosClass"
                (slot-value pod-status 'qos-class)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-status))
-  (multiple-value-bind (value present-p)
-      (gethash "phase" source)
-    (when present-p
-      (setf (slot-value object 'phase) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "PodCondition") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nominatedNodeName" source)
-    (when present-p
-      (setf (slot-value object 'nominated-node-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostIp" source)
-    (when present-p
-      (setf (slot-value object 'host-ip) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "podIp" source)
-    (when present-p
-      (setf (slot-value object 'pod-ip) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "startTime" source)
-    (when present-p
-      (setf (slot-value object 'start-time) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initContainerStatuses" source)
-    (when present-p
-      (setf (slot-value object 'init-container-statuses)
-              (decode-object (cons "array" "ContainerStatus") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "containerStatuses" source)
-    (when present-p
-      (setf (slot-value object 'container-statuses)
-              (decode-object (cons "array" "ContainerStatus") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "qosClass" source)
-    (when present-p
-      (setf (slot-value object 'qos-class) (decode-object "string" value)))))
-
 
 (defclass pod-condition (resource)
           ((type :initarg :type :type string :documentation
@@ -8616,34 +5206,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp pod-condition 'message)
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value pod-condition 'message)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastProbeTime" source)
-    (when present-p
-      (setf (slot-value object 'last-probe-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
 
 
 (defclass container-status (resource)
@@ -8696,43 +5258,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "containerId"
                (slot-value container-status 'container-id)))))
 
-(defmethod unmarshal ((source hash-table) (object container-status))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "state" source)
-    (when present-p
-      (setf (slot-value object 'state)
-              (decode-object "ContainerState" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastState" source)
-    (when present-p
-      (setf (slot-value object 'last-state)
-              (decode-object "ContainerState" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "ready" source)
-    (when present-p
-      (setf (slot-value object 'ready) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "restartCount" source)
-    (when present-p
-      (setf (slot-value object 'restart-count)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "image" source)
-    (when present-p
-      (setf (slot-value object 'image) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "imageId" source)
-    (when present-p
-      (setf (slot-value object 'image-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "containerId" source)
-    (when present-p
-      (setf (slot-value object 'container-id) (decode-object "string" value)))))
-
 
 (defclass container-state (resource)
           ((waiting :initarg :waiting :type (or container-state-waiting null)
@@ -8758,23 +5283,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "terminated"
                (slot-value container-state 'terminated)))))
 
-(defmethod unmarshal ((source hash-table) (object container-state))
-  (multiple-value-bind (value present-p)
-      (gethash "waiting" source)
-    (when present-p
-      (setf (slot-value object 'waiting)
-              (decode-object "ContainerStateWaiting" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "running" source)
-    (when present-p
-      (setf (slot-value object 'running)
-              (decode-object "ContainerStateRunning" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "terminated" source)
-    (when present-p
-      (setf (slot-value object 'terminated)
-              (decode-object "ContainerStateTerminated" value)))))
-
 
 (defclass container-state-waiting (resource)
           ((reason :initarg :reason :type (or string null) :documentation
@@ -8794,16 +5302,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value container-state-waiting 'message)))))
 
-(defmethod unmarshal ((source hash-table) (object container-state-waiting))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
-
 
 (defclass container-state-running (resource)
           ((started-at :initarg :started-at :type (or string null)
@@ -8818,12 +5316,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp container-state-running 'started-at)
       (funcall (json:stream-object-member-encoder stream) "startedAt"
                (slot-value container-state-running 'started-at)))))
-
-(defmethod unmarshal ((source hash-table) (object container-state-running))
-  (multiple-value-bind (value present-p)
-      (gethash "startedAt" source)
-    (when present-p
-      (setf (slot-value object 'started-at) (decode-object "string" value)))))
 
 
 (defclass container-state-terminated (resource)
@@ -8872,38 +5364,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "containerId"
                (slot-value container-state-terminated 'container-id)))))
 
-(defmethod unmarshal ((source hash-table) (object container-state-terminated))
-  (multiple-value-bind (value present-p)
-      (gethash "exitCode" source)
-    (when present-p
-      (setf (slot-value object 'exit-code)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "signal" source)
-    (when present-p
-      (setf (slot-value object 'signal)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "startedAt" source)
-    (when present-p
-      (setf (slot-value object 'started-at) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "finishedAt" source)
-    (when present-p
-      (setf (slot-value object 'finished-at) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "containerId" source)
-    (when present-p
-      (setf (slot-value object 'container-id) (decode-object "string" value)))))
-
 
 (defclass eviction (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -8932,25 +5392,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "deleteOptions"
                (slot-value eviction 'delete-options)))))
 
-(defmethod unmarshal ((source hash-table) (object eviction))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "deleteOptions" source)
-    (when present-p
-      (setf (slot-value object 'delete-options)
-              (decode-object "DeleteOptions" value)))))
-
 
 (defclass pod-template-list (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -8977,25 +5418,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp pod-template-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value pod-template-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-template-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "PodTemplate") value)))))
 
 
 (defclass pod-template (resource)
@@ -9025,25 +5447,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "template"
                (slot-value pod-template 'template)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-template))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "template" source)
-    (when present-p
-      (setf (slot-value object 'template)
-              (decode-object "PodTemplateSpec" value)))))
-
 
 (defclass pod-template-spec (resource)
           ((metadata :initarg :metadata :type (or object-meta null)
@@ -9063,16 +5466,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp pod-template-spec 'spec)
       (funcall (json:stream-object-member-encoder stream) "spec"
                (slot-value pod-template-spec 'spec)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-template-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "PodSpec" value)))))
 
 
 (defclass replication-controller-list (resource)
@@ -9102,25 +5495,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp replication-controller-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value replication-controller-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object replication-controller-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "ReplicationController") value)))))
 
 
 (defclass replication-controller (resource)
@@ -9157,30 +5531,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value replication-controller 'status)))))
 
-(defmethod unmarshal ((source hash-table) (object replication-controller))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec)
-              (decode-object "ReplicationControllerSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "ReplicationControllerStatus" value)))))
-
 
 (defclass replication-controller-spec (resource)
           ((replicas :initarg :replicas :type (or integer null) :documentation
@@ -9212,27 +5562,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp replication-controller-spec 'template)
       (funcall (json:stream-object-member-encoder stream) "template"
                (slot-value replication-controller-spec 'template)))))
-
-(defmethod unmarshal ((source hash-table) (object replication-controller-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "minReadySeconds" source)
-    (when present-p
-      (setf (slot-value object 'min-ready-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "template" source)
-    (when present-p
-      (setf (slot-value object 'template)
-              (decode-object "PodTemplateSpec" value)))))
 
 
 (defclass replication-controller-status (resource)
@@ -9280,40 +5609,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "conditions"
                (slot-value replication-controller-status 'conditions)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object replication-controller-status))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fullyLabeledReplicas" source)
-    (when present-p
-      (setf (slot-value object 'fully-labeled-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readyReplicas" source)
-    (when present-p
-      (setf (slot-value object 'ready-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "availableReplicas" source)
-    (when present-p
-      (setf (slot-value object 'available-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "observedGeneration" source)
-    (when present-p
-      (setf (slot-value object 'observed-generation)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "ReplicationControllerCondition")
-               value)))))
-
 
 (defclass replication-controller-condition (resource)
           ((type :initarg :type :type string :documentation
@@ -9351,30 +5646,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value replication-controller-condition 'message)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object replication-controller-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
-
 
 (defclass scale (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -9406,28 +5677,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value scale 'status)))))
 
-(defmethod unmarshal ((source hash-table) (object scale))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "ScaleSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "ScaleStatus" value)))))
-
 
 (defclass scale-spec (resource)
           ((replicas :initarg :replicas :type (or integer null) :documentation
@@ -9440,13 +5689,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp scale-spec 'replicas)
       (funcall (json:stream-object-member-encoder stream) "replicas"
                (slot-value scale-spec 'replicas)))))
-
-(defmethod unmarshal ((source hash-table) (object scale-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass scale-status (resource)
@@ -9465,17 +5707,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp scale-status 'selector)
       (funcall (json:stream-object-member-encoder stream) "selector"
                (slot-value scale-status 'selector)))))
-
-(defmethod unmarshal ((source hash-table) (object scale-status))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector) (decode-object "string" value)))))
 
 
 (defclass resource-quota-list (resource)
@@ -9504,25 +5735,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp resource-quota-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value resource-quota-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object resource-quota-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "ResourceQuota") value)))))
 
 
 (defclass resource-quota (resource)
@@ -9558,30 +5770,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value resource-quota 'status)))))
 
-(defmethod unmarshal ((source hash-table) (object resource-quota))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec)
-              (decode-object "ResourceQuotaSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "ResourceQuotaStatus" value)))))
-
 
 (defclass resource-quota-spec (resource)
           ((hard :initarg :hard :type list :documentation
@@ -9601,25 +5789,12 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "scopes"
                (slot-value resource-quota-spec 'scopes)))))
 
-(defmethod unmarshal ((source hash-table) (object resource-quota-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "hard" source)
-    (when present-p
-      (setf (slot-value object 'hard) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "scopes" source)
-    (when present-p
-      (setf (slot-value object 'scopes)
-              (decode-object (cons "array" "ResourceQuotaScope") value)))))
-
 
 (defclass resource-quota-scope (resource) nil)
 
 (defmethod json:encode-json
            ((resource-quota-scope resource-quota-scope) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object resource-quota-scope)))
 
 
 (defclass resource-quota-status (resource)
@@ -9639,16 +5814,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp resource-quota-status 'used)
       (funcall (json:stream-object-member-encoder stream) "used"
                (slot-value resource-quota-status 'used)))))
-
-(defmethod unmarshal ((source hash-table) (object resource-quota-status))
-  (multiple-value-bind (value present-p)
-      (gethash "hard" source)
-    (when present-p
-      (setf (slot-value object 'hard) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "used" source)
-    (when present-p
-      (setf (slot-value object 'used) (decode-object "object" value)))))
 
 
 (defclass secret-list (resource)
@@ -9675,25 +5840,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp secret-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value secret-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object secret-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "Secret") value)))))
 
 
 (defclass secret (resource)
@@ -9732,32 +5878,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "type"
                (slot-value secret 'type)))))
 
-(defmethod unmarshal ((source hash-table) (object secret))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "data" source)
-    (when present-p
-      (setf (slot-value object 'data) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "stringData" source)
-    (when present-p
-      (setf (slot-value object 'string-data) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value)))))
-
 
 (defclass service-account-list (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -9785,25 +5905,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp service-account-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value service-account-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object service-account-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "ServiceAccount") value)))))
 
 
 (defclass service-account (resource)
@@ -9847,35 +5948,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                "automountServiceAccountToken"
                (slot-value service-account 'automount-service-account-token)))))
 
-(defmethod unmarshal ((source hash-table) (object service-account))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secrets" source)
-    (when present-p
-      (setf (slot-value object 'secrets)
-              (decode-object (cons "array" "ObjectReference") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "imagePullSecrets" source)
-    (when present-p
-      (setf (slot-value object 'image-pull-secrets)
-              (decode-object (cons "array" "LocalObjectReference") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "automountServiceAccountToken" source)
-    (when present-p
-      (setf (slot-value object 'automount-service-account-token)
-              (decode-object "boolean" value)))))
-
 
 (defclass service-list (resource)
           ((api-version :initform "v1" :allocation :class)
@@ -9901,25 +5973,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp service-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value service-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object service-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "Service") value)))))
 
 
 (defclass service (resource)
@@ -9953,29 +6006,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp service 'status)
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value service 'status)))))
-
-(defmethod unmarshal ((source hash-table) (object service))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "ServiceSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "ServiceStatus" value)))))
 
 
 (defclass service-spec (resource)
@@ -10063,70 +6093,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                "sessionAffinityConfig"
                (slot-value service-spec 'session-affinity-config)))))
 
-(defmethod unmarshal ((source hash-table) (object service-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "ports" source)
-    (when present-p
-      (setf (slot-value object 'ports)
-              (decode-object (cons "array" "ServicePort") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "clusterIp" source)
-    (when present-p
-      (setf (slot-value object 'cluster-ip) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "externalIPs" source)
-    (when present-p
-      (setf (slot-value object 'external-i-ps)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "sessionAffinity" source)
-    (when present-p
-      (setf (slot-value object 'session-affinity)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "loadBalancerIp" source)
-    (when present-p
-      (setf (slot-value object 'load-balancer-ip)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "loadBalancerSourceRanges" source)
-    (when present-p
-      (setf (slot-value object 'load-balancer-source-ranges)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "externalName" source)
-    (when present-p
-      (setf (slot-value object 'external-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "externalTrafficPolicy" source)
-    (when present-p
-      (setf (slot-value object 'external-traffic-policy)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "healthCheckNodePort" source)
-    (when present-p
-      (setf (slot-value object 'health-check-node-port)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "publishNotReadyAddresses" source)
-    (when present-p
-      (setf (slot-value object 'publish-not-ready-addresses)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "sessionAffinityConfig" source)
-    (when present-p
-      (setf (slot-value object 'session-affinity-config)
-              (decode-object "SessionAffinityConfig" value)))))
-
 
 (defclass service-port (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -10162,30 +6128,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "nodePort"
                (slot-value service-port 'node-port)))))
 
-(defmethod unmarshal ((source hash-table) (object service-port))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "protocol" source)
-    (when present-p
-      (setf (slot-value object 'protocol) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "port" source)
-    (when present-p
-      (setf (slot-value object 'port)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "targetPort" source)
-    (when present-p
-      (setf (slot-value object 'target-port) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodePort" source)
-    (when present-p
-      (setf (slot-value object 'node-port)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass session-affinity-config (resource)
           ((client-ip :initarg :client-ip :type (or client-ip-config null)
@@ -10200,13 +6142,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp session-affinity-config 'client-ip)
       (funcall (json:stream-object-member-encoder stream) "clientIp"
                (slot-value session-affinity-config 'client-ip)))))
-
-(defmethod unmarshal ((source hash-table) (object session-affinity-config))
-  (multiple-value-bind (value present-p)
-      (gethash "clientIp" source)
-    (when present-p
-      (setf (slot-value object 'client-ip)
-              (decode-object "ClientIPConfig" value)))))
 
 
 (defclass client-ip-config (resource)
@@ -10223,13 +6158,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "timeoutSeconds"
                (slot-value client-ip-config 'timeout-seconds)))))
 
-(defmethod unmarshal ((source hash-table) (object client-ip-config))
-  (multiple-value-bind (value present-p)
-      (gethash "timeoutSeconds" source)
-    (when present-p
-      (setf (slot-value object 'timeout-seconds)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass service-status (resource)
           ((load-balancer :initarg :load-balancer :type
@@ -10244,13 +6172,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "loadBalancer"
                (slot-value service-status 'load-balancer)))))
 
-(defmethod unmarshal ((source hash-table) (object service-status))
-  (multiple-value-bind (value present-p)
-      (gethash "loadBalancer" source)
-    (when present-p
-      (setf (slot-value object 'load-balancer)
-              (decode-object "LoadBalancerStatus" value)))))
-
 
 (defclass load-balancer-status (resource)
           ((ingress :initarg :ingress :type list :documentation
@@ -10264,13 +6185,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp load-balancer-status 'ingress)
       (funcall (json:stream-object-member-encoder stream) "ingress"
                (slot-value load-balancer-status 'ingress)))))
-
-(defmethod unmarshal ((source hash-table) (object load-balancer-status))
-  (multiple-value-bind (value present-p)
-      (gethash "ingress" source)
-    (when present-p
-      (setf (slot-value object 'ingress)
-              (decode-object (cons "array" "LoadBalancerIngress") value)))))
 
 
 (defclass load-balancer-ingress (resource)
@@ -10290,16 +6204,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp load-balancer-ingress 'hostname)
       (funcall (json:stream-object-member-encoder stream) "hostname"
                (slot-value load-balancer-ingress 'hostname)))))
-
-(defmethod unmarshal ((source hash-table) (object load-balancer-ingress))
-  (multiple-value-bind (value present-p)
-      (gethash "ip" source)
-    (when present-p
-      (setf (slot-value object 'ip) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostname" source)
-    (when present-p
-      (setf (slot-value object 'hostname) (decode-object "string" value)))))
 
 
 (defclass api-resource-list (resource)
@@ -10327,26 +6231,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp api-resource-list 'resources)
       (funcall (json:stream-object-member-encoder stream) "resources"
                (slot-value api-resource-list 'resources)))))
-
-(defmethod unmarshal ((source hash-table) (object api-resource-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "groupVersion" source)
-    (when present-p
-      (setf (slot-value object 'group-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resources" source)
-    (when present-p
-      (setf (slot-value object 'resources)
-              (decode-object (cons "array" "APIResource") value)))))
 
 
 (defclass api-resource (resource)
@@ -10400,48 +6284,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "categories"
                (slot-value api-resource 'categories)))))
 
-(defmethod unmarshal ((source hash-table) (object api-resource))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "singularName" source)
-    (when present-p
-      (setf (slot-value object 'singular-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "namespaced" source)
-    (when present-p
-      (setf (slot-value object 'namespaced) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "group" source)
-    (when present-p
-      (setf (slot-value object 'group) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "version" source)
-    (when present-p
-      (setf (slot-value object 'version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "verbs" source)
-    (when present-p
-      (setf (slot-value object 'verbs)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "shortNames" source)
-    (when present-p
-      (setf (slot-value object 'short-names)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "categories" source)
-    (when present-p
-      (setf (slot-value object 'categories)
-              (decode-object (cons "array" "string") value)))))
-
 
 (defclass controller-revision-list (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -10471,25 +6313,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value controller-revision-list 'items)))))
 
-(defmethod unmarshal ((source hash-table) (object controller-revision-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "ControllerRevision") value)))))
-
 
 (defclass list-meta (resource)
           ((self-link :initarg :self-link :type (or string null) :documentation
@@ -10513,21 +6336,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp list-meta 'continue)
       (funcall (json:stream-object-member-encoder stream) "continue"
                (slot-value list-meta 'continue)))))
-
-(defmethod unmarshal ((source hash-table) (object list-meta))
-  (multiple-value-bind (value present-p)
-      (gethash "selfLink" source)
-    (when present-p
-      (setf (slot-value object 'self-link) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resourceVersion" source)
-    (when present-p
-      (setf (slot-value object 'resource-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "continue" source)
-    (when present-p
-      (setf (slot-value object 'continue) (decode-object "string" value)))))
 
 
 (defclass controller-revision (resource)
@@ -10561,29 +6369,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp controller-revision 'revision)
       (funcall (json:stream-object-member-encoder stream) "revision"
                (slot-value controller-revision 'revision)))))
-
-(defmethod unmarshal ((source hash-table) (object controller-revision))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "data" source)
-    (when present-p
-      (setf (slot-value object 'data) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "revision" source)
-    (when present-p
-      (setf (slot-value object 'revision)
-              (decode-object (cons "integer" "int64") value)))))
 
 
 (defclass object-meta (resource)
@@ -10704,81 +6489,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "clusterName"
                (slot-value object-meta 'cluster-name)))))
 
-(defmethod unmarshal ((source hash-table) (object object-meta))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "generateName" source)
-    (when present-p
-      (setf (slot-value object 'generate-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "namespace" source)
-    (when present-p
-      (setf (slot-value object 'namespace) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selfLink" source)
-    (when present-p
-      (setf (slot-value object 'self-link) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resourceVersion" source)
-    (when present-p
-      (setf (slot-value object 'resource-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "generation" source)
-    (when present-p
-      (setf (slot-value object 'generation)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "creationTimestamp" source)
-    (when present-p
-      (setf (slot-value object 'creation-timestamp)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "deletionTimestamp" source)
-    (when present-p
-      (setf (slot-value object 'deletion-timestamp)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "deletionGracePeriodSeconds" source)
-    (when present-p
-      (setf (slot-value object 'deletion-grace-period-seconds)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "labels" source)
-    (when present-p
-      (setf (slot-value object 'labels) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "annotations" source)
-    (when present-p
-      (setf (slot-value object 'annotations) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "ownerReferences" source)
-    (when present-p
-      (setf (slot-value object 'owner-references)
-              (decode-object (cons "array" "OwnerReference") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initializers" source)
-    (when present-p
-      (setf (slot-value object 'initializers)
-              (decode-object "Initializers" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "finalizers" source)
-    (when present-p
-      (setf (slot-value object 'finalizers)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "clusterName" source)
-    (when present-p
-      (setf (slot-value object 'cluster-name) (decode-object "string" value)))))
-
 
 (defclass owner-reference (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -10818,33 +6528,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "blockOwnerDeletion"
                (slot-value owner-reference 'block-owner-deletion)))))
 
-(defmethod unmarshal ((source hash-table) (object owner-reference))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "controller" source)
-    (when present-p
-      (setf (slot-value object 'controller) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "blockOwnerDeletion" source)
-    (when present-p
-      (setf (slot-value object 'block-owner-deletion)
-              (decode-object "boolean" value)))))
-
 
 (defclass initializers (resource)
           ((pending :initarg :pending :type list :documentation
@@ -10863,17 +6546,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "result"
                (slot-value initializers 'result)))))
 
-(defmethod unmarshal ((source hash-table) (object initializers))
-  (multiple-value-bind (value present-p)
-      (gethash "pending" source)
-    (when present-p
-      (setf (slot-value object 'pending)
-              (decode-object (cons "array" "Initializer") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "result" source)
-    (when present-p
-      (setf (slot-value object 'result) (decode-object "Status" value)))))
-
 
 (defclass initializer (resource)
           ((name :initarg :name :type string :documentation
@@ -10886,12 +6558,6 @@ When an object is created, the system will populate this list with the current s
     (when (slot-boundp initializer 'name)
       (funcall (json:stream-object-member-encoder stream) "name"
                (slot-value initializer 'name)))))
-
-(defmethod unmarshal ((source hash-table) (object initializer))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value)))))
 
 
 (defclass status (resource)
@@ -10941,42 +6607,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "code"
                (slot-value status 'code)))))
 
-(defmethod unmarshal ((source hash-table) (object status))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "details" source)
-    (when present-p
-      (setf (slot-value object 'details)
-              (decode-object "StatusDetails" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "code" source)
-    (when present-p
-      (setf (slot-value object 'code)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass status-details (resource)
           ((kind :initform "StatusDetails" :allocation :class)
@@ -11015,34 +6645,6 @@ When an object is created, the system will populate this list with the current s
       (funcall (json:stream-object-member-encoder stream) "retryAfterSeconds"
                (slot-value status-details 'retry-after-seconds)))))
 
-(defmethod unmarshal ((source hash-table) (object status-details))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "group" source)
-    (when present-p
-      (setf (slot-value object 'group) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "causes" source)
-    (when present-p
-      (setf (slot-value object 'causes)
-              (decode-object (cons "array" "StatusCause") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "retryAfterSeconds" source)
-    (when present-p
-      (setf (slot-value object 'retry-after-seconds)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass status-cause (resource)
           ((reason :initarg :reason :type (or string null) :documentation
@@ -11070,20 +6672,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "field"
                (slot-value status-cause 'field)))))
 
-(defmethod unmarshal ((source hash-table) (object status-cause))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "field" source)
-    (when present-p
-      (setf (slot-value object 'field) (decode-object "string" value)))))
-
 
 (defclass watch-event (resource)
           ((type :initarg :type :type string :documentation nil)
@@ -11098,16 +6686,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "object"
                (slot-value watch-event 'object)))))
 
-(defmethod unmarshal ((source hash-table) (object watch-event))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "object" source)
-    (when present-p
-      (setf (slot-value object 'object) (decode-object "string" value)))))
-
 
 (defclass patch (resource) nil
           (:documentation
@@ -11115,8 +6693,6 @@ Examples:
 
 (defmethod json:encode-json ((patch patch) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object patch)))
 
 
 (defclass delete-options (resource)
@@ -11158,36 +6734,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "propagationPolicy"
                (slot-value delete-options 'propagation-policy)))))
 
-(defmethod unmarshal ((source hash-table) (object delete-options))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "gracePeriodSeconds" source)
-    (when present-p
-      (setf (slot-value object 'grace-period-seconds)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preconditions" source)
-    (when present-p
-      (setf (slot-value object 'preconditions)
-              (decode-object "Preconditions" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "orphanDependents" source)
-    (when present-p
-      (setf (slot-value object 'orphan-dependents)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "propagationPolicy" source)
-    (when present-p
-      (setf (slot-value object 'propagation-policy)
-              (decode-object "DeletionPropagation" value)))))
-
 
 (defclass preconditions (resource)
           ((uid :initarg :uid :type (or uid null) :documentation
@@ -11201,19 +6747,11 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "uid"
                (slot-value preconditions 'uid)))))
 
-(defmethod unmarshal ((source hash-table) (object preconditions))
-  (multiple-value-bind (value present-p)
-      (gethash "uid" source)
-    (when present-p
-      (setf (slot-value object 'uid) (decode-object "UID" value)))))
-
 
 (defclass uid (resource) nil)
 
 (defmethod json:encode-json ((uid uid) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object uid)))
 
 
 (defclass deletion-propagation (resource) nil)
@@ -11221,8 +6759,6 @@ Examples:
 (defmethod json:encode-json
            ((deletion-propagation deletion-propagation) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object deletion-propagation)))
 
 
 (defclass daemon-set-list (resource)
@@ -11250,25 +6786,6 @@ Examples:
     (when (slot-boundp daemon-set-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value daemon-set-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object daemon-set-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "DaemonSet") value)))))
 
 
 (defclass daemon-set (resource)
@@ -11302,29 +6819,6 @@ Examples:
     (when (slot-boundp daemon-set 'status)
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value daemon-set 'status)))))
-
-(defmethod unmarshal ((source hash-table) (object daemon-set))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "DaemonSetSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "DaemonSetStatus" value)))))
 
 
 (defclass daemon-set-spec (resource)
@@ -11364,33 +6858,6 @@ Examples:
                "revisionHistoryLimit"
                (slot-value daemon-set-spec 'revision-history-limit)))))
 
-(defmethod unmarshal ((source hash-table) (object daemon-set-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector)
-              (decode-object "LabelSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "template" source)
-    (when present-p
-      (setf (slot-value object 'template)
-              (decode-object "PodTemplateSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "updateStrategy" source)
-    (when present-p
-      (setf (slot-value object 'update-strategy)
-              (decode-object "DaemonSetUpdateStrategy" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "minReadySeconds" source)
-    (when present-p
-      (setf (slot-value object 'min-ready-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "revisionHistoryLimit" source)
-    (when present-p
-      (setf (slot-value object 'revision-history-limit)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass label-selector (resource)
           ((match-labels :initarg :match-labels :type list :documentation
@@ -11409,18 +6876,6 @@ Examples:
     (when (slot-boundp label-selector 'match-expressions)
       (funcall (json:stream-object-member-encoder stream) "matchExpressions"
                (slot-value label-selector 'match-expressions)))))
-
-(defmethod unmarshal ((source hash-table) (object label-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "matchLabels" source)
-    (when present-p
-      (setf (slot-value object 'match-labels) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "matchExpressions" source)
-    (when present-p
-      (setf (slot-value object 'match-expressions)
-              (decode-object (cons "array" "LabelSelectorRequirement")
-               value)))))
 
 
 (defclass label-selector-requirement (resource)
@@ -11447,21 +6902,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "values"
                (slot-value label-selector-requirement 'values)))))
 
-(defmethod unmarshal ((source hash-table) (object label-selector-requirement))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "operator" source)
-    (when present-p
-      (setf (slot-value object 'operator) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "values" source)
-    (when present-p
-      (setf (slot-value object 'values)
-              (decode-object (cons "array" "string") value)))))
-
 
 (defclass pod-template-spec (resource)
           ((metadata :initarg :metadata :type (or object-meta null)
@@ -11481,16 +6921,6 @@ Examples:
     (when (slot-boundp pod-template-spec 'spec)
       (funcall (json:stream-object-member-encoder stream) "spec"
                (slot-value pod-template-spec 'spec)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-template-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "PodSpec" value)))))
 
 
 (defclass pod-spec (resource)
@@ -11653,136 +7083,6 @@ Examples:
     (when (slot-boundp pod-spec 'dns-config)
       (funcall (json:stream-object-member-encoder stream) "dnsConfig"
                (slot-value pod-spec 'dns-config)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "volumes" source)
-    (when present-p
-      (setf (slot-value object 'volumes)
-              (decode-object (cons "array" "Volume") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initContainers" source)
-    (when present-p
-      (setf (slot-value object 'init-containers)
-              (decode-object (cons "array" "Container") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "containers" source)
-    (when present-p
-      (setf (slot-value object 'containers)
-              (decode-object (cons "array" "Container") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "restartPolicy" source)
-    (when present-p
-      (setf (slot-value object 'restart-policy)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "terminationGracePeriodSeconds" source)
-    (when present-p
-      (setf (slot-value object 'termination-grace-period-seconds)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "activeDeadlineSeconds" source)
-    (when present-p
-      (setf (slot-value object 'active-deadline-seconds)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "dnsPolicy" source)
-    (when present-p
-      (setf (slot-value object 'dns-policy) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeSelector" source)
-    (when present-p
-      (setf (slot-value object 'node-selector)
-              (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "serviceAccountName" source)
-    (when present-p
-      (setf (slot-value object 'service-account-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "serviceAccount" source)
-    (when present-p
-      (setf (slot-value object 'service-account)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "automountServiceAccountToken" source)
-    (when present-p
-      (setf (slot-value object 'automount-service-account-token)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeName" source)
-    (when present-p
-      (setf (slot-value object 'node-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostNetwork" source)
-    (when present-p
-      (setf (slot-value object 'host-network)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostPid" source)
-    (when present-p
-      (setf (slot-value object 'host-pid) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostIpc" source)
-    (when present-p
-      (setf (slot-value object 'host-ipc) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "shareProcessNamespace" source)
-    (when present-p
-      (setf (slot-value object 'share-process-namespace)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "securityContext" source)
-    (when present-p
-      (setf (slot-value object 'security-context)
-              (decode-object "PodSecurityContext" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "imagePullSecrets" source)
-    (when present-p
-      (setf (slot-value object 'image-pull-secrets)
-              (decode-object (cons "array" "LocalObjectReference") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostname" source)
-    (when present-p
-      (setf (slot-value object 'hostname) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "subdomain" source)
-    (when present-p
-      (setf (slot-value object 'subdomain) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "affinity" source)
-    (when present-p
-      (setf (slot-value object 'affinity) (decode-object "Affinity" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "schedulerName" source)
-    (when present-p
-      (setf (slot-value object 'scheduler-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tolerations" source)
-    (when present-p
-      (setf (slot-value object 'tolerations)
-              (decode-object (cons "array" "Toleration") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostAliases" source)
-    (when present-p
-      (setf (slot-value object 'host-aliases)
-              (decode-object (cons "array" "HostAlias") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "priorityClassName" source)
-    (when present-p
-      (setf (slot-value object 'priority-class-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "priority" source)
-    (when present-p
-      (setf (slot-value object 'priority)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "dnsConfig" source)
-    (when present-p
-      (setf (slot-value object 'dns-config)
-              (decode-object "PodDNSConfig" value)))))
 
 
 (defclass volume (resource)
@@ -11959,144 +7259,6 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "storageos"
                (slot-value volume 'storageos)))))
 
-(defmethod unmarshal ((source hash-table) (object volume))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostPath" source)
-    (when present-p
-      (setf (slot-value object 'host-path)
-              (decode-object "HostPathVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "emptyDir" source)
-    (when present-p
-      (setf (slot-value object 'empty-dir)
-              (decode-object "EmptyDirVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "gcePersistentDisk" source)
-    (when present-p
-      (setf (slot-value object 'gce-persistent-disk)
-              (decode-object "GCEPersistentDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "awsElasticBlockStore" source)
-    (when present-p
-      (setf (slot-value object 'aws-elastic-block-store)
-              (decode-object "AWSElasticBlockStoreVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "gitRepo" source)
-    (when present-p
-      (setf (slot-value object 'git-repo)
-              (decode-object "GitRepoVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secret" source)
-    (when present-p
-      (setf (slot-value object 'secret)
-              (decode-object "SecretVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "nfs" source)
-    (when present-p
-      (setf (slot-value object 'nfs) (decode-object "NFSVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "iscsi" source)
-    (when present-p
-      (setf (slot-value object 'iscsi)
-              (decode-object "ISCSIVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "glusterfs" source)
-    (when present-p
-      (setf (slot-value object 'glusterfs)
-              (decode-object "GlusterfsVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "persistentVolumeClaim" source)
-    (when present-p
-      (setf (slot-value object 'persistent-volume-claim)
-              (decode-object "PersistentVolumeClaimVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "rbd" source)
-    (when present-p
-      (setf (slot-value object 'rbd) (decode-object "RBDVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "flexVolume" source)
-    (when present-p
-      (setf (slot-value object 'flex-volume)
-              (decode-object "FlexVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "cinder" source)
-    (when present-p
-      (setf (slot-value object 'cinder)
-              (decode-object "CinderVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "cephfs" source)
-    (when present-p
-      (setf (slot-value object 'cephfs)
-              (decode-object "CephFSVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "flocker" source)
-    (when present-p
-      (setf (slot-value object 'flocker)
-              (decode-object "FlockerVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "downwardApi" source)
-    (when present-p
-      (setf (slot-value object 'downward-api)
-              (decode-object "DownwardAPIVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fc" source)
-    (when present-p
-      (setf (slot-value object 'fc) (decode-object "FCVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "azureFile" source)
-    (when present-p
-      (setf (slot-value object 'azure-file)
-              (decode-object "AzureFileVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configMap" source)
-    (when present-p
-      (setf (slot-value object 'config-map)
-              (decode-object "ConfigMapVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "vsphereVolume" source)
-    (when present-p
-      (setf (slot-value object 'vsphere-volume)
-              (decode-object "VsphereVirtualDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "quobyte" source)
-    (when present-p
-      (setf (slot-value object 'quobyte)
-              (decode-object "QuobyteVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "azureDisk" source)
-    (when present-p
-      (setf (slot-value object 'azure-disk)
-              (decode-object "AzureDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "photonPersistentDisk" source)
-    (when present-p
-      (setf (slot-value object 'photon-persistent-disk)
-              (decode-object "PhotonPersistentDiskVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "projected" source)
-    (when present-p
-      (setf (slot-value object 'projected)
-              (decode-object "ProjectedVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "portworxVolume" source)
-    (when present-p
-      (setf (slot-value object 'portworx-volume)
-              (decode-object "PortworxVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "scaleIo" source)
-    (when present-p
-      (setf (slot-value object 'scale-io)
-              (decode-object "ScaleIOVolumeSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storageos" source)
-    (when present-p
-      (setf (slot-value object 'storageos)
-              (decode-object "StorageOSVolumeSource" value)))))
-
 
 (defclass host-path-volume-source (resource)
           ((path :initarg :path :type string :documentation
@@ -12116,23 +7278,11 @@ Examples:
       (funcall (json:stream-object-member-encoder stream) "type"
                (slot-value host-path-volume-source 'type)))))
 
-(defmethod unmarshal ((source hash-table) (object host-path-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "HostPathType" value)))))
-
 
 (defclass host-path-type (resource) nil)
 
 (defmethod json:encode-json ((host-path-type host-path-type) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object host-path-type)))
 
 
 (defclass empty-dir-volume-source (resource)
@@ -12153,16 +7303,6 @@ Examples:
     (when (slot-boundp empty-dir-volume-source 'size-limit)
       (funcall (json:stream-object-member-encoder stream) "sizeLimit"
                (slot-value empty-dir-volume-source 'size-limit)))))
-
-(defmethod unmarshal ((source hash-table) (object empty-dir-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "medium" source)
-    (when present-p
-      (setf (slot-value object 'medium) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "sizeLimit" source)
-    (when present-p
-      (setf (slot-value object 'size-limit) (decode-object "string" value)))))
 
 
 (defclass gce-persistent-disk-volume-source (resource)
@@ -12200,26 +7340,6 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value gce-persistent-disk-volume-source 'read-only)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object gce-persistent-disk-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "pdName" source)
-    (when present-p
-      (setf (slot-value object 'pd-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "partition" source)
-    (when present-p
-      (setf (slot-value object 'partition)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass aws-elastic-block-store-volume-source (resource)
           ((volume-id :initarg :volume-id :type (or string null) :documentation
@@ -12255,26 +7375,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value aws-elastic-block-store-volume-source 'read-only)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object aws-elastic-block-store-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeId" source)
-    (when present-p
-      (setf (slot-value object 'volume-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "partition" source)
-    (when present-p
-      (setf (slot-value object 'partition)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass git-repo-volume-source (resource)
           ((repository :initarg :repository :type string :documentation
@@ -12298,20 +7398,6 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
     (when (slot-boundp git-repo-volume-source 'directory)
       (funcall (json:stream-object-member-encoder stream) "directory"
                (slot-value git-repo-volume-source 'directory)))))
-
-(defmethod unmarshal ((source hash-table) (object git-repo-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "repository" source)
-    (when present-p
-      (setf (slot-value object 'repository) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "revision" source)
-    (when present-p
-      (setf (slot-value object 'revision) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "directory" source)
-    (when present-p
-      (setf (slot-value object 'directory) (decode-object "string" value)))))
 
 
 (defclass secret-volume-source (resource)
@@ -12345,26 +7431,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value secret-volume-source 'optional)))))
 
-(defmethod unmarshal ((source hash-table) (object secret-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "secretName" source)
-    (when present-p
-      (setf (slot-value object 'secret-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "KeyToPath") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "defaultMode" source)
-    (when present-p
-      (setf (slot-value object 'default-mode)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
-
 
 (defclass key-to-path (resource)
           ((key :initarg :key :type string :documentation
@@ -12386,21 +7452,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp key-to-path 'mode)
       (funcall (json:stream-object-member-encoder stream) "mode"
                (slot-value key-to-path 'mode)))))
-
-(defmethod unmarshal ((source hash-table) (object key-to-path))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "mode" source)
-    (when present-p
-      (setf (slot-value object 'mode)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass nfs-volume-source (resource)
@@ -12426,20 +7477,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp nfs-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value nfs-volume-source 'read-only)))))
-
-(defmethod unmarshal ((source hash-table) (object nfs-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "server" source)
-    (when present-p
-      (setf (slot-value object 'server) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass iscsi-volume-source (resource)
@@ -12511,60 +7548,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "initiatorName"
                (slot-value iscsi-volume-source 'initiator-name)))))
 
-(defmethod unmarshal ((source hash-table) (object iscsi-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "targetPortal" source)
-    (when present-p
-      (setf (slot-value object 'target-portal)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "iqn" source)
-    (when present-p
-      (setf (slot-value object 'iqn) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lun" source)
-    (when present-p
-      (setf (slot-value object 'lun)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "iscsiInterface" source)
-    (when present-p
-      (setf (slot-value object 'iscsi-interface)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "portals" source)
-    (when present-p
-      (setf (slot-value object 'portals)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "chapAuthDiscovery" source)
-    (when present-p
-      (setf (slot-value object 'chap-auth-discovery)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "chapAuthSession" source)
-    (when present-p
-      (setf (slot-value object 'chap-auth-session)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initiatorName" source)
-    (when present-p
-      (setf (slot-value object 'initiator-name)
-              (decode-object "string" value)))))
-
 
 (defclass local-object-reference (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -12578,12 +7561,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp local-object-reference 'name)
       (funcall (json:stream-object-member-encoder stream) "name"
                (slot-value local-object-reference 'name)))))
-
-(defmethod unmarshal ((source hash-table) (object local-object-reference))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value)))))
 
 
 (defclass glusterfs-volume-source (resource)
@@ -12610,20 +7587,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value glusterfs-volume-source 'read-only)))))
 
-(defmethod unmarshal ((source hash-table) (object glusterfs-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "endpoints" source)
-    (when present-p
-      (setf (slot-value object 'endpoints) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass persistent-volume-claim-volume-source (resource)
           ((claim-name :initarg :claim-name :type string :documentation
@@ -12646,17 +7609,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp persistent-volume-claim-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value persistent-volume-claim-volume-source 'read-only)))))
-
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-claim-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "claimName" source)
-    (when present-p
-      (setf (slot-value object 'claim-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass rbd-volume-source (resource)
@@ -12709,42 +7661,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value rbd-volume-source 'read-only)))))
 
-(defmethod unmarshal ((source hash-table) (object rbd-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "monitors" source)
-    (when present-p
-      (setf (slot-value object 'monitors)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "image" source)
-    (when present-p
-      (setf (slot-value object 'image) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "pool" source)
-    (when present-p
-      (setf (slot-value object 'pool) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "keyring" source)
-    (when present-p
-      (setf (slot-value object 'keyring) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass flex-volume-source (resource)
           ((driver :initarg :driver :type string :documentation
@@ -12781,29 +7697,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "options"
                (slot-value flex-volume-source 'options)))))
 
-(defmethod unmarshal ((source hash-table) (object flex-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "driver" source)
-    (when present-p
-      (setf (slot-value object 'driver) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "options" source)
-    (when present-p
-      (setf (slot-value object 'options) (decode-object "object" value)))))
-
 
 (defclass cinder-volume-source (resource)
           ((volume-id :initarg :volume-id :type (or string null) :documentation
@@ -12828,20 +7721,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp cinder-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value cinder-volume-source 'read-only)))))
-
-(defmethod unmarshal ((source hash-table) (object cinder-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeId" source)
-    (when present-p
-      (setf (slot-value object 'volume-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass ceph-fs-volume-source (resource)
@@ -12885,34 +7764,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value ceph-fs-volume-source 'read-only)))))
 
-(defmethod unmarshal ((source hash-table) (object ceph-fs-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "monitors" source)
-    (when present-p
-      (setf (slot-value object 'monitors)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretFile" source)
-    (when present-p
-      (setf (slot-value object 'secret-file) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass flocker-volume-source (resource)
           ((dataset-name :initarg :dataset-name :type (or string null)
@@ -12934,16 +7785,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "datasetUuid"
                (slot-value flocker-volume-source 'dataset-uuid)))))
 
-(defmethod unmarshal ((source hash-table) (object flocker-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "datasetName" source)
-    (when present-p
-      (setf (slot-value object 'dataset-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "datasetUuid" source)
-    (when present-p
-      (setf (slot-value object 'dataset-uuid) (decode-object "string" value)))))
-
 
 (defclass downward-api-volume-source (resource)
           ((items :initarg :items :type list :documentation
@@ -12964,18 +7805,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp downward-api-volume-source 'default-mode)
       (funcall (json:stream-object-member-encoder stream) "defaultMode"
                (slot-value downward-api-volume-source 'default-mode)))))
-
-(defmethod unmarshal ((source hash-table) (object downward-api-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "DownwardAPIVolumeFile") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "defaultMode" source)
-    (when present-p
-      (setf (slot-value object 'default-mode)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass downward-api-volume-file (resource)
@@ -13009,27 +7838,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "mode"
                (slot-value downward-api-volume-file 'mode)))))
 
-(defmethod unmarshal ((source hash-table) (object downward-api-volume-file))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fieldRef" source)
-    (when present-p
-      (setf (slot-value object 'field-ref)
-              (decode-object "ObjectFieldSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resourceFieldRef" source)
-    (when present-p
-      (setf (slot-value object 'resource-field-ref)
-              (decode-object "ResourceFieldSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "mode" source)
-    (when present-p
-      (setf (slot-value object 'mode)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass object-field-selector (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -13047,16 +7855,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp object-field-selector 'field-path)
       (funcall (json:stream-object-member-encoder stream) "fieldPath"
                (slot-value object-field-selector 'field-path)))))
-
-(defmethod unmarshal ((source hash-table) (object object-field-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fieldPath" source)
-    (when present-p
-      (setf (slot-value object 'field-path) (decode-object "string" value)))))
 
 
 (defclass resource-field-selector (resource)
@@ -13082,21 +7880,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp resource-field-selector 'divisor)
       (funcall (json:stream-object-member-encoder stream) "divisor"
                (slot-value resource-field-selector 'divisor)))))
-
-(defmethod unmarshal ((source hash-table) (object resource-field-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "containerName" source)
-    (when present-p
-      (setf (slot-value object 'container-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resource" source)
-    (when present-p
-      (setf (slot-value object 'resource) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "divisor" source)
-    (when present-p
-      (setf (slot-value object 'divisor) (decode-object "string" value)))))
 
 
 (defclass fc-volume-source (resource)
@@ -13133,31 +7916,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
       (funcall (json:stream-object-member-encoder stream) "wwids"
                (slot-value fc-volume-source 'wwids)))))
 
-(defmethod unmarshal ((source hash-table) (object fc-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "targetWwNs" source)
-    (when present-p
-      (setf (slot-value object 'target-ww-ns)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lun" source)
-    (when present-p
-      (setf (slot-value object 'lun)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "wwids" source)
-    (when present-p
-      (setf (slot-value object 'wwids)
-              (decode-object (cons "array" "string") value)))))
-
 
 (defclass azure-file-volume-source (resource)
           ((secret-name :initarg :secret-name :type string :documentation
@@ -13183,20 +7941,6 @@ The contents of the target Secret's Data field will be presented in a volume as 
     (when (slot-boundp azure-file-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value azure-file-volume-source 'read-only)))))
-
-(defmethod unmarshal ((source hash-table) (object azure-file-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "secretName" source)
-    (when present-p
-      (setf (slot-value object 'secret-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "shareName" source)
-    (when present-p
-      (setf (slot-value object 'share-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass config-map-volume-source (resource)
@@ -13229,26 +7973,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
     (when (slot-boundp config-map-volume-source 'optional)
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value config-map-volume-source 'optional)))))
-
-(defmethod unmarshal ((source hash-table) (object config-map-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "KeyToPath") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "defaultMode" source)
-    (when present-p
-      (setf (slot-value object 'default-mode)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
 
 
 (defclass vsphere-virtual-disk-volume-source (resource)
@@ -13285,27 +8009,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
                (slot-value vsphere-virtual-disk-volume-source
                            'storage-policy-id)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object vsphere-virtual-disk-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumePath" source)
-    (when present-p
-      (setf (slot-value object 'volume-path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storagePolicyName" source)
-    (when present-p
-      (setf (slot-value object 'storage-policy-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storagePolicyId" source)
-    (when present-p
-      (setf (slot-value object 'storage-policy-id)
-              (decode-object "string" value)))))
-
 
 (defclass quobyte-volume-source (resource)
           ((registry :initarg :registry :type string :documentation
@@ -13340,28 +8043,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
     (when (slot-boundp quobyte-volume-source 'group)
       (funcall (json:stream-object-member-encoder stream) "group"
                (slot-value quobyte-volume-source 'group)))))
-
-(defmethod unmarshal ((source hash-table) (object quobyte-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "registry" source)
-    (when present-p
-      (setf (slot-value object 'registry) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volume" source)
-    (when present-p
-      (setf (slot-value object 'volume) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "group" source)
-    (when present-p
-      (setf (slot-value object 'group) (decode-object "string" value)))))
 
 
 (defclass azure-disk-volume-source (resource)
@@ -13404,34 +8085,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
       (funcall (json:stream-object-member-encoder stream) "kind"
                (slot-value azure-disk-volume-source 'kind)))))
 
-(defmethod unmarshal ((source hash-table) (object azure-disk-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "diskName" source)
-    (when present-p
-      (setf (slot-value object 'disk-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "diskUri" source)
-    (when present-p
-      (setf (slot-value object 'disk-uri) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "cachingMode" source)
-    (when present-p
-      (setf (slot-value object 'caching-mode)
-              (decode-object "AzureDataDiskCachingMode" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind)
-              (decode-object "AzureDataDiskKind" value)))))
-
 
 (defclass azure-data-disk-caching-mode (resource) nil)
 
@@ -13440,17 +8093,12 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
             &optional stream)
   (json:with-object (stream)))
 
-(defmethod unmarshal
-           ((source hash-table) (object azure-data-disk-caching-mode)))
-
 
 (defclass azure-data-disk-kind (resource) nil)
 
 (defmethod json:encode-json
            ((azure-data-disk-kind azure-data-disk-kind) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object azure-data-disk-kind)))
 
 
 (defclass photon-persistent-disk-volume-source (resource)
@@ -13474,17 +8122,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
       (funcall (json:stream-object-member-encoder stream) "fsType"
                (slot-value photon-persistent-disk-volume-source 'fs-type)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object photon-persistent-disk-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "pdId" source)
-    (when present-p
-      (setf (slot-value object 'pd-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value)))))
-
 
 (defclass projected-volume-source (resource)
           ((sources :initarg :sources :type list :documentation
@@ -13503,18 +8140,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
     (when (slot-boundp projected-volume-source 'default-mode)
       (funcall (json:stream-object-member-encoder stream) "defaultMode"
                (slot-value projected-volume-source 'default-mode)))))
-
-(defmethod unmarshal ((source hash-table) (object projected-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "sources" source)
-    (when present-p
-      (setf (slot-value object 'sources)
-              (decode-object (cons "array" "VolumeProjection") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "defaultMode" source)
-    (when present-p
-      (setf (slot-value object 'default-mode)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass volume-projection (resource)
@@ -13542,23 +8167,6 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
       (funcall (json:stream-object-member-encoder stream) "configMap"
                (slot-value volume-projection 'config-map)))))
 
-(defmethod unmarshal ((source hash-table) (object volume-projection))
-  (multiple-value-bind (value present-p)
-      (gethash "secret" source)
-    (when present-p
-      (setf (slot-value object 'secret)
-              (decode-object "SecretProjection" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "downwardApi" source)
-    (when present-p
-      (setf (slot-value object 'downward-api)
-              (decode-object "DownwardAPIProjection" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configMap" source)
-    (when present-p
-      (setf (slot-value object 'config-map)
-              (decode-object "ConfigMapProjection" value)))))
-
 
 (defclass secret-projection (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -13584,21 +8192,6 @@ The contents of the target Secret's Data field will be presented in a projected 
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value secret-projection 'optional)))))
 
-(defmethod unmarshal ((source hash-table) (object secret-projection))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "KeyToPath") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
-
 
 (defclass downward-api-projection (resource)
           ((items :initarg :items :type list :documentation
@@ -13612,13 +8205,6 @@ The contents of the target Secret's Data field will be presented in a projected 
     (when (slot-boundp downward-api-projection 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value downward-api-projection 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object downward-api-projection))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "DownwardAPIVolumeFile") value)))))
 
 
 (defclass config-map-projection (resource)
@@ -13645,21 +8231,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value config-map-projection 'optional)))))
 
-(defmethod unmarshal ((source hash-table) (object config-map-projection))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "KeyToPath") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
-
 
 (defclass portworx-volume-source (resource)
           ((volume-id :initarg :volume-id :type (or string null) :documentation
@@ -13684,20 +8255,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
     (when (slot-boundp portworx-volume-source 'read-only)
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value portworx-volume-source 'read-only)))))
-
-(defmethod unmarshal ((source hash-table) (object portworx-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeId" source)
-    (when present-p
-      (setf (slot-value object 'volume-id) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
 
 
 (defclass scale-io-volume-source (resource)
@@ -13765,50 +8322,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
       (funcall (json:stream-object-member-encoder stream) "readOnly"
                (slot-value scale-io-volume-source 'read-only)))))
 
-(defmethod unmarshal ((source hash-table) (object scale-io-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "gateway" source)
-    (when present-p
-      (setf (slot-value object 'gateway) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "system" source)
-    (when present-p
-      (setf (slot-value object 'system) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "sslEnabled" source)
-    (when present-p
-      (setf (slot-value object 'ssl-enabled) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "protectionDomain" source)
-    (when present-p
-      (setf (slot-value object 'protection-domain)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storagePool" source)
-    (when present-p
-      (setf (slot-value object 'storage-pool) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storageMode" source)
-    (when present-p
-      (setf (slot-value object 'storage-mode) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeName" source)
-    (when present-p
-      (setf (slot-value object 'volume-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value)))))
-
 
 (defclass storage-os-volume-source (resource)
           ((volume-name :initarg :volume-name :type (or string null)
@@ -13846,30 +8359,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
     (when (slot-boundp storage-os-volume-source 'secret-ref)
       (funcall (json:stream-object-member-encoder stream) "secretRef"
                (slot-value storage-os-volume-source 'secret-ref)))))
-
-(defmethod unmarshal ((source hash-table) (object storage-os-volume-source))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeName" source)
-    (when present-p
-      (setf (slot-value object 'volume-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeNamespace" source)
-    (when present-p
-      (setf (slot-value object 'volume-namespace)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsType" source)
-    (when present-p
-      (setf (slot-value object 'fs-type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "LocalObjectReference" value)))))
 
 
 (defclass container (resource)
@@ -13996,106 +8485,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
       (funcall (json:stream-object-member-encoder stream) "tty"
                (slot-value container 'tty)))))
 
-(defmethod unmarshal ((source hash-table) (object container))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "image" source)
-    (when present-p
-      (setf (slot-value object 'image) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "command" source)
-    (when present-p
-      (setf (slot-value object 'command)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "args" source)
-    (when present-p
-      (setf (slot-value object 'args)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "workingDir" source)
-    (when present-p
-      (setf (slot-value object 'working-dir) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "ports" source)
-    (when present-p
-      (setf (slot-value object 'ports)
-              (decode-object (cons "array" "ContainerPort") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "envFrom" source)
-    (when present-p
-      (setf (slot-value object 'env-from)
-              (decode-object (cons "array" "EnvFromSource") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "env" source)
-    (when present-p
-      (setf (slot-value object 'env)
-              (decode-object (cons "array" "EnvVar") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resources" source)
-    (when present-p
-      (setf (slot-value object 'resources)
-              (decode-object "ResourceRequirements" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeMounts" source)
-    (when present-p
-      (setf (slot-value object 'volume-mounts)
-              (decode-object (cons "array" "VolumeMount") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeDevices" source)
-    (when present-p
-      (setf (slot-value object 'volume-devices)
-              (decode-object (cons "array" "VolumeDevice") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "livenessProbe" source)
-    (when present-p
-      (setf (slot-value object 'liveness-probe)
-              (decode-object "Probe" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readinessProbe" source)
-    (when present-p
-      (setf (slot-value object 'readiness-probe)
-              (decode-object "Probe" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lifecycle" source)
-    (when present-p
-      (setf (slot-value object 'lifecycle) (decode-object "Lifecycle" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "terminationMessagePath" source)
-    (when present-p
-      (setf (slot-value object 'termination-message-path)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "terminationMessagePolicy" source)
-    (when present-p
-      (setf (slot-value object 'termination-message-policy)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "imagePullPolicy" source)
-    (when present-p
-      (setf (slot-value object 'image-pull-policy)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "securityContext" source)
-    (when present-p
-      (setf (slot-value object 'security-context)
-              (decode-object "SecurityContext" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "stdin" source)
-    (when present-p
-      (setf (slot-value object 'stdin) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "stdinOnce" source)
-    (when present-p
-      (setf (slot-value object 'stdin-once) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tty" source)
-    (when present-p
-      (setf (slot-value object 'tty) (decode-object "boolean" value)))))
-
 
 (defclass container-port (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -14131,30 +8520,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
       (funcall (json:stream-object-member-encoder stream) "hostIp"
                (slot-value container-port 'host-ip)))))
 
-(defmethod unmarshal ((source hash-table) (object container-port))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostPort" source)
-    (when present-p
-      (setf (slot-value object 'host-port)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "containerPort" source)
-    (when present-p
-      (setf (slot-value object 'container-port)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "protocol" source)
-    (when present-p
-      (setf (slot-value object 'protocol) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostIp" source)
-    (when present-p
-      (setf (slot-value object 'host-ip) (decode-object "string" value)))))
-
 
 (defclass env-from-source (resource)
           ((prefix :initarg :prefix :type (or string null) :documentation
@@ -14180,22 +8545,6 @@ The contents of the target ConfigMap's Data field will be presented in a project
       (funcall (json:stream-object-member-encoder stream) "secretRef"
                (slot-value env-from-source 'secret-ref)))))
 
-(defmethod unmarshal ((source hash-table) (object env-from-source))
-  (multiple-value-bind (value present-p)
-      (gethash "prefix" source)
-    (when present-p
-      (setf (slot-value object 'prefix) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configMapRef" source)
-    (when present-p
-      (setf (slot-value object 'config-map-ref)
-              (decode-object "ConfigMapEnvSource" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-ref)
-              (decode-object "SecretEnvSource" value)))))
-
 
 (defclass config-map-env-source (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -14217,16 +8566,6 @@ The contents of the target ConfigMap's Data field will represent the key-value p
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value config-map-env-source 'optional)))))
 
-(defmethod unmarshal ((source hash-table) (object config-map-env-source))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
-
 
 (defclass secret-env-source (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -14247,16 +8586,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp secret-env-source 'optional)
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value secret-env-source 'optional)))))
-
-(defmethod unmarshal ((source hash-table) (object secret-env-source))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
 
 
 (defclass env-var (resource)
@@ -14281,21 +8610,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp env-var 'value-from)
       (funcall (json:stream-object-member-encoder stream) "valueFrom"
                (slot-value env-var 'value-from)))))
-
-(defmethod unmarshal ((source hash-table) (object env-var))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "valueFrom" source)
-    (when present-p
-      (setf (slot-value object 'value-from)
-              (decode-object "EnvVarSource" value)))))
 
 
 (defclass env-var-source (resource)
@@ -14329,28 +8643,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "secretKeyRef"
                (slot-value env-var-source 'secret-key-ref)))))
 
-(defmethod unmarshal ((source hash-table) (object env-var-source))
-  (multiple-value-bind (value present-p)
-      (gethash "fieldRef" source)
-    (when present-p
-      (setf (slot-value object 'field-ref)
-              (decode-object "ObjectFieldSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resourceFieldRef" source)
-    (when present-p
-      (setf (slot-value object 'resource-field-ref)
-              (decode-object "ResourceFieldSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "configMapKeyRef" source)
-    (when present-p
-      (setf (slot-value object 'config-map-key-ref)
-              (decode-object "ConfigMapKeySelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "secretKeyRef" source)
-    (when present-p
-      (setf (slot-value object 'secret-key-ref)
-              (decode-object "SecretKeySelector" value)))))
-
 
 (defclass config-map-key-selector (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -14372,20 +8664,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp config-map-key-selector 'optional)
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value config-map-key-selector 'optional)))))
-
-(defmethod unmarshal ((source hash-table) (object config-map-key-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
 
 
 (defclass secret-key-selector (resource)
@@ -14410,20 +8688,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "optional"
                (slot-value secret-key-selector 'optional)))))
 
-(defmethod unmarshal ((source hash-table) (object secret-key-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "optional" source)
-    (when present-p
-      (setf (slot-value object 'optional) (decode-object "boolean" value)))))
-
 
 (defclass resource-requirements (resource)
           ((limits :initarg :limits :type list :documentation
@@ -14442,16 +8706,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp resource-requirements 'requests)
       (funcall (json:stream-object-member-encoder stream) "requests"
                (slot-value resource-requirements 'requests)))))
-
-(defmethod unmarshal ((source hash-table) (object resource-requirements))
-  (multiple-value-bind (value present-p)
-      (gethash "limits" source)
-    (when present-p
-      (setf (slot-value object 'limits) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "requests" source)
-    (when present-p
-      (setf (slot-value object 'requests) (decode-object "object" value)))))
 
 
 (defclass volume-mount (resource)
@@ -14488,37 +8742,12 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "mountPropagation"
                (slot-value volume-mount 'mount-propagation)))))
 
-(defmethod unmarshal ((source hash-table) (object volume-mount))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnly" source)
-    (when present-p
-      (setf (slot-value object 'read-only) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "mountPath" source)
-    (when present-p
-      (setf (slot-value object 'mount-path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "subPath" source)
-    (when present-p
-      (setf (slot-value object 'sub-path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "mountPropagation" source)
-    (when present-p
-      (setf (slot-value object 'mount-propagation)
-              (decode-object "MountPropagationMode" value)))))
-
 
 (defclass mount-propagation-mode (resource) nil)
 
 (defmethod json:encode-json
            ((mount-propagation-mode mount-propagation-mode) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object mount-propagation-mode)))
 
 
 (defclass volume-device (resource)
@@ -14537,16 +8766,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp volume-device 'device-path)
       (funcall (json:stream-object-member-encoder stream) "devicePath"
                (slot-value volume-device 'device-path)))))
-
-(defmethod unmarshal ((source hash-table) (object volume-device))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "devicePath" source)
-    (when present-p
-      (setf (slot-value object 'device-path) (decode-object "string" value)))))
 
 
 (defclass probe (resource)
@@ -14602,47 +8821,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "failureThreshold"
                (slot-value probe 'failure-threshold)))))
 
-(defmethod unmarshal ((source hash-table) (object probe))
-  (multiple-value-bind (value present-p)
-      (gethash "exec" source)
-    (when present-p
-      (setf (slot-value object 'exec) (decode-object "ExecAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "httpGet" source)
-    (when present-p
-      (setf (slot-value object 'http-get)
-              (decode-object "HTTPGetAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tcpSocket" source)
-    (when present-p
-      (setf (slot-value object 'tcp-socket)
-              (decode-object "TCPSocketAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "initialDelaySeconds" source)
-    (when present-p
-      (setf (slot-value object 'initial-delay-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "timeoutSeconds" source)
-    (when present-p
-      (setf (slot-value object 'timeout-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "periodSeconds" source)
-    (when present-p
-      (setf (slot-value object 'period-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "successThreshold" source)
-    (when present-p
-      (setf (slot-value object 'success-threshold)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "failureThreshold" source)
-    (when present-p
-      (setf (slot-value object 'failure-threshold)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass exec-action (resource)
           ((command :initarg :command :type list :documentation
@@ -14655,13 +8833,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp exec-action 'command)
       (funcall (json:stream-object-member-encoder stream) "command"
                (slot-value exec-action 'command)))))
-
-(defmethod unmarshal ((source hash-table) (object exec-action))
-  (multiple-value-bind (value present-p)
-      (gethash "command" source)
-    (when present-p
-      (setf (slot-value object 'command)
-              (decode-object (cons "array" "string") value)))))
 
 
 (defclass http-get-action (resource)
@@ -14697,29 +8868,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "httpHeaders"
                (slot-value http-get-action 'http-headers)))))
 
-(defmethod unmarshal ((source hash-table) (object http-get-action))
-  (multiple-value-bind (value present-p)
-      (gethash "path" source)
-    (when present-p
-      (setf (slot-value object 'path) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "port" source)
-    (when present-p
-      (setf (slot-value object 'port) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "host" source)
-    (when present-p
-      (setf (slot-value object 'host) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "scheme" source)
-    (when present-p
-      (setf (slot-value object 'scheme) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "httpHeaders" source)
-    (when present-p
-      (setf (slot-value object 'http-headers)
-              (decode-object (cons "array" "HTTPHeader") value)))))
-
 
 (defclass http-header (resource)
           ((name :initarg :name :type string :documentation
@@ -14737,16 +8885,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp http-header 'value)
       (funcall (json:stream-object-member-encoder stream) "value"
                (slot-value http-header 'value)))))
-
-(defmethod unmarshal ((source hash-table) (object http-header))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value) (decode-object "string" value)))))
 
 
 (defclass tcp-socket-action (resource)
@@ -14767,16 +8905,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "host"
                (slot-value tcp-socket-action 'host)))))
 
-(defmethod unmarshal ((source hash-table) (object tcp-socket-action))
-  (multiple-value-bind (value present-p)
-      (gethash "port" source)
-    (when present-p
-      (setf (slot-value object 'port) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "host" source)
-    (when present-p
-      (setf (slot-value object 'host) (decode-object "string" value)))))
-
 
 (defclass lifecycle (resource)
           ((post-start :initarg :post-start :type (or handler null)
@@ -14795,16 +8923,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp lifecycle 'pre-stop)
       (funcall (json:stream-object-member-encoder stream) "preStop"
                (slot-value lifecycle 'pre-stop)))))
-
-(defmethod unmarshal ((source hash-table) (object lifecycle))
-  (multiple-value-bind (value present-p)
-      (gethash "postStart" source)
-    (when present-p
-      (setf (slot-value object 'post-start) (decode-object "Handler" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preStop" source)
-    (when present-p
-      (setf (slot-value object 'pre-stop) (decode-object "Handler" value)))))
 
 
 (defclass handler (resource)
@@ -14829,22 +8947,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp handler 'tcp-socket)
       (funcall (json:stream-object-member-encoder stream) "tcpSocket"
                (slot-value handler 'tcp-socket)))))
-
-(defmethod unmarshal ((source hash-table) (object handler))
-  (multiple-value-bind (value present-p)
-      (gethash "exec" source)
-    (when present-p
-      (setf (slot-value object 'exec) (decode-object "ExecAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "httpGet" source)
-    (when present-p
-      (setf (slot-value object 'http-get)
-              (decode-object "HTTPGetAction" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tcpSocket" source)
-    (when present-p
-      (setf (slot-value object 'tcp-socket)
-              (decode-object "TCPSocketAction" value)))))
 
 
 (defclass security-context (resource)
@@ -14905,47 +9007,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                "allowPrivilegeEscalation"
                (slot-value security-context 'allow-privilege-escalation)))))
 
-(defmethod unmarshal ((source hash-table) (object security-context))
-  (multiple-value-bind (value present-p)
-      (gethash "capabilities" source)
-    (when present-p
-      (setf (slot-value object 'capabilities)
-              (decode-object "Capabilities" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "privileged" source)
-    (when present-p
-      (setf (slot-value object 'privileged) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "seLinuxOptions" source)
-    (when present-p
-      (setf (slot-value object 'se-linux-options)
-              (decode-object "SELinuxOptions" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsUser" source)
-    (when present-p
-      (setf (slot-value object 'run-as-user)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsGroup" source)
-    (when present-p
-      (setf (slot-value object 'run-as-group)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsNonRoot" source)
-    (when present-p
-      (setf (slot-value object 'run-as-non-root)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readOnlyRootFilesystem" source)
-    (when present-p
-      (setf (slot-value object 'read-only-root-filesystem)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "allowPrivilegeEscalation" source)
-    (when present-p
-      (setf (slot-value object 'allow-privilege-escalation)
-              (decode-object "boolean" value)))))
-
 
 (defclass capabilities (resource)
           ((add :initarg :add :type list :documentation "Added capabilities")
@@ -14963,25 +9024,11 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "drop"
                (slot-value capabilities 'drop)))))
 
-(defmethod unmarshal ((source hash-table) (object capabilities))
-  (multiple-value-bind (value present-p)
-      (gethash "add" source)
-    (when present-p
-      (setf (slot-value object 'add)
-              (decode-object (cons "array" "Capability") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "drop" source)
-    (when present-p
-      (setf (slot-value object 'drop)
-              (decode-object (cons "array" "Capability") value)))))
-
 
 (defclass capability (resource) nil)
 
 (defmethod json:encode-json ((capability capability) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object capability)))
 
 
 (defclass se-linux-options (resource)
@@ -15011,24 +9058,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp se-linux-options 'level)
       (funcall (json:stream-object-member-encoder stream) "level"
                (slot-value se-linux-options 'level)))))
-
-(defmethod unmarshal ((source hash-table) (object se-linux-options))
-  (multiple-value-bind (value present-p)
-      (gethash "user" source)
-    (when present-p
-      (setf (slot-value object 'user) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "role" source)
-    (when present-p
-      (setf (slot-value object 'role) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "level" source)
-    (when present-p
-      (setf (slot-value object 'level) (decode-object "string" value)))))
 
 
 (defclass pod-security-context (resource)
@@ -15076,38 +9105,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "fsGroup"
                (slot-value pod-security-context 'fs-group)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-security-context))
-  (multiple-value-bind (value present-p)
-      (gethash "seLinuxOptions" source)
-    (when present-p
-      (setf (slot-value object 'se-linux-options)
-              (decode-object "SELinuxOptions" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsUser" source)
-    (when present-p
-      (setf (slot-value object 'run-as-user)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsGroup" source)
-    (when present-p
-      (setf (slot-value object 'run-as-group)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "runAsNonRoot" source)
-    (when present-p
-      (setf (slot-value object 'run-as-non-root)
-              (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "supplementalGroups" source)
-    (when present-p
-      (setf (slot-value object 'supplemental-groups)
-              (decode-object (cons "array" "integer") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fsGroup" source)
-    (when present-p
-      (setf (slot-value object 'fs-group)
-              (decode-object (cons "integer" "int64") value)))))
-
 
 (defclass affinity (resource)
           ((node-affinity :initarg :node-affinity :type (or node-affinity null)
@@ -15132,23 +9129,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp affinity 'pod-anti-affinity)
       (funcall (json:stream-object-member-encoder stream) "podAntiAffinity"
                (slot-value affinity 'pod-anti-affinity)))))
-
-(defmethod unmarshal ((source hash-table) (object affinity))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeAffinity" source)
-    (when present-p
-      (setf (slot-value object 'node-affinity)
-              (decode-object "NodeAffinity" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "podAffinity" source)
-    (when present-p
-      (setf (slot-value object 'pod-affinity)
-              (decode-object "PodAffinity" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "podAntiAffinity" source)
-    (when present-p
-      (setf (slot-value object 'pod-anti-affinity)
-              (decode-object "PodAntiAffinity" value)))))
 
 
 (defclass node-affinity (resource)
@@ -15180,20 +9160,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                (slot-value node-affinity
                            'preferred-during-scheduling-ignored-during-execution)))))
 
-(defmethod unmarshal ((source hash-table) (object node-affinity))
-  (multiple-value-bind (value present-p)
-      (gethash "requiredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'required-during-scheduling-ignored-during-execution)
-              (decode-object "NodeSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preferredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'preferred-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "PreferredSchedulingTerm") value)))))
-
 
 (defclass node-selector (resource)
           ((node-selector-terms :initarg :node-selector-terms :type list
@@ -15207,13 +9173,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp node-selector 'node-selector-terms)
       (funcall (json:stream-object-member-encoder stream) "nodeSelectorTerms"
                (slot-value node-selector 'node-selector-terms)))))
-
-(defmethod unmarshal ((source hash-table) (object node-selector))
-  (multiple-value-bind (value present-p)
-      (gethash "nodeSelectorTerms" source)
-    (when present-p
-      (setf (slot-value object 'node-selector-terms)
-              (decode-object (cons "array" "NodeSelectorTerm") value)))))
 
 
 (defclass node-selector-term (resource)
@@ -15234,18 +9193,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp node-selector-term 'match-fields)
       (funcall (json:stream-object-member-encoder stream) "matchFields"
                (slot-value node-selector-term 'match-fields)))))
-
-(defmethod unmarshal ((source hash-table) (object node-selector-term))
-  (multiple-value-bind (value present-p)
-      (gethash "matchExpressions" source)
-    (when present-p
-      (setf (slot-value object 'match-expressions)
-              (decode-object (cons "array" "NodeSelectorRequirement") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "matchFields" source)
-    (when present-p
-      (setf (slot-value object 'match-fields)
-              (decode-object (cons "array" "NodeSelectorRequirement") value)))))
 
 
 (defclass node-selector-requirement (resource)
@@ -15272,21 +9219,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "values"
                (slot-value node-selector-requirement 'values)))))
 
-(defmethod unmarshal ((source hash-table) (object node-selector-requirement))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "operator" source)
-    (when present-p
-      (setf (slot-value object 'operator) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "values" source)
-    (when present-p
-      (setf (slot-value object 'values)
-              (decode-object (cons "array" "string") value)))))
-
 
 (defclass preferred-scheduling-term (resource)
           ((weight :initarg :weight :type integer :documentation
@@ -15307,18 +9239,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp preferred-scheduling-term 'preference)
       (funcall (json:stream-object-member-encoder stream) "preference"
                (slot-value preferred-scheduling-term 'preference)))))
-
-(defmethod unmarshal ((source hash-table) (object preferred-scheduling-term))
-  (multiple-value-bind (value present-p)
-      (gethash "weight" source)
-    (when present-p
-      (setf (slot-value object 'weight)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preference" source)
-    (when present-p
-      (setf (slot-value object 'preference)
-              (decode-object "NodeSelectorTerm" value)))))
 
 
 (defclass pod-affinity (resource)
@@ -15350,20 +9270,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                (slot-value pod-affinity
                            'preferred-during-scheduling-ignored-during-execution)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-affinity))
-  (multiple-value-bind (value present-p)
-      (gethash "requiredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'required-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "PodAffinityTerm") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preferredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'preferred-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "WeightedPodAffinityTerm") value)))))
-
 
 (defclass pod-affinity-term (resource)
           ((label-selector :initarg :label-selector :type
@@ -15389,22 +9295,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "topologyKey"
                (slot-value pod-affinity-term 'topology-key)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-affinity-term))
-  (multiple-value-bind (value present-p)
-      (gethash "labelSelector" source)
-    (when present-p
-      (setf (slot-value object 'label-selector)
-              (decode-object "LabelSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "namespaces" source)
-    (when present-p
-      (setf (slot-value object 'namespaces)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "topologyKey" source)
-    (when present-p
-      (setf (slot-value object 'topology-key) (decode-object "string" value)))))
-
 
 (defclass weighted-pod-affinity-term (resource)
           ((weight :initarg :weight :type integer :documentation
@@ -15425,18 +9315,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp weighted-pod-affinity-term 'pod-affinity-term)
       (funcall (json:stream-object-member-encoder stream) "podAffinityTerm"
                (slot-value weighted-pod-affinity-term 'pod-affinity-term)))))
-
-(defmethod unmarshal ((source hash-table) (object weighted-pod-affinity-term))
-  (multiple-value-bind (value present-p)
-      (gethash "weight" source)
-    (when present-p
-      (setf (slot-value object 'weight)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "podAffinityTerm" source)
-    (when present-p
-      (setf (slot-value object 'pod-affinity-term)
-              (decode-object "PodAffinityTerm" value)))))
 
 
 (defclass pod-anti-affinity (resource)
@@ -15468,20 +9346,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                "preferredDuringSchedulingIgnoredDuringExecution"
                (slot-value pod-anti-affinity
                            'preferred-during-scheduling-ignored-during-execution)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-anti-affinity))
-  (multiple-value-bind (value present-p)
-      (gethash "requiredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'required-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "PodAffinityTerm") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "preferredDuringSchedulingIgnoredDuringExecution" source)
-    (when present-p
-      (setf (slot-value object
-                        'preferred-during-scheduling-ignored-during-execution)
-              (decode-object (cons "array" "WeightedPodAffinityTerm") value)))))
 
 
 (defclass toleration (resource)
@@ -15517,29 +9381,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "tolerationSeconds"
                (slot-value toleration 'toleration-seconds)))))
 
-(defmethod unmarshal ((source hash-table) (object toleration))
-  (multiple-value-bind (value present-p)
-      (gethash "key" source)
-    (when present-p
-      (setf (slot-value object 'key) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "operator" source)
-    (when present-p
-      (setf (slot-value object 'operator) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "effect" source)
-    (when present-p
-      (setf (slot-value object 'effect) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "tolerationSeconds" source)
-    (when present-p
-      (setf (slot-value object 'toleration-seconds)
-              (decode-object (cons "integer" "int64") value)))))
-
 
 (defclass host-alias (resource)
           ((ip :initarg :ip :type (or string null) :documentation
@@ -15557,17 +9398,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp host-alias 'hostnames)
       (funcall (json:stream-object-member-encoder stream) "hostnames"
                (slot-value host-alias 'hostnames)))))
-
-(defmethod unmarshal ((source hash-table) (object host-alias))
-  (multiple-value-bind (value present-p)
-      (gethash "ip" source)
-    (when present-p
-      (setf (slot-value object 'ip) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "hostnames" source)
-    (when present-p
-      (setf (slot-value object 'hostnames)
-              (decode-object (cons "array" "string") value)))))
 
 
 (defclass pod-dns-config (resource)
@@ -15592,23 +9422,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "options"
                (slot-value pod-dns-config 'options)))))
 
-(defmethod unmarshal ((source hash-table) (object pod-dns-config))
-  (multiple-value-bind (value present-p)
-      (gethash "nameservers" source)
-    (when present-p
-      (setf (slot-value object 'nameservers)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "searches" source)
-    (when present-p
-      (setf (slot-value object 'searches)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "options" source)
-    (when present-p
-      (setf (slot-value object 'options)
-              (decode-object (cons "array" "PodDNSConfigOption") value)))))
-
 
 (defclass pod-dns-config-option (resource)
           ((name :initarg :name :type (or string null) :documentation
@@ -15626,16 +9439,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp pod-dns-config-option 'value)
       (funcall (json:stream-object-member-encoder stream) "value"
                (slot-value pod-dns-config-option 'value)))))
-
-(defmethod unmarshal ((source hash-table) (object pod-dns-config-option))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "value" source)
-    (when present-p
-      (setf (slot-value object 'value) (decode-object "string" value)))))
 
 
 (defclass daemon-set-update-strategy (resource)
@@ -15658,17 +9461,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "rollingUpdate"
                (slot-value daemon-set-update-strategy 'rolling-update)))))
 
-(defmethod unmarshal ((source hash-table) (object daemon-set-update-strategy))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "rollingUpdate" source)
-    (when present-p
-      (setf (slot-value object 'rolling-update)
-              (decode-object "RollingUpdateDaemonSet" value)))))
-
 
 (defclass rolling-update-daemon-set (resource)
           ((max-unavailable :initarg :max-unavailable :type (or string null)
@@ -15684,13 +9476,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp rolling-update-daemon-set 'max-unavailable)
       (funcall (json:stream-object-member-encoder stream) "maxUnavailable"
                (slot-value rolling-update-daemon-set 'max-unavailable)))))
-
-(defmethod unmarshal ((source hash-table) (object rolling-update-daemon-set))
-  (multiple-value-bind (value present-p)
-      (gethash "maxUnavailable" source)
-    (when present-p
-      (setf (slot-value object 'max-unavailable)
-              (decode-object "string" value)))))
 
 
 (defclass daemon-set-status (resource)
@@ -15762,58 +9547,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "conditions"
                (slot-value daemon-set-status 'conditions)))))
 
-(defmethod unmarshal ((source hash-table) (object daemon-set-status))
-  (multiple-value-bind (value present-p)
-      (gethash "currentNumberScheduled" source)
-    (when present-p
-      (setf (slot-value object 'current-number-scheduled)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "numberMisscheduled" source)
-    (when present-p
-      (setf (slot-value object 'number-misscheduled)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "desiredNumberScheduled" source)
-    (when present-p
-      (setf (slot-value object 'desired-number-scheduled)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "numberReady" source)
-    (when present-p
-      (setf (slot-value object 'number-ready)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "observedGeneration" source)
-    (when present-p
-      (setf (slot-value object 'observed-generation)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "updatedNumberScheduled" source)
-    (when present-p
-      (setf (slot-value object 'updated-number-scheduled)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "numberAvailable" source)
-    (when present-p
-      (setf (slot-value object 'number-available)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "numberUnavailable" source)
-    (when present-p
-      (setf (slot-value object 'number-unavailable)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "collisionCount" source)
-    (when present-p
-      (setf (slot-value object 'collision-count)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "DaemonSetCondition") value)))))
-
 
 (defclass daemon-set-condition (resource)
           ((type :initarg :type :type string :documentation
@@ -15849,29 +9582,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value daemon-set-condition 'message)))))
 
-(defmethod unmarshal ((source hash-table) (object daemon-set-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
-
 
 (defclass deployment-list (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -15897,25 +9607,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp deployment-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value deployment-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object deployment-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "Deployment") value)))))
 
 
 (defclass deployment (resource)
@@ -15947,29 +9638,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp deployment 'status)
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value deployment 'status)))))
-
-(defmethod unmarshal ((source hash-table) (object deployment))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "DeploymentSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "DeploymentStatus" value)))))
 
 
 (defclass deployment-spec (resource)
@@ -16026,47 +9694,6 @@ The contents of the target Secret's Data field will represent the key-value pair
                "progressDeadlineSeconds"
                (slot-value deployment-spec 'progress-deadline-seconds)))))
 
-(defmethod unmarshal ((source hash-table) (object deployment-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector)
-              (decode-object "LabelSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "template" source)
-    (when present-p
-      (setf (slot-value object 'template)
-              (decode-object "PodTemplateSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "strategy" source)
-    (when present-p
-      (setf (slot-value object 'strategy)
-              (decode-object "DeploymentStrategy" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "minReadySeconds" source)
-    (when present-p
-      (setf (slot-value object 'min-ready-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "revisionHistoryLimit" source)
-    (when present-p
-      (setf (slot-value object 'revision-history-limit)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "paused" source)
-    (when present-p
-      (setf (slot-value object 'paused) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "progressDeadlineSeconds" source)
-    (when present-p
-      (setf (slot-value object 'progress-deadline-seconds)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass deployment-strategy (resource)
           ((type :initarg :type :type (or string null) :documentation
@@ -16086,17 +9713,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp deployment-strategy 'rolling-update)
       (funcall (json:stream-object-member-encoder stream) "rollingUpdate"
                (slot-value deployment-strategy 'rolling-update)))))
-
-(defmethod unmarshal ((source hash-table) (object deployment-strategy))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "rollingUpdate" source)
-    (when present-p
-      (setf (slot-value object 'rolling-update)
-              (decode-object "RollingUpdateDeployment" value)))))
 
 
 (defclass rolling-update-deployment (resource)
@@ -16118,17 +9734,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp rolling-update-deployment 'max-surge)
       (funcall (json:stream-object-member-encoder stream) "maxSurge"
                (slot-value rolling-update-deployment 'max-surge)))))
-
-(defmethod unmarshal ((source hash-table) (object rolling-update-deployment))
-  (multiple-value-bind (value present-p)
-      (gethash "maxUnavailable" source)
-    (when present-p
-      (setf (slot-value object 'max-unavailable)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "maxSurge" source)
-    (when present-p
-      (setf (slot-value object 'max-surge) (decode-object "string" value)))))
 
 
 (defclass deployment-status (resource)
@@ -16185,48 +9790,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "collisionCount"
                (slot-value deployment-status 'collision-count)))))
 
-(defmethod unmarshal ((source hash-table) (object deployment-status))
-  (multiple-value-bind (value present-p)
-      (gethash "observedGeneration" source)
-    (when present-p
-      (setf (slot-value object 'observed-generation)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "updatedReplicas" source)
-    (when present-p
-      (setf (slot-value object 'updated-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readyReplicas" source)
-    (when present-p
-      (setf (slot-value object 'ready-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "availableReplicas" source)
-    (when present-p
-      (setf (slot-value object 'available-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "unavailableReplicas" source)
-    (when present-p
-      (setf (slot-value object 'unavailable-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "DeploymentCondition") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "collisionCount" source)
-    (when present-p
-      (setf (slot-value object 'collision-count)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass deployment-condition (resource)
           ((type :initarg :type :type string :documentation
@@ -16267,34 +9830,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value deployment-condition 'message)))))
 
-(defmethod unmarshal ((source hash-table) (object deployment-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastUpdateTime" source)
-    (when present-p
-      (setf (slot-value object 'last-update-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
-
 
 (defclass scale (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -16326,28 +9861,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value scale 'status)))))
 
-(defmethod unmarshal ((source hash-table) (object scale))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "ScaleSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "ScaleStatus" value)))))
-
 
 (defclass scale-spec (resource)
           ((replicas :initarg :replicas :type (or integer null) :documentation
@@ -16360,13 +9873,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp scale-spec 'replicas)
       (funcall (json:stream-object-member-encoder stream) "replicas"
                (slot-value scale-spec 'replicas)))))
-
-(defmethod unmarshal ((source hash-table) (object scale-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass scale-status (resource)
@@ -16385,17 +9891,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp scale-status 'selector)
       (funcall (json:stream-object-member-encoder stream) "selector"
                (slot-value scale-status 'selector)))))
-
-(defmethod unmarshal ((source hash-table) (object scale-status))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector) (decode-object "string" value)))))
 
 
 (defclass replica-set-list (resource)
@@ -16423,25 +9918,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp replica-set-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value replica-set-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object replica-set-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "ReplicaSet") value)))))
 
 
 (defclass replica-set (resource)
@@ -16476,29 +9952,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value replica-set 'status)))))
 
-(defmethod unmarshal ((source hash-table) (object replica-set))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec) (decode-object "ReplicaSetSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "ReplicaSetStatus" value)))))
-
 
 (defclass replica-set-spec (resource)
           ((replicas :initarg :replicas :type (or integer null) :documentation
@@ -16529,28 +9982,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp replica-set-spec 'template)
       (funcall (json:stream-object-member-encoder stream) "template"
                (slot-value replica-set-spec 'template)))))
-
-(defmethod unmarshal ((source hash-table) (object replica-set-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "minReadySeconds" source)
-    (when present-p
-      (setf (slot-value object 'min-ready-seconds)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector)
-              (decode-object "LabelSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "template" source)
-    (when present-p
-      (setf (slot-value object 'template)
-              (decode-object "PodTemplateSpec" value)))))
 
 
 (defclass replica-set-status (resource)
@@ -16596,38 +10027,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "conditions"
                (slot-value replica-set-status 'conditions)))))
 
-(defmethod unmarshal ((source hash-table) (object replica-set-status))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "fullyLabeledReplicas" source)
-    (when present-p
-      (setf (slot-value object 'fully-labeled-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readyReplicas" source)
-    (when present-p
-      (setf (slot-value object 'ready-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "availableReplicas" source)
-    (when present-p
-      (setf (slot-value object 'available-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "observedGeneration" source)
-    (when present-p
-      (setf (slot-value object 'observed-generation)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "ReplicaSetCondition") value)))))
-
 
 (defclass replica-set-condition (resource)
           ((type :initarg :type :type string :documentation
@@ -16663,29 +10062,6 @@ The contents of the target Secret's Data field will represent the key-value pair
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value replica-set-condition 'message)))))
 
-(defmethod unmarshal ((source hash-table) (object replica-set-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
-
 
 (defclass stateful-set-list (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -16710,25 +10086,6 @@ The contents of the target Secret's Data field will represent the key-value pair
     (when (slot-boundp stateful-set-list 'items)
       (funcall (json:stream-object-member-encoder stream) "items"
                (slot-value stateful-set-list 'items)))))
-
-(defmethod unmarshal ((source hash-table) (object stateful-set-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ListMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "items" source)
-    (when present-p
-      (setf (slot-value object 'items)
-              (decode-object (cons "array" "StatefulSet") value)))))
 
 
 (defclass stateful-set (resource)
@@ -16765,30 +10122,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
     (when (slot-boundp stateful-set 'status)
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value stateful-set 'status)))))
-
-(defmethod unmarshal ((source hash-table) (object stateful-set))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec)
-              (decode-object "StatefulSetSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "StatefulSetStatus" value)))))
 
 
 (defclass stateful-set-spec (resource)
@@ -16845,47 +10178,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
                "revisionHistoryLimit"
                (slot-value stateful-set-spec 'revision-history-limit)))))
 
-(defmethod unmarshal ((source hash-table) (object stateful-set-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector)
-              (decode-object "LabelSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "template" source)
-    (when present-p
-      (setf (slot-value object 'template)
-              (decode-object "PodTemplateSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeClaimTemplates" source)
-    (when present-p
-      (setf (slot-value object 'volume-claim-templates)
-              (decode-object (cons "array" "PersistentVolumeClaim") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "serviceName" source)
-    (when present-p
-      (setf (slot-value object 'service-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "podManagementPolicy" source)
-    (when present-p
-      (setf (slot-value object 'pod-management-policy)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "updateStrategy" source)
-    (when present-p
-      (setf (slot-value object 'update-strategy)
-              (decode-object "StatefulSetUpdateStrategy" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "revisionHistoryLimit" source)
-    (when present-p
-      (setf (slot-value object 'revision-history-limit)
-              (decode-object (cons "integer" "int32") value)))))
-
 
 (defclass persistent-volume-claim (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -16920,30 +10212,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
     (when (slot-boundp persistent-volume-claim 'status)
       (funcall (json:stream-object-member-encoder stream) "status"
                (slot-value persistent-volume-claim 'status)))))
-
-(defmethod unmarshal ((source hash-table) (object persistent-volume-claim))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "metadata" source)
-    (when present-p
-      (setf (slot-value object 'metadata) (decode-object "ObjectMeta" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "spec" source)
-    (when present-p
-      (setf (slot-value object 'spec)
-              (decode-object "PersistentVolumeClaimSpec" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status)
-              (decode-object "PersistentVolumeClaimStatus" value)))))
 
 
 (defclass persistent-volume-claim-spec (resource)
@@ -16990,39 +10258,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
       (funcall (json:stream-object-member-encoder stream) "volumeMode"
                (slot-value persistent-volume-claim-spec 'volume-mode)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-claim-spec))
-  (multiple-value-bind (value present-p)
-      (gethash "accessModes" source)
-    (when present-p
-      (setf (slot-value object 'access-modes)
-              (decode-object (cons "array" "PersistentVolumeAccessMode")
-               value))))
-  (multiple-value-bind (value present-p)
-      (gethash "selector" source)
-    (when present-p
-      (setf (slot-value object 'selector)
-              (decode-object "LabelSelector" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resources" source)
-    (when present-p
-      (setf (slot-value object 'resources)
-              (decode-object "ResourceRequirements" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeName" source)
-    (when present-p
-      (setf (slot-value object 'volume-name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "storageClassName" source)
-    (when present-p
-      (setf (slot-value object 'storage-class-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "volumeMode" source)
-    (when present-p
-      (setf (slot-value object 'volume-mode)
-              (decode-object "PersistentVolumeMode" value)))))
-
 
 (defclass persistent-volume-access-mode (resource) nil)
 
@@ -17031,17 +10266,12 @@ The StatefulSet guarantees that a given network identity will always map to the 
             &optional stream)
   (json:with-object (stream)))
 
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-access-mode)))
-
 
 (defclass persistent-volume-mode (resource) nil)
 
 (defmethod json:encode-json
            ((persistent-volume-mode persistent-volume-mode) &optional stream)
   (json:with-object (stream)))
-
-(defmethod unmarshal ((source hash-table) (object persistent-volume-mode)))
 
 
 (defclass persistent-volume-claim-status (resource)
@@ -17072,29 +10302,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
     (when (slot-boundp persistent-volume-claim-status 'conditions)
       (funcall (json:stream-object-member-encoder stream) "conditions"
                (slot-value persistent-volume-claim-status 'conditions)))))
-
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-claim-status))
-  (multiple-value-bind (value present-p)
-      (gethash "phase" source)
-    (when present-p
-      (setf (slot-value object 'phase) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "accessModes" source)
-    (when present-p
-      (setf (slot-value object 'access-modes)
-              (decode-object (cons "array" "PersistentVolumeAccessMode")
-               value))))
-  (multiple-value-bind (value present-p)
-      (gethash "capacity" source)
-    (when present-p
-      (setf (slot-value object 'capacity) (decode-object "object" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "PersistentVolumeClaimCondition")
-               value)))))
 
 
 (defclass persistent-volume-claim-condition (resource)
@@ -17138,35 +10345,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value persistent-volume-claim-condition 'message)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object persistent-volume-claim-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastProbeTime" source)
-    (when present-p
-      (setf (slot-value object 'last-probe-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
-
 
 (defclass stateful-set-update-strategy (resource)
           ((type :initarg :type :type (or string null) :documentation
@@ -17188,18 +10366,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
       (funcall (json:stream-object-member-encoder stream) "rollingUpdate"
                (slot-value stateful-set-update-strategy 'rolling-update)))))
 
-(defmethod unmarshal
-           ((source hash-table) (object stateful-set-update-strategy))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "rollingUpdate" source)
-    (when present-p
-      (setf (slot-value object 'rolling-update)
-              (decode-object "RollingUpdateStatefulSetStrategy" value)))))
-
 
 (defclass rolling-update-stateful-set-strategy (resource)
           ((partition :initarg :partition :type (or integer null)
@@ -17217,14 +10383,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
     (when (slot-boundp rolling-update-stateful-set-strategy 'partition)
       (funcall (json:stream-object-member-encoder stream) "partition"
                (slot-value rolling-update-stateful-set-strategy 'partition)))))
-
-(defmethod unmarshal
-           ((source hash-table) (object rolling-update-stateful-set-strategy))
-  (multiple-value-bind (value present-p)
-      (gethash "partition" source)
-    (when present-p
-      (setf (slot-value object 'partition)
-              (decode-object (cons "integer" "int32") value)))))
 
 
 (defclass stateful-set-status (resource)
@@ -17287,53 +10445,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
       (funcall (json:stream-object-member-encoder stream) "conditions"
                (slot-value stateful-set-status 'conditions)))))
 
-(defmethod unmarshal ((source hash-table) (object stateful-set-status))
-  (multiple-value-bind (value present-p)
-      (gethash "observedGeneration" source)
-    (when present-p
-      (setf (slot-value object 'observed-generation)
-              (decode-object (cons "integer" "int64") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "replicas" source)
-    (when present-p
-      (setf (slot-value object 'replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "readyReplicas" source)
-    (when present-p
-      (setf (slot-value object 'ready-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "currentReplicas" source)
-    (when present-p
-      (setf (slot-value object 'current-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "updatedReplicas" source)
-    (when present-p
-      (setf (slot-value object 'updated-replicas)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "currentRevision" source)
-    (when present-p
-      (setf (slot-value object 'current-revision)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "updateRevision" source)
-    (when present-p
-      (setf (slot-value object 'update-revision)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "collisionCount" source)
-    (when present-p
-      (setf (slot-value object 'collision-count)
-              (decode-object (cons "integer" "int32") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "conditions" source)
-    (when present-p
-      (setf (slot-value object 'conditions)
-              (decode-object (cons "array" "StatefulSetCondition") value)))))
-
 
 (defclass stateful-set-condition (resource)
           ((type :initarg :type :type string :documentation
@@ -17369,29 +10480,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
       (funcall (json:stream-object-member-encoder stream) "message"
                (slot-value stateful-set-condition 'message)))))
 
-(defmethod unmarshal ((source hash-table) (object stateful-set-condition))
-  (multiple-value-bind (value present-p)
-      (gethash "type" source)
-    (when present-p
-      (setf (slot-value object 'type) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "status" source)
-    (when present-p
-      (setf (slot-value object 'status) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "lastTransitionTime" source)
-    (when present-p
-      (setf (slot-value object 'last-transition-time)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "reason" source)
-    (when present-p
-      (setf (slot-value object 'reason) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "message" source)
-    (when present-p
-      (setf (slot-value object 'message) (decode-object "string" value)))))
-
 
 (defclass api-resource-list (resource)
           ((api-version :initform "apps/v1" :allocation :class)
@@ -17418,26 +10506,6 @@ The StatefulSet guarantees that a given network identity will always map to the 
     (when (slot-boundp api-resource-list 'resources)
       (funcall (json:stream-object-member-encoder stream) "resources"
                (slot-value api-resource-list 'resources)))))
-
-(defmethod unmarshal ((source hash-table) (object api-resource-list))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "apiVersion" source)
-    (when present-p
-      (setf (slot-value object 'api-version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "groupVersion" source)
-    (when present-p
-      (setf (slot-value object 'group-version)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "resources" source)
-    (when present-p
-      (setf (slot-value object 'resources)
-              (decode-object (cons "array" "APIResource") value)))))
 
 
 (defclass api-resource (resource)
@@ -17490,46 +10558,4 @@ The StatefulSet guarantees that a given network identity will always map to the 
     (when (slot-boundp api-resource 'categories)
       (funcall (json:stream-object-member-encoder stream) "categories"
                (slot-value api-resource 'categories)))))
-
-(defmethod unmarshal ((source hash-table) (object api-resource))
-  (multiple-value-bind (value present-p)
-      (gethash "name" source)
-    (when present-p
-      (setf (slot-value object 'name) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "singularName" source)
-    (when present-p
-      (setf (slot-value object 'singular-name)
-              (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "namespaced" source)
-    (when present-p
-      (setf (slot-value object 'namespaced) (decode-object "boolean" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "group" source)
-    (when present-p
-      (setf (slot-value object 'group) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "version" source)
-    (when present-p
-      (setf (slot-value object 'version) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "kind" source)
-    (when present-p
-      (setf (slot-value object 'kind) (decode-object "string" value))))
-  (multiple-value-bind (value present-p)
-      (gethash "verbs" source)
-    (when present-p
-      (setf (slot-value object 'verbs)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "shortNames" source)
-    (when present-p
-      (setf (slot-value object 'short-names)
-              (decode-object (cons "array" "string") value))))
-  (multiple-value-bind (value present-p)
-      (gethash "categories" source)
-    (when present-p
-      (setf (slot-value object 'categories)
-              (decode-object (cons "array" "string") value)))))
 

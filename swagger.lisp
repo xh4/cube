@@ -246,19 +246,20 @@
                              ,(property-name property)
                              (slot-value ,class-symbol ',(symbolize (property-name property))))))))
 
-      (defmethod unmarshal ((source hash-table) (object ,class-symbol))
-        ,@(loop for property in (model-properties model)
-             collect
-               `(multiple-value-bind (value present-p)
-                    (gethash ,(property-name property) source)
-                  (when present-p
-                    (setf (slot-value object ',(symbolize (property-name property)))
-                          (decode-object
-                           ,(let ((type (property-type property)))
-                              (cond
-                                ((stringp type) type)
-                                ((consp type) `(cons ,(car type) ,(cdr type)))))
-                           value)))))))))
+      ;; (defmethod unmarshal ((source hash-table) (object ,class-symbol))
+      ;;   ,@(loop for property in (model-properties model)
+      ;;        collect
+      ;;          `(multiple-value-bind (value present-p)
+      ;;               (gethash ,(property-name property) source)
+      ;;             (when present-p
+      ;;               (setf (slot-value object ',(symbolize (property-name property)))
+      ;;                     (decode-object
+      ;;                      ,(let ((type (property-type property)))
+      ;;                         (cond
+      ;;                           ((stringp type) type)
+      ;;                           ((consp type) `(cons ,(car type) ,(cdr type)))))
+      ;;                      value))))))
+      )))
 
 (defun make-argument-list (required-parameters optional-parameters)
   `(,@(loop for p in required-parameters collect (symbolize-parameter p))
@@ -371,9 +372,9 @@
                                                          (marshal s ,(symbolize-parameter body-parameter))))))
                  ,(if (equal (operation-type operation) "v1.WatchEvent")
                       'stream
-                      `(let* ((response (alexandria::read-stream-content-into-string stream))
-                              (object (yason:parse response)))
-                         (decode-object (gethash "kind" object) object)))))))))))
+                      `(let ((response (alexandria::read-stream-content-into-string stream)))
+                         ;; (decode-object (gethash "kind" object) object)
+                         response))))))))))
 
 (defmethod generate ((api api))
   (loop for operation in (api-operations api)

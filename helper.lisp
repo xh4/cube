@@ -38,9 +38,9 @@
            (progn
              (check-type *api-endpoint-host* string)
              (check-type *api-endpoint-port* integer)
-             (check-type *cluster-certificate-authority* pathname)
-             (check-type *client-certificate* pathname)
-             (check-type *client-key* pathname)
+             (check-type *cluster-certificate-authority* (or pathname string))
+             (check-type *client-certificate* (or pathname string))
+             (check-type *client-key* (or pathname string))
              (go finally))
          (error (e)
            (if should-try-load
@@ -51,8 +51,9 @@
        (setf should-try-load nil)
        (go check)
      finally
-       (list *api-endpoint-host*
-             *api-endpoint-port*
-             *cluster-certificate-authority*
-             *client-certificate*
-             *client-key*))))
+       (return-from check-config
+         (list *api-endpoint-host*
+               *api-endpoint-port*
+               (namestring *cluster-certificate-authority*)
+               (namestring *client-certificate*)
+               (namestring *client-key*))))))

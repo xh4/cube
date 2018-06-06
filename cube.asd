@@ -25,3 +25,8 @@
                (:file "helper")
                (:file "resources")
                (:file "operations")))
+
+(loop for d in (directory (merge-pathnames "vendor/*.*" (component-pathname (find-system "cube"))))
+   do
+     (when (or (null (pathname-name d)) (eq :unspecific (pathname-name d))) ;; Ensure is directory
+       (pushnew d asdf:*central-registry* :test 'equal)))
