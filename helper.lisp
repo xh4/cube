@@ -26,7 +26,33 @@
 (defgeneric unmarshal (source object))
 
 (defmethod marshal (stream object &key (pretty nil))
-  (yason:with-output (stream :indent pretty)
-    (yason:encode object stream)))
+  (json:encode-json object stream))
 
 (defgeneric watch (stream))
+
+(defun check-config ()
+  (let ((should-try-load t))
+    (tagbody
+     check
+       (handler-case
+           (progn
+             (check-type *api-endpoint-host* string)
+             (check-type *api-endpoint-port* integer)
+             (check-type *cluster-certificate-authority* pathname)
+             (check-type *client-certificate* pathname)
+             (check-type *client-key* pathname)
+             (go finally))
+         (error (e)
+           (if should-try-load
+               (go load)
+               (error e))))
+     load
+       (load-default-config)
+       (setf should-try-load nil)
+       (go check)
+     finally
+       (list *api-endpoint-host*
+             *api-endpoint-port*
+             *cluster-certificate-authority*
+             *client-certificate*
+             *client-key*))))

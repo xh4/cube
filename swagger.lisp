@@ -2,18 +2,16 @@
 
 (ql:quickload '(:alexandria
                 :optima.ppcre
-                :yason
-                :cl-change-case
                 :drakma
                 :quri
+                :cl-json
+                :cl-change-case
                 :defclass-std
                 :closer-mop))
 
 (defpackage cube.swagger
   (:use :cl)
   (:import-from :alexandria
-                :hash-table-keys
-                :hash-table-values
                 :switch)
   (:import-from :optima
                 :match)
@@ -67,95 +65,97 @@
 (defclass/std spec ()
   ((api-version swagger-version base-path resource-path apis models)))
 
-(defun make-instance-from-hash-table (class table &optional mapping)
+(defun make-instance-from-alist (class alist &optional mapping)
   (check-type class symbol)
-  (check-type table hash-table)
+  (check-type alist list)
   (let ((instance (make-instance class)))
     (let ((slots (closer-mop:class-slots (find-class class))))
       (loop for slot in slots
          for name = (closer-mop:slot-definition-name slot)
          for key = (or (cdr (assoc name mapping))
-                       (camel-case (string name)))
+                       (intern (symbol-name name) :keyword))
          do
            (setf (slot-value instance name)
-                 (gethash key table))))
+                 (cdr (assoc key alist)))))
     instance))
 
-(defun make-parameter (table)
-  (make-instance-from-hash-table 'parameter table))
+(defun make-parameter (alist)
+  (make-instance-from-alist 'parameter alist))
 
-(defun make-response (table)
-  (make-instance-from-hash-table 'response table '((model . "responseModel"))))
+(defun make-response (alist)
+  (make-instance-from-alist 'response alist '((model . :response-model))))
 
-(defun make-operation (table path)
-  (let ((operation (make-instance-from-hash-table 'operation table
-                                                  '((parameters . "_")
-                                                    (responses . "_")))))
+(defun make-operation (alist path)
+  (let ((operation (make-instance-from-alist 'operation alist
+                                                  '((parameters . :_)
+                                                    (responses . :_)))))
     (setf (operation-path operation) path)
     (setf (operation-parameters operation)
-          (mapcar #'make-parameter (gethash "parameters" table)))
+          (mapcar #'make-parameter (cdr (assoc :parameters alist))))
     (setf (operation-responses operation)
-          (mapcar #'make-response (gethash "responses" table)))
+          (mapcar #'make-response (cdr (assoc :responses alist))))
     operation))
 
-(defun make-api (table)
-  (let ((api (make-instance-from-hash-table 'api table '((operations . "_")))))
+(defun make-api (alist)
+  (let ((api (make-instance-from-alist 'api alist '((operations . :_)))))
     (setf (api-operations api)
           (mapcar (lambda (op)
-                    (make-operation op (gethash "path" table)))
-                  (gethash "operations" table)))
+                    (make-operation op (cdr (assoc :path alist))))
+                  (cdr (assoc :operations alist))))
     api))
 
-(defun make-property (name table required)
-  (let ((type (match (intersection '("type" "$ref") (hash-table-keys table) :test 'equal)
-                ('("type")
-                 (let ((type (gethash "type" table)))
-                   (match type
-                     ("string" type)
-                     ("boolean" type)
-                     ("object" type)
-                     ("integer" (cons type (gethash "format" table)))
-                     ("array"
-                      (let ((a (first (hash-table-keys (gethash "items" table))))
-                            (b (first (hash-table-values (gethash "items" table)))))
-                        (match a
-                          ("type"
-                           (cons "array" b))
-                          ("$ref"
-                           (cons "array" (match b
-                                           ((ppcre "(.*)\\.(.*)" version type) type))))))))))
-                ('("$ref")
-                 (let ((ref (gethash "$ref" table)))
-                   (match ref
-                     ((ppcre "(.*)\\.(.*)" version type) type)))))))
+(defun make-property (name alist required)
+  (let ((type (match (intersection '(:type :$ref) (mapcar #'car alist) :test 'equal)
+                ('(:type)
+                  (let ((type (cdr (assoc :type alist))))
+                    (match type
+                      ("string" type)
+                      ("boolean" type)
+                      ("object" type)
+                      ("integer" (cons type (cdr (assoc :format alist))))
+                      ("array"
+                       (let ((a (caadr (assoc :items alist)))
+                             (b (cdadr (assoc :items alist))))
+                         (match a
+                           (:type
+                            (cons "array" b))
+                           (:$ref
+                            (cons "array" (match b
+                                            ((ppcre "(.*)\\.(.*)" version type) type))))))))))
+                ('(:$ref)
+                  (let ((ref (cdr (assoc :$ref alist))))
+                    (match ref
+                      ((ppcre "(.*)\\.(.*)" version type) type)))))))
     (make-instance 'property
                    :name name
                    :type type
-                   :description (gethash "description" table)
+                   :description (cdr (assoc :description alist))
                    :required required)))
 
-(defun make-model (table api-version)
-  (let ((required (gethash "required" table))
-        (name (match (gethash "id" table)
+(defun make-model (alist api-version)
+  (let ((required (cdr (assoc :required alist)))
+        (name (match (cdr (assoc :id alist))
                 ((ppcre "(.*)\\.(.*)" version name) name))))
     (make-instance 'model
                    :api-version api-version
                    :name name
-                   :description (gethash "description" table)
-                   :properties (loop for name being the hash-keys of (gethash "properties" table)
-                                  using (hash-value property-table)
-                                  collect (make-property name property-table (if (find name required :test 'equal) t nil))))))
+                   :description (cdr (assoc :description alist))
+                   :properties (loop for p in (cdr (assoc :properties alist))
+                                  for name = (camel-case (symbol-name (car p)))
+                                  for body = (cdr p)
+                                  collect (make-property name body (if (find name required :test 'equal) t nil))))))
 
 (defun read-api-file (path)
-  (let* ((table (yason:parse path))
-         (api-version (gethash "apiVersion" table))
-         (apis (gethash "apis" table))
-         (models (hash-table-values (gethash "models" table))))
+  (check-type path pathname)
+  (let* ((alist (json:decode-json-from-source path))
+         (api-version (cdr (assoc :api-version alist)))
+         (apis (cdr (assoc :apis alist)))
+         (models (mapcar #'rest (cdr (assoc :models alist)))))
     (make-instance 'spec
-                   :api-version (gethash "apiVersion" table)
-                   :swagger-version (gethash "swaggerVersion" table)
-                   :base-path (gethash "basePath" table)
-                   :resource-path (gethash "resourcePath" table)
+                   :api-version api-version
+                   :swagger-version (cdr (assoc :swagger-version alist))
+                   :base-path (cdr (assoc :base-path alist))
+                   :resource-path (cdr (assoc :resource-path alist))
                    :apis (mapcar #'make-api apis)
                    :models (mapcar (lambda (model) (make-model model api-version)) models))))
 
@@ -196,6 +196,7 @@
                     (t (make-check-type-specifier
                         (match (parameter-type parameter)
                           ((ppcre "(.*)\\.(.*)" version name)
+                           (declare (ignore version))
                            (symbolize name)))
                         required))))))
 
@@ -204,7 +205,7 @@
     (match (property-type property)
       ("string" (make-check-type-specifier 'string required))
       ("boolean" (make-check-type-specifier 'boolean required))
-      ("object" (make-check-type-specifier 'hash-table required))
+      ("object" (make-check-type-specifier 'list required))
       ((cons "integer" format) (make-check-type-specifier 'integer required))
       ((cons "array" subtype) 'list)
       (type (make-check-type-specifier (symbolize type) required)))))
@@ -236,13 +237,14 @@
         ,@(when class-documentation
             `((:documentation ,class-documentation))))
 
-      (defmethod yason:encode ((,class-symbol ,class-symbol) &optional (stream *standard-output*))
-        (yason:with-object ()
+      (defmethod json:encode-json ((,class-symbol ,class-symbol) &optional stream)
+        (json:with-object (stream)
           ,@(loop for property in (model-properties model)
                collect
                  `(when (slot-boundp ,class-symbol ',(symbolize (property-name property)))
-                    (yason:encode-object-element ,(property-name property)
-                                                 (slot-value ,class-symbol ',(symbolize (property-name property))))))))
+                    (funcall (json:stream-object-member-encoder stream)
+                             ,(property-name property)
+                             (slot-value ,class-symbol ',(symbolize (property-name property))))))))
 
       (defmethod unmarshal ((source hash-table) (object ,class-symbol))
         ,@(loop for property in (model-properties model)
@@ -341,38 +343,37 @@
          ,(make-operation-doc operation)
          ,@(loop for param in parameters
               collect (make-check-type-for-parameter param))
-         (let* ((scheme *api-endpoint-scheme*)
-                (host *api-endpoint-host*)
-                (port *api-endpoint-port*)
-                (path ,(if path-parameters
-                           (make-path-format path)
-                           path))
-                (query nil))
-           ,@(loop for param in query-parameters
-                collect `(when ,(symbolize-parameter param)
-                           (alexandria:appendf query
-                                               (list (cons ,(parameter-name param)
-                                                           ,(symbolize-parameter param))))))
-           (let* ((query-string (quri:url-encode-params query))
-                  (url (format nil "~A://~A:~D~A~:[~;?~A~]" scheme host port path query query-string)))
-             (multiple-value-bind (stream status-code headers)
-                 (drakma:http-request url
-                                      :method ,(intern (operation-method operation) :keyword)
-                                      :content-type "application/json"
-                                      :connection-timeout 5
-                                      ;; :read-timeout 5
-                                      :want-stream t
-                                      :ca-file *cluster-certificate-authority*
-                                      :certificate *client-certificate*
-                                      :key *client-key*
-                                      ,@(when body-parameter
-                                          `(:content (with-output-to-string (s)
-                                                       (marshal s ,(symbolize-parameter body-parameter))))))
-               ,(if (equal (operation-type operation) "v1.WatchEvent")
-                   'stream
-                   `(let* ((response (alexandria::read-stream-content-into-string stream))
-                          (object (yason:parse response)))
-                     (decode-object (gethash "kind" object) object))))))))))
+
+         (destructuring-bind (host port ca crt key) (check-config)
+           (let ((path ,(if path-parameters
+                            (make-path-format path)
+                            path))
+                 (query nil))
+             ,@(loop for param in query-parameters
+                  collect `(when ,(symbolize-parameter param)
+                             (alexandria:appendf query
+                                                 (list (cons ,(parameter-name param)
+                                                             ,(symbolize-parameter param))))))
+             (let* ((query-string (quri:url-encode-params query))
+                    (url (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query query-string)))
+               (multiple-value-bind (stream status-code headers)
+                   (drakma:http-request url
+                                        :method ,(intern (operation-method operation) :keyword)
+                                        :content-type "application/json"
+                                        :connection-timeout 5
+                                        ;; :read-timeout 5
+                                        :want-stream t
+                                        :ca-file ca
+                                        :certificate crt
+                                        :key key
+                                        ,@(when body-parameter
+                                            `(:content (with-output-to-string (s)
+                                                         (marshal s ,(symbolize-parameter body-parameter))))))
+                 ,(if (equal (operation-type operation) "v1.WatchEvent")
+                      'stream
+                      `(let* ((response (alexandria::read-stream-content-into-string stream))
+                              (object (yason:parse response)))
+                         (decode-object (gethash "kind" object) object)))))))))))
 
 (defmethod generate ((api api))
   (loop for operation in (api-operations api)

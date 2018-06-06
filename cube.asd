@@ -12,7 +12,11 @@
                :optima.ppcre
                :drakma
                :quri
-               :yason
+               :ironclad
+               :cl-json
+               :cl-base64
+               :cl-yaclyaml
+               :cl-hash-util
                :cl-change-case)
   :serial t
   :components ((:file "package")
@@ -21,8 +25,3 @@
                (:file "helper")
                (:file "resources")
                (:file "operations")))
-
-(loop for d in (directory (merge-pathnames "vendor/*.*" (component-pathname (find-system "cube"))))
-   do
-     (when (or (null (pathname-name d)) (eq :unspecific (pathname-name d))) ;; Ensure is directory
-       (pushnew d asdf:*central-registry* :test 'equal)))

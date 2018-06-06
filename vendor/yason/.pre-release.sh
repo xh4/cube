@@ -1,1 +1,0 @@
-sh render-doc.sh

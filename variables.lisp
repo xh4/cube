@@ -1,13 +1,11 @@
 (in-package :cube)
 
-(defparameter *api-endpoint-scheme* "https")
+(defparameter *api-endpoint-host* nil)
 
-(defparameter *api-endpoint-host* "106.15.161.166")
+(defparameter *api-endpoint-port* 8443)
 
-(defparameter *api-endpoint-port* 6443)
+(defparameter *cluster-certificate-authority* (merge-pathnames ".minikube/ca.crt" (user-homedir-pathname)))
 
-(defparameter *cluster-certificate-authority* "/Users/kevin/.kube/ca.pem")
+(defparameter *client-certificate* (merge-pathnames ".minikube/client.crt" (user-homedir-pathname)))
 
-(defparameter *client-certificate* "/Users/kevin/.kube/certificate.pem")
-
-(defparameter *client-key* "/Users/kevin/.kube/key.pem")
+(defparameter *client-key* (merge-pathnames ".minikube/client.key" (user-homedir-pathname)))
