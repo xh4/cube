@@ -5,7 +5,9 @@
                 :yason
                 :cl-change-case
                 :drakma
-                :quri))
+                :quri
+                :defclass-std
+                :closer-mop))
 
 (defpackage cube.swagger
   (:use :cl)
@@ -21,7 +23,10 @@
                 :regex-replace
                 :all-matches-as-strings)
   (:import-from :cl-change-case
-                :param-case))
+                :param-case
+                :camel-case)
+  (:import-from :defclass-std
+                :defclass/std))
 
 (in-package cube.swagger)
 
@@ -30,98 +35,76 @@
 
 (defparameter *api-files*
   (list
-   #p"/Users/kevin/db.vision/cube/swagger-spec/v1.json"
-   #p"/Users/kevin/db.vision/cube/swagger-spec/apps_v1.json"))
+   (merge-pathnames "swagger-spec/v1.json" (asdf:component-pathname (asdf:find-system "cube")))
+   (merge-pathnames "swagger-spec/apps_v1.json" (asdf:component-pathname (asdf:find-system "cube")))))
 
 (defparameter *resources-output-path*
-  #p"/Users/kevin/db.vision/cube/resources.lisp")
+  (merge-pathnames "resources.lisp" (asdf:component-pathname (asdf:find-system "cube"))))
 
 (defparameter *operations-output-path*
-  #p"/Users/kevin/db.vision/cube/operations.lisp")
+  (merge-pathnames "operations.lisp" (asdf:component-pathname (asdf:find-system "cube"))))
 
-(defclass parameter ()
-  ((name :initarg :name :accessor parameter-name)
-   (type :initarg :type :accessor parameter-type)
-   (param-type :initarg :param-type :accessor parameter-param-type)
-   (description :initarg :description :accessor parameter-description)
-   (required :initarg :required :accessor parameter-required)
-   (allow-multiple :initarg :allow-multiple :accessor parameter-allow-multiple)))
+(setf defclass-std:*with-prefix* t)
 
-(defclass response ()
-  ((code :initarg :code)
-   (message :initarg :message)
-   (model :initarg :model)))
+(defclass/std parameter ()
+  ((name type param-type description required allow-multiple)))
 
-(defclass operation ()
-  ((type :initarg :type)
-   (path :initarg :path)
-   (method :initarg :method)
-   (summary :initarg :summary)
-   (nickname :initarg :nickname)
-   (parameters :initarg :parameters)
-   (responses :initarg :responses)
-   (consumes :initarg :consumes)
-   (produces :initarg :produces)))
+(defclass/std response ()
+  ((code message model)))
 
-(defclass api ()
-  ((path :initarg :path)
-   (description :initarg :description)
-   (operations :initarg :operations)))
+(defclass/std operation ()
+  ((type path method summary nickname parameters responses consumes produces)))
 
-(defclass property ()
-  ((name :initarg :name)
-   (type :initarg :type)
-   (description :initarg :description)
-   (required :initarg :required)))
+(defclass/std api ()
+  ((path description operations)))
 
-(defclass model ()
-  ((api-version :initarg :api-version)
-   (name :initarg :name)
-   (description :initarg :description)
-   (properties :initarg :properties :initform nil)))
+(defclass/std property ()
+  ((name type description required)))
 
-(defclass spec ()
-  ((api-version :initarg :api-version)
-   (swagger-version :initarg :swagger-version)
-   (base-path :initarg :base-path)
-   (resource-path :initarg :resource-path)
-   (apis :initarg :apis)
-   (models :initarg :models)))
+(defclass/std model ()
+  ((api-version name description properties)))
+
+(defclass/std spec ()
+  ((api-version swagger-version base-path resource-path apis models)))
+
+(defun make-instance-from-hash-table (class table &optional mapping)
+  (check-type class symbol)
+  (check-type table hash-table)
+  (let ((instance (make-instance class)))
+    (let ((slots (closer-mop:class-slots (find-class class))))
+      (loop for slot in slots
+         for name = (closer-mop:slot-definition-name slot)
+         for key = (or (cdr (assoc name mapping))
+                       (camel-case (string name)))
+         do
+           (setf (slot-value instance name)
+                 (gethash key table))))
+    instance))
 
 (defun make-parameter (table)
-  (make-instance 'parameter
-                 :name (gethash "name" table)
-                 :type (gethash "type" table)
-                 :param-type (gethash "paramType" table)
-                 :description (gethash "description" table)
-                 :required (gethash "required" table)
-                 :allow-multiple (gethash "allowMultiple" table)))
+  (make-instance-from-hash-table 'parameter table))
 
 (defun make-response (table)
-  (make-instance 'response
-                 :code (gethash "code" table)
-                 :message (gethash "message" table)
-                 :model (gethash "responseModel" table)))
+  (make-instance-from-hash-table 'response table '((model . "responseModel"))))
 
 (defun make-operation (table path)
-  (make-instance 'operation
-                 :type (gethash "type" table)
-                 :path path
-                 :method (gethash "method" table)
-                 :summary (gethash "summary" table)
-                 :nickname (gethash "nickname" table)
-                 :parameters (mapcar #'make-parameter (gethash "parameters" table))
-                 :responses (mapcar #'make-response (gethash "responseMessages" table))
-                 :consumes (gethash "consumes" table)
-                 :produces (gethash "produces" table)))
+  (let ((operation (make-instance-from-hash-table 'operation table
+                                                  '((parameters . "_")
+                                                    (responses . "_")))))
+    (setf (operation-path operation) path)
+    (setf (operation-parameters operation)
+          (mapcar #'make-parameter (gethash "parameters" table)))
+    (setf (operation-responses operation)
+          (mapcar #'make-response (gethash "responses" table)))
+    operation))
 
 (defun make-api (table)
-  (make-instance 'api
-                 :path (gethash "path" table)
-                 :description (gethash "description" table)
-                 :operations (mapcar (lambda (op)
-                                       (make-operation op (gethash "path" table)))
-                                     (gethash "operations" table))))
+  (let ((api (make-instance-from-hash-table 'api table '((operations . "_")))))
+    (setf (api-operations api)
+          (mapcar (lambda (op)
+                    (make-operation op (gethash "path" table)))
+                  (gethash "operations" table)))
+    api))
 
 (defun make-property (name table required)
   (let ((type (match (intersection '("type" "$ref") (hash-table-keys table) :test 'equal)
@@ -186,14 +169,14 @@
 
 (defun symbolize-parameter (parameter)
   "If param-type is `body`, use it's type as name"
-  (if (equal (slot-value parameter 'param-type) "body")
-      (match (slot-value parameter 'type)
+  (if (equal (parameter-param-type parameter) "body")
+      (match (parameter-type parameter)
         ((ppcre "(.*)\\.(.*)" version name)
          (symbolize name)))
-      (symbolize (slot-value parameter 'name))))
+      (symbolize (parameter-name parameter))))
 
 (defun symbolize-property (property)
-  (symbolize (slot-value property 'name)))
+  (symbolize (property-name property)))
 
 (defun make-check-type-specifier (symbol &optional required)
   (if (eq symbol 'list)
@@ -203,22 +186,22 @@
           `(or ,symbol null))))
 
 (defun make-check-type-for-parameter (parameter)
-  (let ((required (slot-value parameter 'required)))
+  (let ((required (parameter-required parameter)))
     `(check-type ,(symbolize-parameter parameter)
-                 ,(switch ((slot-value parameter 'type) :test 'equal)
+                 ,(switch ((parameter-type parameter) :test 'equal)
                     ("string" (make-check-type-specifier 'string required))
                     ("integer" (make-check-type-specifier 'integer required))
                     ("boolean" (make-check-type-specifier 'boolean required))
                     ("array" 'list)
                     (t (make-check-type-specifier
-                        (match (slot-value parameter 'type)
+                        (match (parameter-type parameter)
                           ((ppcre "(.*)\\.(.*)" version name)
                            (symbolize name)))
                         required))))))
 
 (defun make-check-type-for-property (property)
-  (let ((required (slot-value property 'required)))
-    (match (slot-value property 'type)
+  (let ((required (property-required property)))
+    (match (property-type property)
       ("string" (make-check-type-specifier 'string required))
       ("boolean" (make-check-type-specifier 'boolean required))
       ("object" (make-check-type-specifier 'hash-table required))
@@ -229,25 +212,25 @@
 (defgeneric generate (object))
 
 (defmethod generate ((property property))
-  (let* ((slot-symbol (symbolize (slot-value property 'name)))
-         (slot-keyword (symbolize (slot-value property 'name) t)))
+  (let* ((slot-symbol (symbolize (property-name property)))
+         (slot-keyword (symbolize (property-name property) t)))
     `(,slot-symbol :initarg ,slot-keyword
                    :type ,(make-check-type-for-property property)
-                   :documentation ,(slot-value property 'description))))
+                   :documentation ,(property-description property))))
 
 (defmethod generate ((model model))
-  (let* ((name (slot-value model 'name))
+  (let* ((name (model-name model))
          (class-symbol (symbolize name))
-         (class-documentation (slot-value model 'description)))
+         (class-documentation (model-description model)))
     `((defclass ,class-symbol (resource)
-        (,@(when (find "apiVersion" (slot-value model 'properties)
-                      :test (lambda (n p) (equal n (slot-value p 'name))))
-             `((api-version :initform ,(slot-value model 'api-version) :allocation :class)))
-         ,@(when (find "kind" (slot-value model 'properties)
-                      :test (lambda (n p) (equal n (slot-value p 'name))))
-             `((kind :initform ,(slot-value model 'name) :allocation :class)))
-          ,@(loop for property in (slot-value model 'properties)
-               when (not (find (slot-value property 'name) '("apiVersion" "kind") :test 'equal))
+        (,@(when (find "apiVersion" (model-properties model)
+                      :test (lambda (n p) (equal n (property-name p))))
+             `((api-version :initform ,(model-api-version model) :allocation :class)))
+         ,@(when (find "kind" (model-properties model)
+                      :test (lambda (n p) (equal n (property-name p))))
+             `((kind :initform ,(model-name model) :allocation :class)))
+           ,@(loop for property in (model-properties model)
+               when (not (find (property-name property) '("apiVersion" "kind") :test 'equal))
                collect
                  (generate property)))
         ,@(when class-documentation
@@ -255,21 +238,21 @@
 
       (defmethod yason:encode ((,class-symbol ,class-symbol) &optional (stream *standard-output*))
         (yason:with-object ()
-          ,@(loop for property in (slot-value model 'properties)
+          ,@(loop for property in (model-properties model)
                collect
-                 `(when (slot-boundp ,class-symbol ',(symbolize (slot-value property 'name)))
-                    (yason:encode-object-element ,(slot-value property 'name)
-                                                 (slot-value ,class-symbol ',(symbolize (slot-value property 'name))))))))
+                 `(when (slot-boundp ,class-symbol ',(symbolize (property-name property)))
+                    (yason:encode-object-element ,(property-name property)
+                                                 (slot-value ,class-symbol ',(symbolize (property-name property))))))))
 
       (defmethod unmarshal ((source hash-table) (object ,class-symbol))
-        ,@(loop for property in (slot-value model 'properties)
+        ,@(loop for property in (model-properties model)
              collect
                `(multiple-value-bind (value present-p)
-                    (gethash ,(slot-value property 'name) source)
+                    (gethash ,(property-name property) source)
                   (when present-p
-                    (setf (slot-value object ',(symbolize (slot-value property 'name)))
+                    (setf (slot-value object ',(symbolize (property-name property)))
                           (decode-object
-                           ,(let ((type (slot-value property 'type)))
+                           ,(let ((type (property-type property)))
                               (cond
                                 ((stringp type) type)
                                 ((consp type) `(cons ,(car type) ,(cdr type)))))
@@ -283,21 +266,20 @@
 
 (defun make-parameter-doc (parameter)
   (format nil "[~:[*~;!~]] ~A: ~A"
-          (slot-value parameter 'required)
+          (parameter-required parameter)
           (symbolize-parameter parameter)
-          (if (equal (slot-value parameter 'param-type) "body")
+          (if (equal (parameter-param-type parameter) "body")
               ;; TODO: Use model description as documentation
-              (format nil "A value of type ~A" (match (slot-value parameter 'type)
+              (format nil "A value of type ~A" (match (parameter-type parameter)
                                                  ((ppcre "(.*)\\.(.*)" version name)
                                                   (string-upcase (param-case name)))))
               ;; Use parameter description as documentation
-              (slot-value parameter 'description))))
+              (parameter-description parameter))))
 
 (defun make-operation-doc (operation)
-  (format nil "~A~:[~;~%~]~{~%    ~A~%~}"
-          (slot-value operation 'summary)
-          (slot-value operation 'parameters)
-          (loop for p in (slot-value operation 'parameters)
+  (format nil "~A~{~%~%    ~A~}"
+          (operation-summary operation)
+          (loop for p in (operation-parameters operation)
              collect (make-parameter-doc p))))
 
 (defun extract-path-arguments (path)
@@ -334,9 +316,9 @@
          (setf (parameter-name p2) (format nil "~A~D" (parameter-name p2) 2)))))
 
 (defmethod generate ((operation operation))
-  (let* ((function-symbol (symbolize (slot-value operation 'nickname)))
-         (parameters (slot-value operation 'parameters))
-         (path (slot-value operation 'path)))
+  (let* ((function-symbol (symbolize (operation-nickname operation)))
+         (parameters (operation-parameters operation))
+         (path (operation-path operation)))
 
     (resolve-duplicated-parameters parameters)
 
@@ -369,13 +351,13 @@
            ,@(loop for param in query-parameters
                 collect `(when ,(symbolize-parameter param)
                            (alexandria:appendf query
-                                               (list (cons ,(slot-value param 'name)
+                                               (list (cons ,(parameter-name param)
                                                            ,(symbolize-parameter param))))))
            (let* ((query-string (quri:url-encode-params query))
                   (url (format nil "~A://~A:~D~A~:[~;?~A~]" scheme host port path query query-string)))
              (multiple-value-bind (stream status-code headers)
                  (drakma:http-request url
-                                      :method ,(intern (slot-value operation 'method) :keyword)
+                                      :method ,(intern (operation-method operation) :keyword)
                                       :content-type "application/json"
                                       :connection-timeout 5
                                       ;; :read-timeout 5
@@ -386,14 +368,14 @@
                                       ,@(when body-parameter
                                           `(:content (with-output-to-string (s)
                                                        (marshal s ,(symbolize-parameter body-parameter))))))
-               ,(if (equal (slot-value operation 'type) "v1.WatchEvent")
+               ,(if (equal (operation-type operation) "v1.WatchEvent")
                    'stream
                    `(let* ((response (alexandria::read-stream-content-into-string stream))
                           (object (yason:parse response)))
                      (decode-object (gethash "kind" object) object))))))))))
 
 (defmethod generate ((api api))
-  (loop for operation in (slot-value api 'operations)
+  (loop for operation in (api-operations api)
        collect (generate operation)))
 
 (defgeneric save (object &optional stream))
@@ -416,12 +398,12 @@
 
 (defun make-one (path resources-output-stream operations-output-stream)
   (let* ((spec (read-api-file path)))
-    (loop for model in (slot-value spec 'models)
+    (loop for model in (spec-models spec)
        do
          (progn
            (save model resources-output-stream)
            (format resources-output-stream "~%")))
-    (loop for api in (slot-value spec 'apis)
+    (loop for api in (spec-apis spec)
        do
          (progn
            (save api operations-output-stream)

@@ -9,8 +9,7 @@
 
     [!] binding: A value of type BINDING
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type binding binding)
   (check-type namespace string)
@@ -62,8 +61,7 @@
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -124,8 +122,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] pretty: If 'true', then the output is pretty printed.
 
-    [!] name: name of the ComponentStatus
-"
+    [!] name: name of the ComponentStatus"
   (check-type pretty (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -177,8 +174,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -241,8 +237,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] config-map: A value of type CONFIG-MAP
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type config-map config-map)
   (check-type namespace string)
@@ -296,8 +291,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -380,8 +374,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -446,8 +439,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ConfigMap
-"
+    [!] name: name of the ConfigMap"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -488,8 +480,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ConfigMap
-"
+    [!] name: name of the ConfigMap"
   (check-type pretty (or string null))
   (check-type config-map config-map)
   (check-type namespace string)
@@ -528,8 +519,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ConfigMap
-"
+    [!] name: name of the ConfigMap"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -575,8 +565,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ConfigMap
-"
+    [!] name: name of the ConfigMap"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -652,8 +641,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ConfigMap
-"
+    [!] name: name of the ConfigMap"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -734,8 +722,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -815,8 +802,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -895,8 +881,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -959,8 +944,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] endpoints: A value of type ENDPOINTS
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type endpoints endpoints)
   (check-type namespace string)
@@ -1014,8 +998,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -1098,8 +1081,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -1164,8 +1146,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Endpoints
-"
+    [!] name: name of the Endpoints"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -1206,8 +1187,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Endpoints
-"
+    [!] name: name of the Endpoints"
   (check-type pretty (or string null))
   (check-type endpoints endpoints)
   (check-type namespace string)
@@ -1246,8 +1226,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Endpoints
-"
+    [!] name: name of the Endpoints"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -1293,8 +1272,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Endpoints
-"
+    [!] name: name of the Endpoints"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -1370,8 +1348,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Endpoints
-"
+    [!] name: name of the Endpoints"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -1452,8 +1429,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -1533,8 +1509,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -1613,8 +1588,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -1677,8 +1651,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] event: A value of type EVENT
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type event event)
   (check-type namespace string)
@@ -1731,8 +1704,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -1815,8 +1787,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -1881,8 +1852,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Event
-"
+    [!] name: name of the Event"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -1922,8 +1892,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Event
-"
+    [!] name: name of the Event"
   (check-type pretty (or string null))
   (check-type event event)
   (check-type namespace string)
@@ -1960,8 +1929,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Event
-"
+    [!] name: name of the Event"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -2006,8 +1974,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Event
-"
+    [!] name: name of the Event"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -2082,8 +2049,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Event
-"
+    [!] name: name of the Event"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -2163,8 +2129,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -2244,8 +2209,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -2324,8 +2288,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -2388,8 +2351,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] limit-range: A value of type LIMIT-RANGE
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type limit-range limit-range)
   (check-type namespace string)
@@ -2443,8 +2405,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -2527,8 +2488,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -2594,8 +2554,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the LimitRange
-"
+    [!] name: name of the LimitRange"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -2636,8 +2595,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the LimitRange
-"
+    [!] name: name of the LimitRange"
   (check-type pretty (or string null))
   (check-type limit-range limit-range)
   (check-type namespace string)
@@ -2676,8 +2634,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the LimitRange
-"
+    [!] name: name of the LimitRange"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -2723,8 +2680,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the LimitRange
-"
+    [!] name: name of the LimitRange"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -2800,8 +2756,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the LimitRange
-"
+    [!] name: name of the LimitRange"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -2882,8 +2837,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -2963,8 +2917,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -3041,8 +2994,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -3102,8 +3054,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] pretty: If 'true', then the output is pretty printed.
 
-    [!] namespace: A value of type NAMESPACE
-"
+    [!] namespace: A value of type NAMESPACE"
   (check-type pretty (or string null))
   (check-type namespace namespace)
   (let* ((scheme *api-endpoint-scheme*)
@@ -3155,8 +3106,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -3218,8 +3168,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
 
-    [!] name: name of the Namespace
-"
+    [!] name: name of the Namespace"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -3256,8 +3205,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: A value of type NAMESPACE
 
-    [!] name: name of the Namespace
-"
+    [!] name: name of the Namespace"
   (check-type pretty (or string null))
   (check-type namespace namespace)
   (check-type name string)
@@ -3292,8 +3240,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] patch: A value of type PATCH
 
-    [!] name: name of the Namespace
-"
+    [!] name: name of the Namespace"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
@@ -3335,8 +3282,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] propagation-policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.
 
-    [!] name: name of the Namespace
-"
+    [!] name: name of the Namespace"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -3408,8 +3354,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] name: name of the Namespace
-"
+    [!] name: name of the Namespace"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -3470,8 +3415,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: A value of type NAMESPACE
 
-    [!] name: name of the Namespace
-"
+    [!] name: name of the Namespace"
   (check-type pretty (or string null))
   (check-type namespace namespace)
   (check-type name string)
@@ -3505,8 +3449,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] pretty: If 'true', then the output is pretty printed.
 
-    [!] name: name of the Namespace
-"
+    [!] name: name of the Namespace"
   (check-type pretty (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -3538,8 +3481,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: A value of type NAMESPACE
 
-    [!] name: name of the Namespace
-"
+    [!] name: name of the Namespace"
   (check-type pretty (or string null))
   (check-type namespace namespace)
   (check-type name string)
@@ -3574,8 +3516,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] patch: A value of type PATCH
 
-    [!] name: name of the Namespace
-"
+    [!] name: name of the Namespace"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
@@ -3627,8 +3568,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -3688,8 +3628,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] pretty: If 'true', then the output is pretty printed.
 
-    [!] node: A value of type NODE
-"
+    [!] node: A value of type NODE"
   (check-type pretty (or string null))
   (check-type node node)
   (let* ((scheme *api-endpoint-scheme*)
@@ -3739,8 +3678,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -3820,8 +3758,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -3883,8 +3820,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -3921,8 +3857,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] node: A value of type NODE
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type pretty (or string null))
   (check-type node node)
   (check-type name string)
@@ -3956,8 +3891,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] patch: A value of type PATCH
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
@@ -3999,8 +3933,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] propagation-policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -4072,8 +4005,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -4132,8 +4064,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] path: Path is the URL path to use for the current proxy request to node.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type path (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -4162,8 +4093,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] path: Path is the URL path to use for the current proxy request to node.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type path (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -4192,8 +4122,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] path: Path is the URL path to use for the current proxy request to node.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type path (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -4222,8 +4151,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] path: Path is the URL path to use for the current proxy request to node.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type path (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -4252,8 +4180,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] path: Path is the URL path to use for the current proxy request to node.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type path (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -4282,8 +4209,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] path: Path is the URL path to use for the current proxy request to node.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type path (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -4312,8 +4238,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] path: Path is the URL path to use for the current proxy request to node.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type path (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -4345,8 +4270,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Node
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type name string)
   (check-type path2 string)
@@ -4378,8 +4302,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Node
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type name string)
   (check-type path2 string)
@@ -4411,8 +4334,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Node
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type name string)
   (check-type path2 string)
@@ -4444,8 +4366,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Node
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type name string)
   (check-type path2 string)
@@ -4477,8 +4398,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Node
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type name string)
   (check-type path2 string)
@@ -4510,8 +4430,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Node
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type name string)
   (check-type path2 string)
@@ -4543,8 +4462,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Node
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type name string)
   (check-type path2 string)
@@ -4575,8 +4493,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] pretty: If 'true', then the output is pretty printed.
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type pretty (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -4608,8 +4525,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] node: A value of type NODE
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type pretty (or string null))
   (check-type node node)
   (check-type name string)
@@ -4643,8 +4559,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] patch: A value of type PATCH
 
-    [!] name: name of the Node
-"
+    [!] name: name of the Node"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
@@ -4698,8 +4613,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -4765,8 +4679,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] persistent-volume-claim: A value of type PERSISTENT-VOLUME-CLAIM
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type persistent-volume-claim persistent-volume-claim)
   (check-type namespace string)
@@ -4822,8 +4735,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -4908,8 +4820,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -4977,8 +4888,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PersistentVolumeClaim
-"
+    [!] name: name of the PersistentVolumeClaim"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -5021,8 +4931,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PersistentVolumeClaim
-"
+    [!] name: name of the PersistentVolumeClaim"
   (check-type pretty (or string null))
   (check-type persistent-volume-claim persistent-volume-claim)
   (check-type namespace string)
@@ -5063,8 +4972,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PersistentVolumeClaim
-"
+    [!] name: name of the PersistentVolumeClaim"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -5111,8 +5019,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PersistentVolumeClaim
-"
+    [!] name: name of the PersistentVolumeClaim"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -5189,8 +5096,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PersistentVolumeClaim
-"
+    [!] name: name of the PersistentVolumeClaim"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -5271,8 +5177,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -5352,8 +5257,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -5414,8 +5318,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PersistentVolumeClaim
-"
+    [!] name: name of the PersistentVolumeClaim"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -5453,8 +5356,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PersistentVolumeClaim
-"
+    [!] name: name of the PersistentVolumeClaim"
   (check-type pretty (or string null))
   (check-type persistent-volume-claim persistent-volume-claim)
   (check-type namespace string)
@@ -5495,8 +5397,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PersistentVolumeClaim
-"
+    [!] name: name of the PersistentVolumeClaim"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -5551,8 +5452,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -5612,8 +5512,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] pretty: If 'true', then the output is pretty printed.
 
-    [!] persistent-volume: A value of type PERSISTENT-VOLUME
-"
+    [!] persistent-volume: A value of type PERSISTENT-VOLUME"
   (check-type pretty (or string null))
   (check-type persistent-volume persistent-volume)
   (let* ((scheme *api-endpoint-scheme*)
@@ -5664,8 +5563,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -5745,8 +5643,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -5808,8 +5705,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
 
-    [!] name: name of the PersistentVolume
-"
+    [!] name: name of the PersistentVolume"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -5846,8 +5742,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] persistent-volume: A value of type PERSISTENT-VOLUME
 
-    [!] name: name of the PersistentVolume
-"
+    [!] name: name of the PersistentVolume"
   (check-type pretty (or string null))
   (check-type persistent-volume persistent-volume)
   (check-type name string)
@@ -5882,8 +5777,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] patch: A value of type PATCH
 
-    [!] name: name of the PersistentVolume
-"
+    [!] name: name of the PersistentVolume"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
@@ -5925,8 +5819,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] propagation-policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.
 
-    [!] name: name of the PersistentVolume
-"
+    [!] name: name of the PersistentVolume"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -5998,8 +5891,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] name: name of the PersistentVolume
-"
+    [!] name: name of the PersistentVolume"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -6058,8 +5950,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] pretty: If 'true', then the output is pretty printed.
 
-    [!] name: name of the PersistentVolume
-"
+    [!] name: name of the PersistentVolume"
   (check-type pretty (or string null))
   (check-type name string)
   (let* ((scheme *api-endpoint-scheme*)
@@ -6091,8 +5982,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] persistent-volume: A value of type PERSISTENT-VOLUME
 
-    [!] name: name of the PersistentVolume
-"
+    [!] name: name of the PersistentVolume"
   (check-type pretty (or string null))
   (check-type persistent-volume persistent-volume)
   (check-type name string)
@@ -6127,8 +6017,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] patch: A value of type PATCH
 
-    [!] name: name of the PersistentVolume
-"
+    [!] name: name of the PersistentVolume"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type name string)
@@ -6182,8 +6071,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -6246,8 +6134,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] pod: A value of type POD
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type pod pod)
   (check-type namespace string)
@@ -6300,8 +6187,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -6384,8 +6270,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -6450,8 +6335,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -6491,8 +6375,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type pretty (or string null))
   (check-type pod pod)
   (check-type namespace string)
@@ -6529,8 +6412,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -6575,8 +6457,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -6651,8 +6532,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -6732,8 +6612,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -6813,8 +6692,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -6883,8 +6761,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type stdin (or boolean null))
   (check-type stdout (or boolean null))
   (check-type stderr (or boolean null))
@@ -6937,8 +6814,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type stdin (or boolean null))
   (check-type stdout (or boolean null))
   (check-type stderr (or boolean null))
@@ -6985,8 +6861,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Binding
-"
+    [!] name: name of the Binding"
   (check-type pretty (or string null))
   (check-type binding binding)
   (check-type namespace string)
@@ -7025,8 +6900,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Eviction
-"
+    [!] name: name of the Eviction"
   (check-type pretty (or string null))
   (check-type eviction eviction)
   (check-type namespace string)
@@ -7075,8 +6949,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type stdin (or boolean null))
   (check-type stdout (or boolean null))
   (check-type stderr (or boolean null))
@@ -7134,8 +7007,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type stdin (or boolean null))
   (check-type stdout (or boolean null))
   (check-type stderr (or boolean null))
@@ -7200,8 +7072,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type pretty (or string null))
   (check-type container (or string null))
   (check-type follow (or boolean null))
@@ -7257,8 +7128,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type ports (or integer null))
   (check-type namespace string)
   (check-type name string)
@@ -7292,8 +7162,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type ports (or integer null))
   (check-type namespace string)
   (check-type name string)
@@ -7328,8 +7197,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7362,8 +7230,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7396,8 +7263,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7430,8 +7296,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7464,8 +7329,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7498,8 +7362,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7532,8 +7395,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7570,8 +7432,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Pod
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7609,8 +7470,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Pod
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7648,8 +7508,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Pod
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7687,8 +7546,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Pod
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7726,8 +7584,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Pod
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7765,8 +7622,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Pod
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7804,8 +7660,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Pod
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7841,8 +7696,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -7878,8 +7732,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type pretty (or string null))
   (check-type pod pod)
   (check-type namespace string)
@@ -7917,8 +7770,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Pod
-"
+    [!] name: name of the Pod"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -7974,8 +7826,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -8038,8 +7889,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] pod-template: A value of type POD-TEMPLATE
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type pod-template pod-template)
   (check-type namespace string)
@@ -8093,8 +7943,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -8177,8 +8026,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -8244,8 +8092,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PodTemplate
-"
+    [!] name: name of the PodTemplate"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -8287,8 +8134,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PodTemplate
-"
+    [!] name: name of the PodTemplate"
   (check-type pretty (or string null))
   (check-type pod-template pod-template)
   (check-type namespace string)
@@ -8327,8 +8173,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PodTemplate
-"
+    [!] name: name of the PodTemplate"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -8374,8 +8219,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PodTemplate
-"
+    [!] name: name of the PodTemplate"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -8451,8 +8295,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the PodTemplate
-"
+    [!] name: name of the PodTemplate"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -8533,8 +8376,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -8614,8 +8456,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -8694,8 +8535,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -8761,8 +8601,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] replication-controller: A value of type REPLICATION-CONTROLLER
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type replication-controller replication-controller)
   (check-type namespace string)
@@ -8818,8 +8657,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -8904,8 +8742,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -8973,8 +8810,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicationController
-"
+    [!] name: name of the ReplicationController"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -9017,8 +8853,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicationController
-"
+    [!] name: name of the ReplicationController"
   (check-type pretty (or string null))
   (check-type replication-controller replication-controller)
   (check-type namespace string)
@@ -9059,8 +8894,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicationController
-"
+    [!] name: name of the ReplicationController"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -9107,8 +8941,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicationController
-"
+    [!] name: name of the ReplicationController"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -9185,8 +9018,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicationController
-"
+    [!] name: name of the ReplicationController"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -9267,8 +9099,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -9348,8 +9179,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -9410,8 +9240,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -9449,8 +9278,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type scale scale)
   (check-type namespace string)
@@ -9490,8 +9318,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -9530,8 +9357,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicationController
-"
+    [!] name: name of the ReplicationController"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -9569,8 +9395,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicationController
-"
+    [!] name: name of the ReplicationController"
   (check-type pretty (or string null))
   (check-type replication-controller replication-controller)
   (check-type namespace string)
@@ -9611,8 +9436,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicationController
-"
+    [!] name: name of the ReplicationController"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -9669,8 +9493,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -9733,8 +9556,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] resource-quota: A value of type RESOURCE-QUOTA
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type resource-quota resource-quota)
   (check-type namespace string)
@@ -9788,8 +9610,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -9872,8 +9693,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -9939,8 +9759,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ResourceQuota
-"
+    [!] name: name of the ResourceQuota"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -9983,8 +9802,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ResourceQuota
-"
+    [!] name: name of the ResourceQuota"
   (check-type pretty (or string null))
   (check-type resource-quota resource-quota)
   (check-type namespace string)
@@ -10024,8 +9842,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ResourceQuota
-"
+    [!] name: name of the ResourceQuota"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -10072,8 +9889,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ResourceQuota
-"
+    [!] name: name of the ResourceQuota"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -10150,8 +9966,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ResourceQuota
-"
+    [!] name: name of the ResourceQuota"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -10232,8 +10047,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -10313,8 +10127,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -10374,8 +10187,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ResourceQuota
-"
+    [!] name: name of the ResourceQuota"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -10413,8 +10225,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ResourceQuota
-"
+    [!] name: name of the ResourceQuota"
   (check-type pretty (or string null))
   (check-type resource-quota resource-quota)
   (check-type namespace string)
@@ -10455,8 +10266,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ResourceQuota
-"
+    [!] name: name of the ResourceQuota"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -10513,8 +10323,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -10577,8 +10386,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] secret: A value of type SECRET
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type secret secret)
   (check-type namespace string)
@@ -10631,8 +10439,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -10715,8 +10522,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -10781,8 +10587,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Secret
-"
+    [!] name: name of the Secret"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -10822,8 +10627,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Secret
-"
+    [!] name: name of the Secret"
   (check-type pretty (or string null))
   (check-type secret secret)
   (check-type namespace string)
@@ -10860,8 +10664,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Secret
-"
+    [!] name: name of the Secret"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -10906,8 +10709,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Secret
-"
+    [!] name: name of the Secret"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -10982,8 +10784,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Secret
-"
+    [!] name: name of the Secret"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -11063,8 +10864,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -11144,8 +10944,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -11224,8 +11023,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -11289,8 +11087,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] service-account: A value of type SERVICE-ACCOUNT
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type service-account service-account)
   (check-type namespace string)
@@ -11344,8 +11141,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -11428,8 +11224,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -11496,8 +11291,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ServiceAccount
-"
+    [!] name: name of the ServiceAccount"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -11540,8 +11334,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ServiceAccount
-"
+    [!] name: name of the ServiceAccount"
   (check-type pretty (or string null))
   (check-type service-account service-account)
   (check-type namespace string)
@@ -11581,8 +11374,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ServiceAccount
-"
+    [!] name: name of the ServiceAccount"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -11629,8 +11421,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ServiceAccount
-"
+    [!] name: name of the ServiceAccount"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -11707,8 +11498,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ServiceAccount
-"
+    [!] name: name of the ServiceAccount"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -11789,8 +11579,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -11870,8 +11659,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -11950,8 +11738,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -12014,8 +11801,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] service: A value of type SERVICE
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type service service)
   (check-type namespace string)
@@ -12069,8 +11855,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -12135,8 +11920,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -12176,8 +11960,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type pretty (or string null))
   (check-type service service)
   (check-type namespace string)
@@ -12214,8 +11997,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -12260,8 +12042,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -12336,8 +12117,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -12418,8 +12198,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -12499,8 +12278,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -12560,8 +12338,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12595,8 +12372,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12630,8 +12406,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12665,8 +12440,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12700,8 +12474,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12735,8 +12508,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12770,8 +12542,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type path (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12809,8 +12580,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Service
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12848,8 +12618,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Service
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12887,8 +12656,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Service
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12926,8 +12694,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Service
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -12965,8 +12732,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Service
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -13004,8 +12770,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Service
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -13043,8 +12808,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] name: name of the Service
 
-    [!] path2: path to the resource
-"
+    [!] path2: path to the resource"
   (check-type path1 (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -13080,8 +12844,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -13118,8 +12881,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type pretty (or string null))
   (check-type service service)
   (check-type namespace string)
@@ -13158,8 +12920,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Service
-"
+    [!] name: name of the Service"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -13239,8 +13000,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -13306,8 +13066,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] controller-revision: A value of type CONTROLLER-REVISION
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type controller-revision controller-revision)
   (check-type namespace string)
@@ -13363,8 +13122,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -13449,8 +13207,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -13518,8 +13275,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ControllerRevision
-"
+    [!] name: name of the ControllerRevision"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -13562,8 +13318,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ControllerRevision
-"
+    [!] name: name of the ControllerRevision"
   (check-type pretty (or string null))
   (check-type controller-revision controller-revision)
   (check-type namespace string)
@@ -13603,8 +13358,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ControllerRevision
-"
+    [!] name: name of the ControllerRevision"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -13651,8 +13405,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ControllerRevision
-"
+    [!] name: name of the ControllerRevision"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -13729,8 +13482,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ControllerRevision
-"
+    [!] name: name of the ControllerRevision"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -13812,8 +13564,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -13893,8 +13644,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -13973,8 +13723,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -14037,8 +13786,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] daemon-set: A value of type DAEMON-SET
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type daemon-set daemon-set)
   (check-type namespace string)
@@ -14092,8 +13840,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -14176,8 +13923,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -14244,8 +13990,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the DaemonSet
-"
+    [!] name: name of the DaemonSet"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -14287,8 +14032,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the DaemonSet
-"
+    [!] name: name of the DaemonSet"
   (check-type pretty (or string null))
   (check-type daemon-set daemon-set)
   (check-type namespace string)
@@ -14328,8 +14072,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the DaemonSet
-"
+    [!] name: name of the DaemonSet"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -14376,8 +14119,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the DaemonSet
-"
+    [!] name: name of the DaemonSet"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -14454,8 +14196,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the DaemonSet
-"
+    [!] name: name of the DaemonSet"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -14536,8 +14277,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -14617,8 +14357,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -14678,8 +14417,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the DaemonSet
-"
+    [!] name: name of the DaemonSet"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -14717,8 +14455,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the DaemonSet
-"
+    [!] name: name of the DaemonSet"
   (check-type pretty (or string null))
   (check-type daemon-set daemon-set)
   (check-type namespace string)
@@ -14758,8 +14495,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the DaemonSet
-"
+    [!] name: name of the DaemonSet"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -14816,8 +14552,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -14881,8 +14616,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] deployment: A value of type DEPLOYMENT
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type deployment deployment)
   (check-type namespace string)
@@ -14937,8 +14671,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -15022,8 +14755,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -15090,8 +14822,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Deployment
-"
+    [!] name: name of the Deployment"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -15133,8 +14864,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Deployment
-"
+    [!] name: name of the Deployment"
   (check-type pretty (or string null))
   (check-type deployment deployment)
   (check-type namespace string)
@@ -15174,8 +14904,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Deployment
-"
+    [!] name: name of the Deployment"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -15222,8 +14951,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Deployment
-"
+    [!] name: name of the Deployment"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -15300,8 +15028,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Deployment
-"
+    [!] name: name of the Deployment"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -15382,8 +15109,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -15463,8 +15189,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -15524,8 +15249,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -15562,8 +15286,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type scale scale)
   (check-type namespace string)
@@ -15602,8 +15325,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -15641,8 +15363,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Deployment
-"
+    [!] name: name of the Deployment"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -15680,8 +15401,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Deployment
-"
+    [!] name: name of the Deployment"
   (check-type pretty (or string null))
   (check-type deployment deployment)
   (check-type namespace string)
@@ -15721,8 +15441,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Deployment
-"
+    [!] name: name of the Deployment"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -15779,8 +15498,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -15844,8 +15562,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] replica-set: A value of type REPLICA-SET
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type replica-set replica-set)
   (check-type namespace string)
@@ -15900,8 +15617,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -15985,8 +15701,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -16053,8 +15768,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicaSet
-"
+    [!] name: name of the ReplicaSet"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -16096,8 +15810,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicaSet
-"
+    [!] name: name of the ReplicaSet"
   (check-type pretty (or string null))
   (check-type replica-set replica-set)
   (check-type namespace string)
@@ -16137,8 +15850,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicaSet
-"
+    [!] name: name of the ReplicaSet"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -16185,8 +15897,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicaSet
-"
+    [!] name: name of the ReplicaSet"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -16263,8 +15974,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicaSet
-"
+    [!] name: name of the ReplicaSet"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -16345,8 +16055,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -16426,8 +16135,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -16487,8 +16195,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -16525,8 +16232,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type scale scale)
   (check-type namespace string)
@@ -16565,8 +16271,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -16604,8 +16309,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicaSet
-"
+    [!] name: name of the ReplicaSet"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -16643,8 +16347,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicaSet
-"
+    [!] name: name of the ReplicaSet"
   (check-type pretty (or string null))
   (check-type replica-set replica-set)
   (check-type namespace string)
@@ -16684,8 +16387,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the ReplicaSet
-"
+    [!] name: name of the ReplicaSet"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -16742,8 +16444,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -16807,8 +16508,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] stateful-set: A value of type STATEFUL-SET
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type stateful-set stateful-set)
   (check-type namespace string)
@@ -16863,8 +16563,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -16948,8 +16647,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
 
-    [!] namespace: object name and auth scope, such as for teams and projects
-"
+    [!] namespace: object name and auth scope, such as for teams and projects"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -17016,8 +16714,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the StatefulSet
-"
+    [!] name: name of the StatefulSet"
   (check-type pretty (or string null))
   (check-type export (or boolean null))
   (check-type exact (or boolean null))
@@ -17060,8 +16757,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the StatefulSet
-"
+    [!] name: name of the StatefulSet"
   (check-type pretty (or string null))
   (check-type stateful-set stateful-set)
   (check-type namespace string)
@@ -17101,8 +16797,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the StatefulSet
-"
+    [!] name: name of the StatefulSet"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -17149,8 +16844,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the StatefulSet
-"
+    [!] name: name of the StatefulSet"
   (check-type pretty (or string null))
   (check-type delete-options delete-options)
   (check-type grace-period-seconds (or integer null))
@@ -17227,8 +16921,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the StatefulSet
-"
+    [!] name: name of the StatefulSet"
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -17309,8 +17002,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -17390,8 +17082,7 @@ The server guarantees that the objects returned when using continue will be iden
 
 The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
 
-    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
-"
+    [*] continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications."
   (check-type pretty (or string null))
   (check-type label-selector (or string null))
   (check-type field-selector (or string null))
@@ -17451,8 +17142,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -17489,8 +17179,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type scale scale)
   (check-type namespace string)
@@ -17529,8 +17218,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the Scale
-"
+    [!] name: name of the Scale"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
@@ -17568,8 +17256,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the StatefulSet
-"
+    [!] name: name of the StatefulSet"
   (check-type pretty (or string null))
   (check-type namespace string)
   (check-type name string)
@@ -17607,8 +17294,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the StatefulSet
-"
+    [!] name: name of the StatefulSet"
   (check-type pretty (or string null))
   (check-type stateful-set stateful-set)
   (check-type namespace string)
@@ -17648,8 +17334,7 @@ The server guarantees that the objects returned when using continue will be iden
 
     [!] namespace: object name and auth scope, such as for teams and projects
 
-    [!] name: name of the StatefulSet
-"
+    [!] name: name of the StatefulSet"
   (check-type pretty (or string null))
   (check-type patch patch)
   (check-type namespace string)
