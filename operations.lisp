@@ -18,8 +18,7 @@
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/bindings" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -32,8 +31,13 @@
                                  (with-output-to-string (s)
                                    (marshal s binding)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-component-status
@@ -74,33 +78,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/componentstatuses") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -111,8 +103,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-component-status (name &key pretty)
@@ -127,8 +124,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/componentstatuses/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -139,8 +135,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-config-map
@@ -185,33 +186,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/configmaps" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -222,8 +211,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-config-map (config-map namespace &key pretty)
   "create a ConfigMap
@@ -241,8 +235,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/configmaps" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -255,8 +248,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s config-map)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-config-map
        (namespace
@@ -300,33 +298,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/configmaps" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -337,8 +323,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-config-map-list
@@ -384,33 +375,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/watch/namespaces/~A/configmaps" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -446,11 +425,9 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/configmaps/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -461,8 +438,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-config-map (config-map namespace name &key pretty)
   "replace the specified ConfigMap
@@ -484,8 +466,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/configmaps/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -498,8 +479,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s config-map)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-config-map (patch namespace name &key pretty)
   "partially update the specified ConfigMap
@@ -521,8 +507,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/configmaps/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -534,8 +519,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-config-map
        (delete-options namespace name
@@ -568,23 +558,14 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/configmaps/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -597,8 +578,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-config-map
@@ -648,33 +634,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/configmaps/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -725,33 +699,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/configmaps") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -762,8 +724,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-config-map-list-for-all-namespaces
@@ -804,33 +771,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/configmaps") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -885,33 +840,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/endpoints" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -922,8 +865,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-endpoints (endpoints namespace &key pretty)
   "create Endpoints
@@ -941,8 +889,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/endpoints" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -955,8 +902,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s endpoints)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-endpoints
        (namespace
@@ -1000,33 +952,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/endpoints" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1037,8 +977,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-endpoints-list
@@ -1083,33 +1028,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/watch/namespaces/~A/endpoints" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1145,11 +1078,9 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/endpoints/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1160,8 +1091,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-endpoints (endpoints namespace name &key pretty)
   "replace the specified Endpoints
@@ -1183,8 +1119,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/endpoints/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1197,8 +1132,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s endpoints)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-endpoints (patch namespace name &key pretty)
   "partially update the specified Endpoints
@@ -1220,8 +1160,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/endpoints/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1233,8 +1172,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-endpoints
        (delete-options namespace name
@@ -1267,23 +1211,14 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/endpoints/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1296,8 +1231,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-endpoints
@@ -1347,33 +1287,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/endpoints/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1424,33 +1352,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/endpoints") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1461,8 +1377,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-endpoints-list-for-all-namespaces
@@ -1503,33 +1424,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/endpoints") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1584,33 +1493,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/events" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1621,8 +1518,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-event (event namespace &key pretty)
   "create an Event
@@ -1640,8 +1542,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/events" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1653,8 +1554,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s event)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-event
        (namespace
@@ -1698,33 +1604,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/events" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1735,8 +1629,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-event-list
@@ -1781,33 +1680,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/watch/namespaces/~A/events" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1842,11 +1729,9 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/events/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1857,8 +1742,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-event (event namespace name &key pretty)
   "replace the specified Event
@@ -1879,8 +1769,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/events/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1892,8 +1781,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s event)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-event (patch namespace name &key pretty)
   "partially update the specified Event
@@ -1914,8 +1808,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/events/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1927,8 +1820,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-event
        (delete-options namespace name
@@ -1960,23 +1858,14 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/events/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -1989,8 +1878,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-event
@@ -2039,33 +1933,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/watch/namespaces/~A/events/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2116,33 +1998,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/events") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2153,8 +2023,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-event-list-for-all-namespaces
@@ -2195,33 +2070,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/events") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2276,33 +2139,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/limitranges" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2313,8 +2164,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-limit-range (limit-range namespace &key pretty)
   "create a LimitRange
@@ -2332,8 +2188,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/limitranges" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2346,8 +2201,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s limit-range)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-limit-range
        (namespace
@@ -2391,33 +2251,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/limitranges" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2428,8 +2276,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-limit-range-list
@@ -2475,33 +2328,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/watch/namespaces/~A/limitranges" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2537,11 +2378,9 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/limitranges/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2552,8 +2391,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-limit-range (limit-range namespace name &key pretty)
   "replace the specified LimitRange
@@ -2575,8 +2419,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/limitranges/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2589,8 +2432,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s limit-range)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-limit-range (patch namespace name &key pretty)
   "partially update the specified LimitRange
@@ -2612,8 +2460,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/limitranges/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2625,8 +2472,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-limit-range
        (delete-options namespace name
@@ -2659,23 +2511,14 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/limitranges/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2688,8 +2531,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-limit-range
@@ -2739,33 +2587,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/limitranges/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2816,33 +2652,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/limitranges") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2853,8 +2677,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-limit-range-list-for-all-namespaces
@@ -2895,33 +2724,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/limitranges") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -2972,33 +2789,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/namespaces") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3009,8 +2814,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespace (namespace &key pretty)
   "create a Namespace
@@ -3024,8 +2834,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/namespaces") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3038,8 +2847,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s namespace)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespace-list
@@ -3080,33 +2894,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/namespaces") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3137,11 +2939,9 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3152,8 +2952,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespace (namespace name &key pretty)
   "replace the specified Namespace
@@ -3170,8 +2975,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3184,8 +2988,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s namespace)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespace (patch name &key pretty)
   "partially update the specified Namespace
@@ -3202,8 +3011,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3215,8 +3023,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespace
        (delete-options name
@@ -3244,23 +3057,14 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3273,8 +3077,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespace
@@ -3318,33 +3127,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/watch/namespaces/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3372,8 +3169,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/finalize" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3386,8 +3182,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s namespace)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-namespace-status (name &key pretty)
@@ -3402,8 +3203,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/status" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3414,8 +3214,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespace-status (namespace name &key pretty)
   "replace status of the specified Namespace
@@ -3432,8 +3237,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/status" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3446,8 +3250,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s namespace)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespace-status (patch name &key pretty)
   "partially update status of the specified Namespace
@@ -3464,8 +3273,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/status" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3477,8 +3285,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-node
@@ -3519,33 +3332,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/nodes") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3556,8 +3357,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-node (node &key pretty)
   "create a Node
@@ -3571,8 +3377,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/nodes") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3584,8 +3389,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s node)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-node
        (
@@ -3625,33 +3435,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/nodes") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3662,8 +3460,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-node-list
@@ -3704,33 +3507,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/nodes") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3761,11 +3552,9 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3776,8 +3565,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-node (node name &key pretty)
   "replace the specified Node
@@ -3794,8 +3588,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3807,8 +3600,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s node)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-node (patch name &key pretty)
   "partially update the specified Node
@@ -3825,8 +3623,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3838,8 +3635,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-node
        (delete-options name
@@ -3867,23 +3669,14 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3896,8 +3689,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-node
@@ -3941,33 +3739,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/watch/nodes/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -3992,7 +3778,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy" name)) (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4003,8 +3789,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-post-node-proxy (name &key path)
   "connect POST requests to proxy of Node
@@ -4018,7 +3809,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy" name)) (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4029,8 +3820,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-put-node-proxy (name &key path)
   "connect PUT requests to proxy of Node
@@ -4044,7 +3840,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy" name)) (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4055,8 +3851,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-patch-node-proxy (name &key path)
   "connect PATCH requests to proxy of Node
@@ -4070,7 +3871,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy" name)) (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4081,8 +3882,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-delete-node-proxy (name &key path)
   "connect DELETE requests to proxy of Node
@@ -4096,7 +3902,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy" name)) (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4107,8 +3913,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-head-node-proxy (name &key path)
   "connect HEAD requests to proxy of Node
@@ -4122,7 +3933,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy" name)) (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4133,8 +3944,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-options-node-proxy (name &key path)
   "connect OPTIONS requests to proxy of Node
@@ -4148,7 +3964,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy" name)) (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4159,8 +3975,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun connect-get-node-proxy-with-path (name path2 &key path1)
@@ -4178,7 +3999,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy/~A" name path)) (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4189,8 +4010,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-post-node-proxy-with-path (name path2 &key path1)
   "connect POST requests to proxy of Node
@@ -4207,7 +4033,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy/~A" name path)) (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4218,8 +4044,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-put-node-proxy-with-path (name path2 &key path1)
   "connect PUT requests to proxy of Node
@@ -4236,7 +4067,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy/~A" name path)) (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4247,8 +4078,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-patch-node-proxy-with-path (name path2 &key path1)
   "connect PATCH requests to proxy of Node
@@ -4265,7 +4101,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy/~A" name path)) (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4276,8 +4112,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-delete-node-proxy-with-path (name path2 &key path1)
   "connect DELETE requests to proxy of Node
@@ -4294,7 +4135,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy/~A" name path)) (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4305,8 +4146,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-head-node-proxy-with-path (name path2 &key path1)
   "connect HEAD requests to proxy of Node
@@ -4323,7 +4169,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy/~A" name path)) (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4334,8 +4180,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-options-node-proxy-with-path (name path2 &key path1)
   "connect OPTIONS requests to proxy of Node
@@ -4352,7 +4203,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/proxy/~A" name path)) (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4363,8 +4214,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-node-status (name &key pretty)
@@ -4379,8 +4235,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/status" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4391,8 +4246,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-node-status (node name &key pretty)
   "replace status of the specified Node
@@ -4409,8 +4269,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/status" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4422,8 +4281,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s node)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-node-status (patch name &key pretty)
   "partially update status of the specified Node
@@ -4440,8 +4304,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/nodes/~A/status" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4453,8 +4316,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-persistent-volume-claim
@@ -4501,33 +4369,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4538,8 +4394,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-persistent-volume-claim
        (persistent-volume-claim namespace &key pretty)
@@ -4560,8 +4421,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4574,8 +4434,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s persistent-volume-claim)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-persistent-volume-claim
        (namespace
@@ -4621,33 +4486,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4658,8 +4511,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-persistent-volume-claim-list
@@ -4706,33 +4564,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/persistentvolumeclaims"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4770,11 +4616,9 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4785,8 +4629,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-persistent-volume-claim
        (persistent-volume-claim namespace name &key pretty)
@@ -4810,8 +4659,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4824,8 +4672,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s persistent-volume-claim)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-persistent-volume-claim
        (patch namespace name &key pretty)
@@ -4849,8 +4702,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4862,8 +4714,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-persistent-volume-claim
        (delete-options namespace name
@@ -4897,23 +4754,14 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -4926,8 +4774,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-persistent-volume-claim
@@ -4977,33 +4830,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/persistentvolumeclaims/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5054,33 +4895,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/persistentvolumeclaims") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5091,8 +4920,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-persistent-volume-claim-list-for-all-namespaces
@@ -5133,33 +4967,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/persistentvolumeclaims") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5191,8 +5013,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5203,8 +5024,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-persistent-volume-claim-status
        (persistent-volume-claim namespace name &key pretty)
@@ -5228,8 +5054,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5242,8 +5067,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s persistent-volume-claim)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-persistent-volume-claim-status
        (patch namespace name &key pretty)
@@ -5267,8 +5097,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/persistentvolumeclaims/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5280,8 +5109,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-persistent-volume
@@ -5322,33 +5156,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/persistentvolumes") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5359,8 +5181,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-persistent-volume (persistent-volume &key pretty)
   "create a PersistentVolume
@@ -5374,8 +5201,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/persistentvolumes") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5388,8 +5214,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s persistent-volume)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-persistent-volume
        (
@@ -5429,33 +5260,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/persistentvolumes") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5466,8 +5285,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-persistent-volume-list
@@ -5508,33 +5332,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/persistentvolumes") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5565,11 +5377,9 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/persistentvolumes/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5580,8 +5390,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-persistent-volume (persistent-volume name &key pretty)
   "replace the specified PersistentVolume
@@ -5598,8 +5413,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/persistentvolumes/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5612,8 +5426,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s persistent-volume)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-persistent-volume (patch name &key pretty)
   "partially update the specified PersistentVolume
@@ -5630,8 +5449,7 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/persistentvolumes/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5643,8 +5461,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-persistent-volume
        (delete-options name
@@ -5672,23 +5495,14 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path (format nil "/api/v1/persistentvolumes/~A" name)) (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5701,8 +5515,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-persistent-volume
@@ -5747,33 +5566,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/watch/persistentvolumes/~A" name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5799,8 +5606,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/persistentvolumes/~A/status" name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5811,8 +5617,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-persistent-volume-status (persistent-volume name &key pretty)
   "replace status of the specified PersistentVolume
@@ -5830,8 +5641,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/persistentvolumes/~A/status" name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5844,8 +5654,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s persistent-volume)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-persistent-volume-status (patch name &key pretty)
   "partially update status of the specified PersistentVolume
@@ -5863,8 +5678,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/persistentvolumes/~A/status" name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5876,8 +5690,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-pod
@@ -5922,33 +5741,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/pods" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5959,8 +5766,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-pod (pod namespace &key pretty)
   "create a Pod
@@ -5978,8 +5790,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/pods" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -5991,8 +5802,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s pod)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-pod
        (namespace
@@ -6036,33 +5852,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/pods" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6073,8 +5877,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-pod-list
@@ -6119,33 +5928,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/watch/namespaces/~A/pods" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6180,11 +5977,9 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/pods/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6195,8 +5990,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-pod (pod namespace name &key pretty)
   "replace the specified Pod
@@ -6217,8 +6017,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/pods/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6230,8 +6029,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s pod)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-pod (patch namespace name &key pretty)
   "partially update the specified Pod
@@ -6252,8 +6056,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/pods/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6265,8 +6068,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-pod
        (delete-options namespace name
@@ -6298,23 +6106,14 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/pods/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6327,8 +6126,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-pod
@@ -6377,33 +6181,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/watch/namespaces/~A/pods/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6454,33 +6246,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/pods") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6491,8 +6271,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-pod-list-for-all-namespaces
@@ -6533,33 +6318,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/pods") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6602,14 +6375,11 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/attach" namespace name))
           (query nil))
-      (when stdin (alexandria.0.dev:appendf query (list (cons "stdin" stdin))))
-      (when stdout
-        (alexandria.0.dev:appendf query (list (cons "stdout" stdout))))
-      (when stderr
-        (alexandria.0.dev:appendf query (list (cons "stderr" stderr))))
-      (when tty (alexandria.0.dev:appendf query (list (cons "tty" tty))))
-      (when container
-        (alexandria.0.dev:appendf query (list (cons "container" container))))
+      (when stdin (appendf query (list (cons "stdin" stdin))))
+      (when stdout (appendf query (list (cons "stdout" stdout))))
+      (when stderr (appendf query (list (cons "stderr" stderr))))
+      (when tty (appendf query (list (cons "tty" tty))))
+      (when container (appendf query (list (cons "container" container))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6620,8 +6390,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-post-namespaced-pod-attach
        (namespace name &key stdin stdout stderr tty container)
@@ -6653,14 +6428,11 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/attach" namespace name))
           (query nil))
-      (when stdin (alexandria.0.dev:appendf query (list (cons "stdin" stdin))))
-      (when stdout
-        (alexandria.0.dev:appendf query (list (cons "stdout" stdout))))
-      (when stderr
-        (alexandria.0.dev:appendf query (list (cons "stderr" stderr))))
-      (when tty (alexandria.0.dev:appendf query (list (cons "tty" tty))))
-      (when container
-        (alexandria.0.dev:appendf query (list (cons "container" container))))
+      (when stdin (appendf query (list (cons "stdin" stdin))))
+      (when stdout (appendf query (list (cons "stdout" stdout))))
+      (when stderr (appendf query (list (cons "stderr" stderr))))
+      (when tty (appendf query (list (cons "tty" tty))))
+      (when container (appendf query (list (cons "container" container))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6671,8 +6443,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun create-namespaced-pod-binding (binding namespace name &key pretty)
@@ -6695,8 +6472,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/binding" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6709,8 +6485,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s binding)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun create-namespaced-pod-eviction (eviction namespace name &key pretty)
@@ -6734,8 +6515,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/eviction" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6748,8 +6528,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s eviction)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun connect-get-namespaced-pod-exec
@@ -6785,16 +6570,12 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/exec" namespace name))
           (query nil))
-      (when stdin (alexandria.0.dev:appendf query (list (cons "stdin" stdin))))
-      (when stdout
-        (alexandria.0.dev:appendf query (list (cons "stdout" stdout))))
-      (when stderr
-        (alexandria.0.dev:appendf query (list (cons "stderr" stderr))))
-      (when tty (alexandria.0.dev:appendf query (list (cons "tty" tty))))
-      (when container
-        (alexandria.0.dev:appendf query (list (cons "container" container))))
-      (when command
-        (alexandria.0.dev:appendf query (list (cons "command" command))))
+      (when stdin (appendf query (list (cons "stdin" stdin))))
+      (when stdout (appendf query (list (cons "stdout" stdout))))
+      (when stderr (appendf query (list (cons "stderr" stderr))))
+      (when tty (appendf query (list (cons "tty" tty))))
+      (when container (appendf query (list (cons "container" container))))
+      (when command (appendf query (list (cons "command" command))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6805,8 +6586,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-post-namespaced-pod-exec
        (namespace name &key stdin stdout stderr tty container command)
@@ -6841,16 +6627,12 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/exec" namespace name))
           (query nil))
-      (when stdin (alexandria.0.dev:appendf query (list (cons "stdin" stdin))))
-      (when stdout
-        (alexandria.0.dev:appendf query (list (cons "stdout" stdout))))
-      (when stderr
-        (alexandria.0.dev:appendf query (list (cons "stderr" stderr))))
-      (when tty (alexandria.0.dev:appendf query (list (cons "tty" tty))))
-      (when container
-        (alexandria.0.dev:appendf query (list (cons "container" container))))
-      (when command
-        (alexandria.0.dev:appendf query (list (cons "command" command))))
+      (when stdin (appendf query (list (cons "stdin" stdin))))
+      (when stdout (appendf query (list (cons "stdout" stdout))))
+      (when stderr (appendf query (list (cons "stderr" stderr))))
+      (when tty (appendf query (list (cons "tty" tty))))
+      (when container (appendf query (list (cons "container" container))))
+      (when command (appendf query (list (cons "command" command))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6861,8 +6643,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-namespaced-pod-log
@@ -6906,24 +6693,15 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/log" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when container
-        (alexandria.0.dev:appendf query (list (cons "container" container))))
-      (when follow
-        (alexandria.0.dev:appendf query (list (cons "follow" follow))))
-      (when previous
-        (alexandria.0.dev:appendf query (list (cons "previous" previous))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when container (appendf query (list (cons "container" container))))
+      (when follow (appendf query (list (cons "follow" follow))))
+      (when previous (appendf query (list (cons "previous" previous))))
       (when since-seconds
-        (alexandria.0.dev:appendf query
-                                  (list (cons "sinceSeconds" since-seconds))))
-      (when timestamps
-        (alexandria.0.dev:appendf query (list (cons "timestamps" timestamps))))
-      (when tail-lines
-        (alexandria.0.dev:appendf query (list (cons "tailLines" tail-lines))))
-      (when limit-bytes
-        (alexandria.0.dev:appendf query
-                                  (list (cons "limitBytes" limit-bytes))))
+        (appendf query (list (cons "sinceSeconds" since-seconds))))
+      (when timestamps (appendf query (list (cons "timestamps" timestamps))))
+      (when tail-lines (appendf query (list (cons "tailLines" tail-lines))))
+      (when limit-bytes (appendf query (list (cons "limitBytes" limit-bytes))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6934,8 +6712,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun connect-get-namespaced-pod-portforward (namespace name &key ports)
@@ -6956,7 +6739,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/portforward" namespace
                    name))
           (query nil))
-      (when ports (alexandria.0.dev:appendf query (list (cons "ports" ports))))
+      (when ports (appendf query (list (cons "ports" ports))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6967,8 +6750,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-post-namespaced-pod-portforward (namespace name &key ports)
   "connect POST requests to portforward of Pod
@@ -6988,7 +6776,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/portforward" namespace
                    name))
           (query nil))
-      (when ports (alexandria.0.dev:appendf query (list (cons "ports" ports))))
+      (when ports (appendf query (list (cons "ports" ports))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -6999,8 +6787,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun connect-get-namespaced-pod-proxy (namespace name &key path)
@@ -7020,7 +6813,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy" namespace name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7031,8 +6824,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-post-namespaced-pod-proxy (namespace name &key path)
   "connect POST requests to proxy of Pod
@@ -7051,7 +6849,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy" namespace name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7062,8 +6860,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-put-namespaced-pod-proxy (namespace name &key path)
   "connect PUT requests to proxy of Pod
@@ -7082,7 +6885,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy" namespace name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7093,8 +6896,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-patch-namespaced-pod-proxy (namespace name &key path)
   "connect PATCH requests to proxy of Pod
@@ -7113,7 +6921,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy" namespace name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7124,8 +6932,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-delete-namespaced-pod-proxy (namespace name &key path)
   "connect DELETE requests to proxy of Pod
@@ -7144,7 +6957,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy" namespace name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7155,8 +6968,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-head-namespaced-pod-proxy (namespace name &key path)
   "connect HEAD requests to proxy of Pod
@@ -7175,7 +6993,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy" namespace name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7186,8 +7004,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-options-namespaced-pod-proxy (namespace name &key path)
   "connect OPTIONS requests to proxy of Pod
@@ -7206,7 +7029,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy" namespace name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7217,8 +7040,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun connect-get-namespaced-pod-proxy-with-path
@@ -7243,7 +7071,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy/~A" namespace name
                    path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7254,8 +7082,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-post-namespaced-pod-proxy-with-path
        (namespace name path2 &key path1)
@@ -7279,7 +7112,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy/~A" namespace name
                    path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7290,8 +7123,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-put-namespaced-pod-proxy-with-path
        (namespace name path2 &key path1)
@@ -7315,7 +7153,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy/~A" namespace name
                    path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7326,8 +7164,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-patch-namespaced-pod-proxy-with-path
        (namespace name path2 &key path1)
@@ -7351,7 +7194,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy/~A" namespace name
                    path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7362,8 +7205,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-delete-namespaced-pod-proxy-with-path
        (namespace name path2 &key path1)
@@ -7387,7 +7235,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy/~A" namespace name
                    path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7398,8 +7246,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-head-namespaced-pod-proxy-with-path
        (namespace name path2 &key path1)
@@ -7423,7 +7276,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy/~A" namespace name
                    path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7434,8 +7287,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-options-namespaced-pod-proxy-with-path
        (namespace name path2 &key path1)
@@ -7459,7 +7317,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/pods/~A/proxy/~A" namespace name
                    path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7470,8 +7328,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-namespaced-pod-status (namespace name &key pretty)
@@ -7491,8 +7354,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/status" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7503,8 +7365,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-pod-status (pod namespace name &key pretty)
   "replace status of the specified Pod
@@ -7526,8 +7393,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/status" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7539,8 +7405,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s pod)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-pod-status (patch namespace name &key pretty)
   "partially update status of the specified Pod
@@ -7562,8 +7433,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/pods/~A/status" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7575,8 +7445,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-pod-template
@@ -7621,33 +7496,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/podtemplates" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7658,8 +7521,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-pod-template (pod-template namespace &key pretty)
   "create a PodTemplate
@@ -7677,8 +7545,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/podtemplates" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7691,8 +7558,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s pod-template)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-pod-template
        (namespace
@@ -7736,33 +7608,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/podtemplates" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7773,8 +7633,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-pod-template-list
@@ -7820,33 +7685,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/watch/namespaces/~A/podtemplates" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7882,11 +7735,9 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/podtemplates/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7897,8 +7748,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-pod-template
        (pod-template namespace name &key pretty)
@@ -7921,8 +7777,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/podtemplates/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7935,8 +7790,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s pod-template)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-pod-template (patch namespace name &key pretty)
   "partially update the specified PodTemplate
@@ -7958,8 +7818,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/podtemplates/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -7971,8 +7830,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-pod-template
        (delete-options namespace name
@@ -8005,23 +7869,14 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/podtemplates/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8034,8 +7889,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-pod-template
@@ -8085,33 +7945,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/podtemplates/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8162,33 +8010,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/podtemplates") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8199,8 +8035,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-pod-template-list-for-all-namespaces
@@ -8241,33 +8082,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/podtemplates") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8324,33 +8153,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8361,8 +8178,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-replication-controller
        (replication-controller namespace &key pretty)
@@ -8383,8 +8205,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8397,8 +8218,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s replication-controller)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-replication-controller
        (namespace
@@ -8444,33 +8270,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8481,8 +8295,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-replication-controller-list
@@ -8529,33 +8348,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/replicationcontrollers"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8593,11 +8400,9 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8608,8 +8413,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-replication-controller
        (replication-controller namespace name &key pretty)
@@ -8633,8 +8443,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8647,8 +8456,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s replication-controller)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-replication-controller
        (patch namespace name &key pretty)
@@ -8672,8 +8486,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8685,8 +8498,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-replication-controller
        (delete-options namespace name
@@ -8720,23 +8538,14 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8749,8 +8558,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-replication-controller
@@ -8800,33 +8614,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/replicationcontrollers/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8877,33 +8679,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/replicationcontrollers") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -8914,8 +8704,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-replication-controller-list-for-all-namespaces
@@ -8956,33 +8751,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/replicationcontrollers") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9014,8 +8797,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9026,8 +8808,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-replication-controller-scale
        (scale namespace name &key pretty)
@@ -9051,8 +8838,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9064,8 +8850,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s scale)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-replication-controller-scale
        (patch namespace name &key pretty)
@@ -9089,8 +8880,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9102,8 +8892,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-namespaced-replication-controller-status
@@ -9125,8 +8920,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9137,8 +8931,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-replication-controller-status
        (replication-controller namespace name &key pretty)
@@ -9162,8 +8961,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9176,8 +8974,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s replication-controller)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-replication-controller-status
        (patch namespace name &key pretty)
@@ -9201,8 +9004,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/replicationcontrollers/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9214,8 +9016,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-resource-quota
@@ -9260,33 +9067,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/resourcequotas" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9297,8 +9092,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-resource-quota (resource-quota namespace &key pretty)
   "create a ResourceQuota
@@ -9316,8 +9116,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/resourcequotas" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9330,8 +9129,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s resource-quota)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-resource-quota
        (namespace
@@ -9375,33 +9179,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/resourcequotas" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9412,8 +9204,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-resource-quota-list
@@ -9459,33 +9256,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/watch/namespaces/~A/resourcequotas" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9522,11 +9307,9 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/resourcequotas/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9537,8 +9320,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-resource-quota
        (resource-quota namespace name &key pretty)
@@ -9562,8 +9350,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/resourcequotas/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9576,8 +9363,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s resource-quota)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-resource-quota (patch namespace name &key pretty)
   "partially update the specified ResourceQuota
@@ -9600,8 +9392,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/resourcequotas/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9613,8 +9404,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-resource-quota
        (delete-options namespace name
@@ -9648,23 +9444,14 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/resourcequotas/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9677,8 +9464,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-resource-quota
@@ -9728,33 +9520,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/resourcequotas/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9805,33 +9585,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/resourcequotas") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9842,8 +9610,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-resource-quota-list-for-all-namespaces
@@ -9884,33 +9657,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/resourcequotas") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9941,8 +9702,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/resourcequotas/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9953,8 +9713,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-resource-quota-status
        (resource-quota namespace name &key pretty)
@@ -9978,8 +9743,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/resourcequotas/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -9992,8 +9756,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s resource-quota)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-resource-quota-status
        (patch namespace name &key pretty)
@@ -10017,8 +9786,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/resourcequotas/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10030,8 +9798,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-secret
@@ -10076,33 +9849,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/secrets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10113,8 +9874,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-secret (secret namespace &key pretty)
   "create a Secret
@@ -10132,8 +9898,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/secrets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10146,8 +9911,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s secret)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-secret
        (namespace
@@ -10191,33 +9961,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/secrets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10228,8 +9986,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-secret-list
@@ -10274,33 +10037,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/watch/namespaces/~A/secrets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10335,11 +10086,9 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/secrets/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10350,8 +10099,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-secret (secret namespace name &key pretty)
   "replace the specified Secret
@@ -10372,8 +10126,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/secrets/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10386,8 +10139,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s secret)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-secret (patch namespace name &key pretty)
   "partially update the specified Secret
@@ -10408,8 +10166,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/secrets/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10421,8 +10178,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-secret
        (delete-options namespace name
@@ -10454,23 +10216,14 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/secrets/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10483,8 +10236,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-secret
@@ -10534,33 +10292,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/secrets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10611,33 +10357,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/secrets") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10648,8 +10382,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-secret-list-for-all-namespaces
@@ -10690,33 +10429,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/secrets") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10771,33 +10498,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/serviceaccounts" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10808,8 +10523,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-service-account
        (service-account namespace &key pretty)
@@ -10828,8 +10548,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/serviceaccounts" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10842,8 +10561,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s service-account)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-service-account
        (namespace
@@ -10887,33 +10611,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/serviceaccounts" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -10924,8 +10636,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-service-account-list
@@ -10972,33 +10689,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/serviceaccounts"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11036,11 +10741,9 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/serviceaccounts/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11051,8 +10754,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-service-account
        (service-account namespace name &key pretty)
@@ -11076,8 +10784,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/serviceaccounts/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11090,8 +10797,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s service-account)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-service-account (patch namespace name &key pretty)
   "partially update the specified ServiceAccount
@@ -11114,8 +10826,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/serviceaccounts/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11127,8 +10838,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-service-account
        (delete-options namespace name
@@ -11162,23 +10878,14 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/serviceaccounts/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11191,8 +10898,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-service-account
@@ -11242,33 +10954,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/serviceaccounts/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11319,33 +11019,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/serviceaccounts") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11356,8 +11044,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-service-account-list-for-all-namespaces
@@ -11398,33 +11091,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/serviceaccounts") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11479,33 +11160,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/services" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11516,8 +11185,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-service (service namespace &key pretty)
   "create a Service
@@ -11535,8 +11209,7 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/namespaces/~A/services" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11549,8 +11222,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s service)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-service-list
@@ -11595,33 +11273,21 @@ The server guarantees that the objects returned when using continue will be iden
       (check-config)
     (let ((path (format nil "/api/v1/watch/namespaces/~A/services" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11657,11 +11323,9 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/services/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11672,8 +11336,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-service (service namespace name &key pretty)
   "replace the specified Service
@@ -11695,8 +11364,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/services/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11709,8 +11377,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s service)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-service (patch namespace name &key pretty)
   "partially update the specified Service
@@ -11732,8 +11405,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/services/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11745,8 +11417,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-service
        (delete-options namespace name
@@ -11779,23 +11456,14 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/api/v1/namespaces/~A/services/~A" namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11808,8 +11476,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-service
@@ -11859,33 +11532,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/watch/namespaces/~A/services/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11936,33 +11597,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/services") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -11973,8 +11622,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-service-list-for-all-namespaces
@@ -12015,33 +11669,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/api/v1/watch/services") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12072,7 +11714,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy" namespace
                    name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12083,8 +11725,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-post-namespaced-service-proxy (namespace name &key path)
   "connect POST requests to proxy of Service
@@ -12104,7 +11751,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy" namespace
                    name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12115,8 +11762,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-put-namespaced-service-proxy (namespace name &key path)
   "connect PUT requests to proxy of Service
@@ -12136,7 +11788,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy" namespace
                    name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12147,8 +11799,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-patch-namespaced-service-proxy (namespace name &key path)
   "connect PATCH requests to proxy of Service
@@ -12168,7 +11825,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy" namespace
                    name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12179,8 +11836,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-delete-namespaced-service-proxy (namespace name &key path)
   "connect DELETE requests to proxy of Service
@@ -12200,7 +11862,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy" namespace
                    name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12211,8 +11873,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-head-namespaced-service-proxy (namespace name &key path)
   "connect HEAD requests to proxy of Service
@@ -12232,7 +11899,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy" namespace
                    name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12243,8 +11910,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-options-namespaced-service-proxy (namespace name &key path)
   "connect OPTIONS requests to proxy of Service
@@ -12264,7 +11936,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy" namespace
                    name))
           (query nil))
-      (when path (alexandria.0.dev:appendf query (list (cons "path" path))))
+      (when path (appendf query (list (cons "path" path))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12275,8 +11947,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun connect-get-namespaced-service-proxy-with-path
@@ -12301,7 +11978,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy/~A" namespace
                    name path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12312,8 +11989,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-post-namespaced-service-proxy-with-path
        (namespace name path2 &key path1)
@@ -12337,7 +12019,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy/~A" namespace
                    name path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12348,8 +12030,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-put-namespaced-service-proxy-with-path
        (namespace name path2 &key path1)
@@ -12373,7 +12060,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy/~A" namespace
                    name path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12384,8 +12071,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-patch-namespaced-service-proxy-with-path
        (namespace name path2 &key path1)
@@ -12409,7 +12101,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy/~A" namespace
                    name path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12420,8 +12112,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-delete-namespaced-service-proxy-with-path
        (namespace name path2 &key path1)
@@ -12445,7 +12142,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy/~A" namespace
                    name path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12456,8 +12153,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-head-namespaced-service-proxy-with-path
        (namespace name path2 &key path1)
@@ -12481,7 +12183,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy/~A" namespace
                    name path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12492,8 +12194,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun connect-options-namespaced-service-proxy-with-path
        (namespace name path2 &key path1)
@@ -12517,7 +12224,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/proxy/~A" namespace
                    name path))
           (query nil))
-      (when path1 (alexandria.0.dev:appendf query (list (cons "path1" path1))))
+      (when path1 (appendf query (list (cons "path1" path1))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12528,8 +12235,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-namespaced-service-status (namespace name &key pretty)
@@ -12550,8 +12262,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/status" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12562,8 +12273,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-service-status (service namespace name &key pretty)
   "replace status of the specified Service
@@ -12586,8 +12302,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/status" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12600,8 +12315,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s service)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-service-status (patch namespace name &key pretty)
   "partially update status of the specified Service
@@ -12624,8 +12344,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/api/v1/namespaces/~A/services/~A/status" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12637,8 +12356,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun get-api-resources ()
@@ -12657,8 +12381,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-controller-revision
@@ -12705,33 +12434,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/controllerrevisions"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12742,8 +12459,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-controller-revision
        (controller-revision namespace &key pretty)
@@ -12764,8 +12486,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/controllerrevisions"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12778,8 +12499,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s controller-revision)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-controller-revision
        (namespace
@@ -12825,33 +12551,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/controllerrevisions"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12862,8 +12576,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-controller-revision-list
@@ -12910,33 +12629,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/watch/namespaces/~A/controllerrevisions"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12974,11 +12681,9 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/controllerrevisions/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -12989,8 +12694,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-controller-revision
        (controller-revision namespace name &key pretty)
@@ -13014,8 +12724,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/controllerrevisions/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13028,8 +12737,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s controller-revision)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-controller-revision (patch namespace name &key pretty)
   "partially update the specified ControllerRevision
@@ -13052,8 +12766,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/controllerrevisions/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13065,8 +12778,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-controller-revision
        (delete-options namespace name
@@ -13100,23 +12818,14 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/controllerrevisions/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13129,8 +12838,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-controller-revision
@@ -13181,33 +12895,21 @@ The server guarantees that the objects returned when using continue will be iden
                    "/apis/apps/v1/watch/namespaces/~A/controllerrevisions/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13258,33 +12960,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/controllerrevisions") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13295,8 +12985,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-controller-revision-list-for-all-namespaces
@@ -13337,33 +13032,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/watch/controllerrevisions") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13419,33 +13102,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13456,8 +13127,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-daemon-set (daemon-set namespace &key pretty)
   "create a DaemonSet
@@ -13476,8 +13152,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13490,8 +13165,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s daemon-set)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-daemon-set
        (namespace
@@ -13536,33 +13216,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13573,8 +13241,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-daemon-set-list
@@ -13621,33 +13294,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/watch/namespaces/~A/daemonsets"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13684,11 +13345,9 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13699,8 +13358,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-daemon-set (daemon-set namespace name &key pretty)
   "replace the specified DaemonSet
@@ -13723,8 +13387,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13737,8 +13400,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s daemon-set)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-daemon-set (patch namespace name &key pretty)
   "partially update the specified DaemonSet
@@ -13761,8 +13429,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13774,8 +13441,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-daemon-set
        (delete-options namespace name
@@ -13809,23 +13481,14 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13838,8 +13501,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-daemon-set
@@ -13889,33 +13557,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/watch/namespaces/~A/daemonsets/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -13966,33 +13622,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/daemonsets") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14003,8 +13647,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-daemon-set-list-for-all-namespaces
@@ -14045,33 +13694,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/watch/daemonsets") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14102,8 +13739,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14114,8 +13750,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-daemon-set-status
        (daemon-set namespace name &key pretty)
@@ -14139,8 +13780,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14153,8 +13793,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s daemon-set)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-daemon-set-status (patch namespace name &key pretty)
   "partially update status of the specified DaemonSet
@@ -14177,8 +13822,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/daemonsets/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14190,8 +13834,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-deployment
@@ -14237,33 +13886,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/deployments" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14274,8 +13911,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-deployment (deployment namespace &key pretty)
   "create a Deployment
@@ -14294,8 +13936,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/deployments" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14308,8 +13949,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s deployment)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-deployment
        (namespace
@@ -14354,33 +14000,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/deployments" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14391,8 +14025,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-deployment-list
@@ -14439,33 +14078,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/watch/namespaces/~A/deployments"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14502,11 +14129,9 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14517,8 +14142,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-deployment (deployment namespace name &key pretty)
   "replace the specified Deployment
@@ -14541,8 +14171,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14555,8 +14184,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s deployment)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-deployment (patch namespace name &key pretty)
   "partially update the specified Deployment
@@ -14579,8 +14213,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14592,8 +14225,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-deployment
        (delete-options namespace name
@@ -14627,23 +14265,14 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14656,8 +14285,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-deployment
@@ -14707,33 +14341,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/watch/namespaces/~A/deployments/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14784,33 +14406,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/deployments") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14821,8 +14431,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-deployment-list-for-all-namespaces
@@ -14863,33 +14478,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/watch/deployments") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14920,8 +14523,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14932,8 +14534,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-deployment-scale (scale namespace name &key pretty)
   "replace scale of the specified Deployment
@@ -14956,8 +14563,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -14969,8 +14575,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s scale)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-deployment-scale (patch namespace name &key pretty)
   "partially update scale of the specified Deployment
@@ -14993,8 +14604,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15006,8 +14616,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-namespaced-deployment-status (namespace name &key pretty)
@@ -15028,8 +14643,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15040,8 +14654,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-deployment-status
        (deployment namespace name &key pretty)
@@ -15065,8 +14684,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15079,8 +14697,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s deployment)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-deployment-status (patch namespace name &key pretty)
   "partially update status of the specified Deployment
@@ -15103,8 +14726,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/deployments/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15116,8 +14738,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-replica-set
@@ -15163,33 +14790,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/replicasets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15200,8 +14815,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-replica-set (replica-set namespace &key pretty)
   "create a ReplicaSet
@@ -15220,8 +14840,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/replicasets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15234,8 +14853,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s replica-set)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-replica-set
        (namespace
@@ -15280,33 +14904,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/replicasets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15317,8 +14929,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-replica-set-list
@@ -15365,33 +14982,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/watch/namespaces/~A/replicasets"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15428,11 +15033,9 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15443,8 +15046,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-replica-set (replica-set namespace name &key pretty)
   "replace the specified ReplicaSet
@@ -15467,8 +15075,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15481,8 +15088,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s replica-set)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-replica-set (patch namespace name &key pretty)
   "partially update the specified ReplicaSet
@@ -15505,8 +15117,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15518,8 +15129,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-replica-set
        (delete-options namespace name
@@ -15553,23 +15169,14 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15582,8 +15189,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-replica-set
@@ -15633,33 +15245,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/watch/namespaces/~A/replicasets/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15710,33 +15310,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/replicasets") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15747,8 +15335,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-replica-set-list-for-all-namespaces
@@ -15789,33 +15382,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/watch/replicasets") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15846,8 +15427,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15858,8 +15438,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-replica-set-scale (scale namespace name &key pretty)
   "replace scale of the specified ReplicaSet
@@ -15882,8 +15467,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15895,8 +15479,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s scale)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-replica-set-scale (patch namespace name &key pretty)
   "partially update scale of the specified ReplicaSet
@@ -15919,8 +15508,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15932,8 +15520,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-namespaced-replica-set-status (namespace name &key pretty)
@@ -15954,8 +15547,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -15966,8 +15558,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-replica-set-status
        (replica-set namespace name &key pretty)
@@ -15991,8 +15588,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16005,8 +15601,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s replica-set)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-replica-set-status (patch namespace name &key pretty)
   "partially update status of the specified ReplicaSet
@@ -16029,8 +15630,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/replicasets/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16042,8 +15642,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun list-namespaced-stateful-set
@@ -16089,33 +15694,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16126,8 +15719,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun create-namespaced-stateful-set (stateful-set namespace &key pretty)
   "create a StatefulSet
@@ -16146,8 +15744,7 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16160,8 +15757,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s stateful-set)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun deletecollection-namespaced-stateful-set
        (namespace
@@ -16206,33 +15808,21 @@ The server guarantees that the objects returned when using continue will be iden
     (let ((path
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets" namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16243,8 +15833,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-stateful-set-list
@@ -16291,33 +15886,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/watch/namespaces/~A/statefulsets"
                    namespace))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16354,11 +15937,9 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
-      (when export
-        (alexandria.0.dev:appendf query (list (cons "export" export))))
-      (when exact (alexandria.0.dev:appendf query (list (cons "exact" exact))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
+      (when export (appendf query (list (cons "export" export))))
+      (when exact (appendf query (list (cons "exact" exact))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16369,8 +15950,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-stateful-set
        (stateful-set namespace name &key pretty)
@@ -16394,8 +15980,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16408,8 +15993,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s stateful-set)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-stateful-set (patch namespace name &key pretty)
   "partially update the specified StatefulSet
@@ -16432,8 +16022,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16445,8 +16034,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun delete-namespaced-stateful-set
        (delete-options namespace name
@@ -16480,23 +16074,14 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A" namespace
                    name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when grace-period-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "gracePeriodSeconds"
-                                         grace-period-seconds))))
+        (appendf query
+                 (list (cons "gracePeriodSeconds" grace-period-seconds))))
       (when orphan-dependents
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "orphanDependents"
-                                         orphan-dependents))))
+        (appendf query (list (cons "orphanDependents" orphan-dependents))))
       (when propagation-policy
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "propagationPolicy"
-                                         propagation-policy))))
+        (appendf query (list (cons "propagationPolicy" propagation-policy))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16509,8 +16094,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s delete-options)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-namespaced-stateful-set
@@ -16560,33 +16150,21 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/watch/namespaces/~A/statefulsets/~A"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16637,33 +16215,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/statefulsets") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16674,8 +16240,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun watch-stateful-set-list-for-all-namespaces
@@ -16716,33 +16287,21 @@ The server guarantees that the objects returned when using continue will be iden
       (host port ca crt key)
       (check-config)
     (let ((path "/apis/apps/v1/watch/statefulsets") (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (when label-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "labelSelector" label-selector))))
+        (appendf query (list (cons "labelSelector" label-selector))))
       (when field-selector
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "fieldSelector" field-selector))))
+        (appendf query (list (cons "fieldSelector" field-selector))))
       (when include-uninitialized
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "includeUninitialized"
-                                         include-uninitialized))))
-      (when watch (alexandria.0.dev:appendf query (list (cons "watch" watch))))
+        (appendf query
+                 (list (cons "includeUninitialized" include-uninitialized))))
+      (when watch (appendf query (list (cons "watch" watch))))
       (when resource-version
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "resourceVersion" resource-version))))
+        (appendf query (list (cons "resourceVersion" resource-version))))
       (when timeout-seconds
-        (alexandria.0.dev:appendf query
-                                  (list
-                                   (cons "timeoutSeconds" timeout-seconds))))
-      (when limit (alexandria.0.dev:appendf query (list (cons "limit" limit))))
-      (when continue
-        (alexandria.0.dev:appendf query (list (cons "continue" continue))))
+        (appendf query (list (cons "timeoutSeconds" timeout-seconds))))
+      (when limit (appendf query (list (cons "limit" limit))))
+      (when continue (appendf query (list (cons "continue" continue))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16773,8 +16332,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16785,8 +16343,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-stateful-set-scale (scale namespace name &key pretty)
   "replace scale of the specified StatefulSet
@@ -16809,8 +16372,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16822,8 +16384,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s scale)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-stateful-set-scale (patch namespace name &key pretty)
   "partially update scale of the specified StatefulSet
@@ -16846,8 +16413,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A/scale"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16859,8 +16425,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun read-namespaced-stateful-set-status (namespace name &key pretty)
@@ -16881,8 +16452,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16893,8 +16463,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun replace-namespaced-stateful-set-status
        (stateful-set namespace name &key pretty)
@@ -16918,8 +16493,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16932,8 +16506,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  (with-output-to-string (s)
                                    (marshal s stateful-set)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 (defun patch-namespaced-stateful-set-status (patch namespace name &key pretty)
   "partially update status of the specified StatefulSet
@@ -16956,8 +16535,7 @@ The server guarantees that the objects returned when using continue will be iden
            (format nil "/apis/apps/v1/namespaces/~A/statefulsets/~A/status"
                    namespace name))
           (query nil))
-      (when pretty
-        (alexandria.0.dev:appendf query (list (cons "pretty" pretty))))
+      (when pretty (appendf query (list (cons "pretty" pretty))))
       (let* ((query-string (quri.encode:url-encode-params query))
              (url
               (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query
@@ -16969,8 +16547,13 @@ The server guarantees that the objects returned when using continue will be iden
                                  :key key :content
                                  (with-output-to-string (s) (marshal s patch)))
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 
 
 (defun get-api-resources ()
@@ -16989,6 +16572,11 @@ The server guarantees that the objects returned when using continue will be iden
                                  :want-stream t :ca-file ca :certificate crt
                                  :key key)
           (let* ((response
-                  (alexandria.0.dev:read-stream-content-into-string stream)))
-            response))))))
+                  (alexandria.0.dev:read-stream-content-into-string stream))
+                 (alist (json:decode-json-from-string response))
+                 (object (decode-object (cdr (assoc :kind alist)) alist)))
+            (if (>= status-code 400)
+                (error 'request-error :status object :host host :port port :ca
+                       ca :crt crt :key key)
+                object)))))))
 

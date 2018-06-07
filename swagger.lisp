@@ -63,7 +63,7 @@
   ((path description operations)))
 
 (defclass/std property ()
-  ((name type description required)))
+  ((name type description required model)))
 
 (defclass/std model ()
   ((api-version name description properties)))
@@ -110,7 +110,7 @@
                   (cdr (assoc :operations alist))))
     api))
 
-(defun make-property (name alist required)
+(defun make-property (name alist required model)
   (let ((type (match (intersection '(:type :$ref) (mapcar #'car alist) :test 'equal)
                 ('(:type)
                   (let ((type (cdr (assoc :type alist))))
@@ -136,20 +136,25 @@
                    :name name
                    :type type
                    :description (cdr (assoc :description alist))
-                   :required required)))
+                   :required required
+                   :model model)))
 
 (defun make-model (alist api-version)
-  (let ((required (cdr (assoc :required alist)))
-        (name (match (cdr (assoc :id alist))
-                ((ppcre "(.*)\\.(.*)" version name) name))))
-    (make-instance 'model
-                   :api-version api-version
-                   :name name
-                   :description (cdr (assoc :description alist))
-                   :properties (loop for p in (cdr (assoc :properties alist))
-                                  for name = (camel-case (symbol-name (car p)))
-                                  for body = (cdr p)
-                                  collect (make-property name body (if (find name required :test 'equal) t nil))))))
+  (let* ((required (cdr (assoc :required alist)))
+         (name (match (cdr (assoc :id alist))
+                 ((ppcre "(.*)\\.(.*)" version name) name)))
+         (model (make-instance 'model
+                               :api-version api-version
+                               :name name
+                               :description (cdr (assoc :description alist)))))
+    (let ((properties (loop for p in (cdr (assoc :properties alist))
+                         for name = (camel-case (symbol-name (car p)))
+                         for body = (cdr p)
+                         collect (make-property name body
+                                                (if (find name required :test 'equal) t nil)
+                                                model))))
+      (setf (model-properties model) properties)
+      model)))
 
 (defun read-api-file (path)
   (check-type path pathname)
@@ -220,8 +225,14 @@
 
 (defmethod generate ((property property))
   (let* ((slot-symbol (symbolize (property-name property)))
-         (slot-keyword (symbolize (property-name property) t)))
+         (slot-keyword (symbolize (property-name property) t))
+         (accessor-symbol (symbolize (format nil "~A-~A"
+                                             (string-upcase (param-case (model-name (property-model property))))
+                                             (string-upcase (param-case (property-name property)))))))
+    (appendf *exports* (list accessor-symbol))
     `(,slot-symbol :initarg ,slot-keyword
+                   :initform nil
+                   :accessor ,accessor-symbol
                    :type ,(make-check-type-for-property property)
                    :documentation ,(property-description property))))
 
@@ -240,11 +251,7 @@
            ,@(loop for property in (model-properties model)
                 when (not (find (property-name property) '("apiVersion" "kind") :test 'equal))
                 collect
-                  (progn
-                    (appendf *exports* (list (symbolize (format nil "~A-~A"
-                                                                (string-upcase (param-case name))
-                                                                (string-upcase (param-case (property-name property)))))))
-                    (generate property))))
+                  (generate property)))
         ,@(when class-documentation
             `((:documentation ,class-documentation))))
 
@@ -257,20 +264,17 @@
                              ,(property-name property)
                              (slot-value ,class-symbol ',(symbolize (property-name property))))))))
 
-      ;; (defmethod unmarshal ((source hash-table) (object ,class-symbol))
-      ;;   ,@(loop for property in (model-properties model)
-      ;;        collect
-      ;;          `(multiple-value-bind (value present-p)
-      ;;               (gethash ,(property-name property) source)
-      ;;             (when present-p
-      ;;               (setf (slot-value object ',(symbolize (property-name property)))
-      ;;                     (decode-object
-      ;;                      ,(let ((type (property-type property)))
-      ;;                         (cond
-      ;;                           ((stringp type) type)
-      ;;                           ((consp type) `(cons ,(car type) ,(cdr type)))))
-      ;;                      value))))))
-      )))
+      (defmethod unmarshal (alist (object ,class-symbol))
+        ,@(loop for property in (model-properties model)
+             collect
+               `(when-let ((value (cdr (assoc ,(intern (string-upcase (param-case (property-name property))) :keyword) alist))))
+                  (setf (slot-value object ',(symbolize (property-name property)))
+                        (decode-object
+                         ,(let ((type (property-type property)))
+                            (cond
+                              ((stringp type) type)
+                              ((consp type) `(cons ,(car type) ,(cdr type)))))
+                         value))))))))
 
 (defun make-argument-list (required-parameters optional-parameters)
   `(,@(loop for p in required-parameters collect (symbolize-parameter p))
@@ -382,9 +386,18 @@
                                                          (marshal s ,(symbolize-parameter body-parameter))))))
                  ,(if (equal (operation-type operation) "v1.WatchEvent")
                       'stream
-                      `(let ((response (alexandria::read-stream-content-into-string stream)))
-                         ;; (decode-object (gethash "kind" object) object)
-                         response))))))))))
+                      `(let* ((response (alexandria::read-stream-content-into-string stream))
+                              (alist (json:decode-json-from-string response))
+                              (object (decode-object (cdr (assoc :kind alist)) alist)))
+                         (if (>= status-code 400)
+                             (error 'request-error
+                                    :status object
+                                    :host host
+                                    :port port
+                                    :ca ca
+                                    :crt crt
+                                    :key key)
+                             object)))))))))))
 
 (defmethod generate ((api api))
   (loop for operation in (api-operations api)

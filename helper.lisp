@@ -57,3 +57,16 @@
                (namestring *cluster-certificate-authority*)
                (namestring *client-certificate*)
                (namestring *client-key*))))))
+
+(define-condition request-error (error)
+  ((status :initarg :status :type status :reader request-error-status)
+   (host :initarg :host :reader reqeuest-error-host)
+   (port :initarg :port :reader reqeuest-error-port)
+   (ca :initarg :ca :reader reqeuest-error-ca)
+   (crt :initarg :crt :reader reqeuest-error-crt)
+   (key :initarg :key :reader reqeuest-error-key))
+  (:report (lambda (condition stream)
+             (let ((status (request-error-status condition)))
+               (format stream "(~D) ~A"
+                       (status-code status)
+                       (status-message status))))))

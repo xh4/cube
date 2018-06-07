@@ -3,6 +3,7 @@
 (defpackage cube
   (:use :cl)
   (:import-from :alexandria
+                :appendf
                 :when-let)
   (:import-from :optima
                 :match)
