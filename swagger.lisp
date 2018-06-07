@@ -12,7 +12,8 @@
 (defpackage cube.swagger
   (:use :cl)
   (:import-from :alexandria
-                :switch)
+                :switch
+                :appendf)
   (:import-from :optima
                 :match)
   (:import-from :optima.ppcre
@@ -41,6 +42,11 @@
 
 (defparameter *operations-output-path*
   (merge-pathnames "operations.lisp" (asdf:component-pathname (asdf:find-system "cube"))))
+
+(defparameter *exports-output-path*
+  (merge-pathnames "exports.lisp" (asdf:component-pathname (asdf:find-system "cube"))))
+
+(defparameter *exports* nil)
 
 (setf defclass-std:*with-prefix* t)
 
@@ -223,6 +229,7 @@
   (let* ((name (model-name model))
          (class-symbol (symbolize name))
          (class-documentation (model-description model)))
+    (appendf *exports* (list class-symbol))
     `((defclass ,class-symbol (resource)
         (,@(when (find "apiVersion" (model-properties model)
                       :test (lambda (n p) (equal n (property-name p))))
@@ -231,9 +238,13 @@
                       :test (lambda (n p) (equal n (property-name p))))
              `((kind :initform ,(model-name model) :allocation :class)))
            ,@(loop for property in (model-properties model)
-               when (not (find (property-name property) '("apiVersion" "kind") :test 'equal))
-               collect
-                 (generate property)))
+                when (not (find (property-name property) '("apiVersion" "kind") :test 'equal))
+                collect
+                  (progn
+                    (appendf *exports* (list (symbolize (format nil "~A-~A"
+                                                                (string-upcase (param-case name))
+                                                                (string-upcase (param-case (property-name property)))))))
+                    (generate property))))
         ,@(when class-documentation
             `((:documentation ,class-documentation))))
 
@@ -322,9 +333,8 @@
   (let* ((function-symbol (symbolize (operation-nickname operation)))
          (parameters (operation-parameters operation))
          (path (operation-path operation)))
-
+    (appendf *exports* (list function-symbol))
     (resolve-duplicated-parameters parameters)
-
     (let* ((required-parameters (remove-if-not #'parameter-required parameters))
            (optional-parameters (remove-if #'parameter-required parameters))
            (path-parameters (remove-if-not
@@ -399,7 +409,8 @@
            (format stream "~%")))))
 
 (defun make-one (path resources-output-stream operations-output-stream)
-  (let* ((spec (read-api-file path)))
+  (let* ((*exports* nil)
+         (spec (read-api-file path)))
     (loop for model in (spec-models spec)
        do
          (progn
@@ -409,21 +420,36 @@
        do
          (progn
            (save api operations-output-stream)
-           (format operations-output-stream "~%")))))
+           (format operations-output-stream "~%")))
+    *exports*))
 
 (defun make-all ()
-  (with-open-file (resources-output-stream *resources-output-path*
-                          :direction :output
-                          :if-exists :supersede
-                          :if-does-not-exist :create)
-    (with-open-file (operations-output-stream *operations-output-path*
-                            :direction :output
-                            :if-exists :supersede
-                            :if-does-not-exist :create)
-      (loop for stream in (list resources-output-stream operations-output-stream)
-         do
-           (let ((*print-case* :downcase))
-             (pprint '(in-package :cube) stream)
-             (format stream "~%~%")))
-      (loop for path in *api-files*
-         do (make-one path resources-output-stream operations-output-stream)))))
+  (let ((*exports* nil))
+    (with-open-file (resources-output-stream *resources-output-path*
+                                             :direction :output
+                                             :if-exists :supersede
+                                             :if-does-not-exist :create)
+      (with-open-file (operations-output-stream *operations-output-path*
+                                                :direction :output
+                                                :if-exists :supersede
+                                                :if-does-not-exist :create)
+        (loop for stream in (list resources-output-stream operations-output-stream)
+           do
+             (let ((*print-case* :downcase))
+               (pprint '(in-package :cube) stream)
+               (format stream "~%~%")))
+        (loop for path in *api-files*
+           do
+             (appendf *exports*
+                      (make-one path resources-output-stream operations-output-stream)))))
+    (with-open-file (stream *exports-output-path*
+                                           :direction :output
+                                           :if-exists :supersede
+                                           :if-does-not-exist :create)
+      (let ((*print-case* :downcase))
+        (pprint '(in-package :cube) stream)
+        (format stream "~%~%")
+        (loop for symbol in *exports*
+           do
+             (pprint `(export ',symbol :cube) stream))))
+    *exports*))

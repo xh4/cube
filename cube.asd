@@ -24,7 +24,8 @@
                (:file "config")
                (:file "helper")
                (:file "resources")
-               (:file "operations")))
+               (:file "operations")
+               (:file "exports")))
 
 (loop for d in (directory (merge-pathnames "vendor/*.*" (component-pathname (find-system "cube"))))
    do
