@@ -4,7 +4,7 @@ Kubernetes client library for Common LISP generated from the Swagger specificati
 
 ## Usage
 
-After download or clone this repository, add it's path to `asdf:*central-registry*`
+After downloading this repository, add it's path to `asdf:*central-registry*`
 
 ```lisp
 * (ql:quickload :cube)
