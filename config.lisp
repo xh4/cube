@@ -79,7 +79,17 @@ If this file does not exist, return a default configuration."
       (format stream content)
       path)))
 
-(defun load-config (config &key context)
+(defgeneric load-config (source &key context)
+  (:documentation
+   "Load a configuration from a file or other sources."))
+
+(defmethod load-config ((source pathname) &key context)
+  (load-config (read-config source) :context context))
+
+(defmethod load-config ((source sequence) &key context)
+  (load-config (read-config source) :context context))
+
+(defmethod load-config ((config hash-table) &key context)
   (let ((context-name (or context (gethash "current-context" config))))
     (when (null context-name) (error "Missing current context in config"))
     (let* ((contexts (gethash "contexts" config))
