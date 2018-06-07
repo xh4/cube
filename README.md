@@ -4,7 +4,7 @@ Kubernetes client library for Common LISP generated from the Swagger specificati
 
 ## Usage
 
-After download or clone this repository and add it's path to `asdf:*central-registry*`:
+After download or clone this repository, add it's path to `asdf:*central-registry*`
 
 ```lisp
 * (ql:quickload :cube)
@@ -21,7 +21,7 @@ you can use a different context by
 * (load-default-config :context "macrokube")
 ```
 
-or use a diffent config file
+or use a different config file
 
 ```lisp
 * (load-config #p"/path/to/my/config")
@@ -62,5 +62,3 @@ Creating a Redis Master Deployment
                                   :spec deployment-spec)))
   (create-namespaced-deployment deployment "default"))
 ```
-
-## OpenSSL
