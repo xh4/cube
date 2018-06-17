@@ -371,7 +371,7 @@
                                                              ,(symbolize-parameter param))))))
              (let* ((query-string (quri:url-encode-params query))
                     (url (format nil "~A://~A:~D~A~:[~;?~A~]" "https" host port path query query-string)))
-               (multiple-value-bind (stream status-code headers)
+               (multiple-value-bind (stream status-code headers uri _stream must-close)
                    (drakma:http-request url
                                         :method ,(intern (operation-method operation) :keyword)
                                         :content-type "application/json"
@@ -384,20 +384,24 @@
                                         ,@(when body-parameter
                                             `(:content (with-output-to-string (s)
                                                          (marshal s ,(symbolize-parameter body-parameter))))))
+                 (declare (ignore headers uri _stream))
                  ,(if (equal (operation-type operation) "v1.WatchEvent")
                       'stream
-                      `(let* ((response (alexandria::read-stream-content-into-string stream))
-                              (alist (json:decode-json-from-string response))
-                              (object (decode-object (cdr (assoc :kind alist)) alist)))
-                         (if (>= status-code 400)
-                             (error 'request-error
-                                    :status object
-                                    :host host
-                                    :port port
-                                    :ca ca
-                                    :crt crt
-                                    :key key)
-                             object)))))))))))
+                      `(unwind-protect
+                            (let* ((response (alexandria::read-stream-content-into-string stream))
+                                   (alist (json:decode-json-from-string response))
+                                   (object (decode-object (cdr (assoc :kind alist)) alist)))
+                              (if (>= status-code 400)
+                                  (error 'request-error
+                                         :status object
+                                         :host host
+                                         :port port
+                                         :ca ca
+                                         :crt crt
+                                         :key key)
+                                  object))
+                         (when must-close
+                           (close stream))))))))))))
 
 (defmethod generate ((api api))
   (loop for operation in (api-operations api)
